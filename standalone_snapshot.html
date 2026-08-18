@@ -1,0 +1,2160 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="NVIDIA 800 VDC 下一代 AI 資料中心電力架構互動分析：年代演進、元件用量、台美股供應鏈、每日收盤價與理想情境估值監控。" />
+  <title>NVIDIA 800 VDC｜架構、供應鏈與動態估值監控</title>
+  <style>
+    :root {
+      --bg: #07100d;
+      --bg-soft: #0b1712;
+      --panel: rgba(16, 32, 25, 0.88);
+      --panel-strong: #10231a;
+      --panel-alt: #122920;
+      --line: rgba(184, 224, 198, 0.16);
+      --line-strong: rgba(184, 224, 198, 0.3);
+      --text: #eef8f0;
+      --muted: #9fb3a5;
+      --green: #76b900;
+      --green-bright: #a4e63f;
+      --green-soft: rgba(118, 185, 0, 0.16);
+      --cyan: #50d5ff;
+      --orange: #ffb45c;
+      --red: #ff7878;
+      --purple: #c094ff;
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+      --radius: 18px;
+      --max: 1420px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f7f3;
+      --bg-soft: #edf3ed;
+      --panel: rgba(255, 255, 255, 0.94);
+      --panel-strong: #ffffff;
+      --panel-alt: #f5faf5;
+      --line: rgba(18, 52, 31, 0.12);
+      --line-strong: rgba(18, 52, 31, 0.22);
+      --text: #102016;
+      --muted: #5d7163;
+      --green-soft: rgba(91, 143, 0, 0.13);
+      --shadow: 0 18px 50px rgba(31, 55, 39, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(118, 185, 0, 0.13), transparent 27rem),
+        radial-gradient(circle at 88% 14%, rgba(80, 213, 255, 0.08), transparent 30rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    button { color: inherit; }
+    :focus-visible { outline: 3px solid rgba(80, 213, 255, 0.65); outline-offset: 3px; }
+
+    .skip-link {
+      position: absolute; left: -999px; top: 0;
+      background: var(--green); color: #07100d; padding: .7rem 1rem; z-index: 1000;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; }
+
+    .container { width: min(var(--max), calc(100% - 36px)); margin-inline: auto; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(18px);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .brand { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+    .brand-mark {
+      width: 38px; height: 38px; display: grid; place-items: center;
+      border: 1px solid rgba(118, 185, 0, .45); border-radius: 12px;
+      background: linear-gradient(145deg, rgba(118,185,0,.22), rgba(80,213,255,.08));
+      box-shadow: inset 0 0 24px rgba(118,185,0,.08);
+      font-weight: 900; color: var(--green-bright); letter-spacing: -.04em;
+    }
+    .brand-text { min-width: 0; }
+    .brand-title { font-weight: 850; letter-spacing: -.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-sub { font-size: .75rem; color: var(--muted); }
+    .top-actions { display: flex; align-items: center; gap: .5rem; }
+
+    .btn {
+      border: 1px solid var(--line-strong); background: var(--panel); color: var(--text);
+      padding: .58rem .85rem; border-radius: 11px; cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+      text-decoration: none; font-weight: 700; font-size: .88rem;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(118,185,0,.55); background: var(--panel-alt); }
+    .btn.primary { background: var(--green); color: #07100d; border-color: var(--green); }
+    .btn.ghost { background: transparent; }
+    .btn.small { padding: .4rem .65rem; font-size: .8rem; }
+    .icon-only { width: 39px; height: 39px; padding: 0; }
+
+    .hero { padding: 70px 0 34px; position: relative; overflow: clip; }
+    .hero::after {
+      content: "800"; position: absolute; right: max(1vw, 10px); top: -58px;
+      font-size: clamp(11rem, 25vw, 25rem); line-height: 1; font-weight: 950; letter-spacing: -.12em;
+      color: transparent; -webkit-text-stroke: 1px rgba(118,185,0,.08); pointer-events: none;
+    }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.25fr .75fr; gap: 32px; align-items: end; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .55rem; padding: .38rem .68rem;
+      border: 1px solid rgba(118,185,0,.35); background: var(--green-soft); border-radius: 999px;
+      color: var(--green-bright); font-size: .78rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+    }
+    .eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-bright); box-shadow: 0 0 12px var(--green); }
+    h1 { margin: 1rem 0 .8rem; font-size: clamp(2.5rem, 6vw, 5.9rem); line-height: .98; letter-spacing: -.065em; max-width: 1050px; }
+    .hero-lead { max-width: 900px; margin: 0; color: var(--muted); font-size: clamp(1.02rem, 1.7vw, 1.25rem); }
+    .hero-meta { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: .6rem; }
+    .meta-chip { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: .38rem .65rem; font-size: .78rem; color: var(--muted); }
+    .hero-side { display: grid; gap: .75rem; }
+    .thesis-card {
+      border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem;
+      background: linear-gradient(145deg, var(--panel-strong), color-mix(in srgb, var(--panel-strong) 82%, var(--green) 18%));
+      box-shadow: var(--shadow);
+    }
+    .thesis-label { color: var(--green-bright); font-size: .75rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .thesis-card strong { display: block; font-size: 1.3rem; line-height: 1.4; margin-top: .35rem; }
+    .thesis-card p { color: var(--muted); margin: .55rem 0 0; font-size: .92rem; }
+
+    .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 28px 0 0; }
+    .stat-card {
+      border: 1px solid var(--line); background: var(--panel); border-radius: 15px; padding: 1rem;
+      min-height: 132px; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .stat-value { font-size: clamp(1.55rem, 3vw, 2.5rem); font-weight: 900; letter-spacing: -.05em; line-height: 1; }
+    .stat-value .accent { color: var(--green-bright); }
+    .stat-label { margin-top: .5rem; font-weight: 750; font-size: .9rem; }
+    .stat-note { color: var(--muted); font-size: .72rem; margin-top: .35rem; }
+
+    .section { padding: 44px 0; scroll-margin-top: 78px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 18px; }
+    .section-kicker { color: var(--green-bright); font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    h2 { margin: .22rem 0 0; font-size: clamp(1.75rem, 3.6vw, 3.1rem); line-height: 1.12; letter-spacing: -.045em; }
+    .section-desc { max-width: 720px; color: var(--muted); margin: .45rem 0 0; }
+    .section-note { color: var(--muted); font-size: .78rem; max-width: 420px; text-align: right; }
+
+    .panel { border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .panel-header { padding: 1.15rem 1.2rem; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .panel-title { font-weight: 850; letter-spacing: -.02em; }
+    .panel-sub { color: var(--muted); font-size: .78rem; margin-top: .12rem; }
+    .panel-body { padding: 1.2rem; }
+
+    .nav-pills { display: flex; gap: .55rem; flex-wrap: wrap; }
+    .nav-pills a { text-decoration: none; color: var(--muted); font-size: .82rem; font-weight: 700; padding: .38rem .62rem; border-radius: 999px; border: 1px solid transparent; }
+    .nav-pills a:hover { color: var(--text); border-color: var(--line); background: var(--panel); }
+
+    .timeline-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
+    .timeline-tab {
+      border: 1px solid var(--line); background: var(--panel); border-radius: 14px; padding: .9rem .75rem; cursor: pointer;
+      text-align: left; min-height: 94px; transition: .18s ease;
+    }
+    .timeline-tab:hover { transform: translateY(-2px); border-color: rgba(118,185,0,.45); }
+    .timeline-tab.active { border-color: var(--green); background: linear-gradient(145deg, var(--green-soft), var(--panel)); box-shadow: inset 0 0 0 1px rgba(118,185,0,.18); }
+    .timeline-year { display: block; font-weight: 900; font-size: .98rem; }
+    .timeline-name { display: block; margin-top: .2rem; color: var(--muted); font-size: .76rem; line-height: 1.35; }
+    .timeline-status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: .35rem; background: var(--muted); }
+    .timeline-tab.active .timeline-status-dot { background: var(--green-bright); box-shadow: 0 0 10px rgba(118,185,0,.8); }
+
+    .timeline-layout { display: grid; grid-template-columns: 1.38fr .62fr; gap: 14px; }
+    .timeline-layout > *, .chart-grid > *, .company-layout > *, .article-grid > * { min-width: 0; }
+    .timeline-main, .timeline-side { padding: 1.25rem; }
+    .timeline-main { min-height: 570px; }
+    .timeline-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .timeline-title-row h3 { margin: 0; font-size: clamp(1.35rem, 2.3vw, 2rem); letter-spacing: -.035em; }
+    .status-badge { flex: none; border-radius: 999px; padding: .32rem .6rem; font-size: .72rem; font-weight: 800; border: 1px solid var(--line-strong); color: var(--muted); }
+    .status-badge.official { color: var(--green-bright); border-color: rgba(118,185,0,.38); background: var(--green-soft); }
+    .status-badge.estimate { color: var(--orange); border-color: rgba(255,180,92,.35); background: rgba(255,180,92,.09); }
+    .timeline-summary { color: var(--muted); margin: .65rem 0 1rem; }
+
+    .architecture-wrap { border: 1px solid var(--line); border-radius: 15px; background: var(--bg-soft); padding: 1rem; overflow-x: auto; }
+    .architecture-flow { min-width: 910px; display: flex; align-items: stretch; gap: 8px; }
+    .architecture-node {
+      flex: 1 1 0; min-width: 116px; border: 1px solid var(--line); border-radius: 13px; padding: .82rem .7rem;
+      background: var(--panel-strong); position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 105px;
+    }
+    .architecture-node::after {
+      content: "→"; position: absolute; right: -18px; top: 50%; transform: translateY(-50%); color: var(--green-bright); font-weight: 900; font-size: 1.15rem; z-index: 2;
+    }
+    .architecture-node:last-child::after { display: none; }
+    .architecture-node .node-label { font-weight: 850; font-size: .88rem; line-height: 1.35; }
+    .architecture-node .node-sub { color: var(--muted); font-size: .7rem; line-height: 1.35; margin-top: .28rem; }
+    .architecture-node.highlight { border-color: rgba(118,185,0,.52); background: linear-gradient(145deg, rgba(118,185,0,.13), var(--panel-strong)); }
+    .architecture-node.storage { border-color: rgba(80,213,255,.35); }
+    .architecture-node.declining { opacity: .62; border-style: dashed; }
+    .storage-row { margin-top: .75rem; display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+    .storage-label { color: var(--muted); font-size: .75rem; font-weight: 800; }
+    .storage-chip { border: 1px solid rgba(80,213,255,.28); background: rgba(80,213,255,.07); color: var(--cyan); border-radius: 999px; padding: .32rem .58rem; font-size: .72rem; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .mini-card { border: 1px solid var(--line); border-radius: 14px; background: var(--panel-strong); padding: 1rem; }
+    .mini-card h4 { margin: 0 0 .55rem; font-size: .9rem; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag { border-radius: 999px; padding: .26rem .5rem; font-size: .7rem; border: 1px solid var(--line); color: var(--muted); }
+    .tag.up { border-color: rgba(118,185,0,.33); color: var(--green-bright); background: var(--green-soft); }
+    .tag.down { border-color: rgba(255,120,120,.28); color: var(--red); background: rgba(255,120,120,.07); }
+    .tag.tech { border-color: rgba(192,148,255,.25); color: var(--purple); background: rgba(192,148,255,.06); }
+
+    .timeline-side { display: flex; flex-direction: column; gap: 12px; }
+    .side-block { border: 1px solid var(--line); border-radius: 14px; padding: 1rem; background: var(--panel-strong); }
+    .side-block h4 { margin: 0 0 .5rem; font-size: .86rem; }
+    .side-block p { margin: 0; color: var(--muted); font-size: .82rem; }
+    .benefit-list { display: grid; gap: .48rem; }
+    .benefit-item { display: flex; align-items: center; justify-content: space-between; gap: .8rem; font-size: .79rem; border-bottom: 1px dashed var(--line); padding-bottom: .4rem; }
+    .benefit-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .region-label { font-size: .66rem; border-radius: 999px; padding: .18rem .4rem; border: 1px solid var(--line); color: var(--muted); }
+    .confidence { display: flex; gap: 5px; margin-top: .55rem; }
+    .confidence span { height: 8px; flex: 1; border-radius: 999px; background: var(--line); }
+    .confidence span.on { background: var(--green); }
+
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .control-row { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
+    .range-wrap { flex: 1; min-width: 220px; display: flex; align-items: center; gap: .65rem; }
+    input[type="range"] { width: 100%; accent-color: var(--green); }
+    .value-pill { min-width: 86px; text-align: center; border: 1px solid var(--line); background: var(--bg-soft); border-radius: 999px; padding: .35rem .55rem; font-weight: 850; font-size: .82rem; }
+    .segmented { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .segmented button { border: 0; border-right: 1px solid var(--line); background: transparent; padding: .36rem .62rem; cursor: pointer; font-size: .74rem; color: var(--muted); }
+    .segmented button:last-child { border-right: 0; }
+    .segmented button.active { background: var(--green-soft); color: var(--green-bright); }
+    .svg-chart { width: 100%; height: auto; display: block; overflow: visible; }
+    .chart-foot { color: var(--muted); font-size: .72rem; margin-top: .6rem; }
+    .formula { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--green-bright); }
+
+    .density-bars { display: grid; gap: .6rem; margin-top: 1rem; }
+    .density-row { display: grid; grid-template-columns: 80px 1fr 70px; gap: .65rem; align-items: center; }
+    .density-name { font-weight: 800; font-size: .78rem; }
+    .density-track { height: 11px; border-radius: 999px; background: var(--bg-soft); overflow: hidden; border: 1px solid var(--line); }
+    .density-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--green), var(--green-bright)); width: 0; transition: width .65s ease; }
+    .density-value { text-align: right; color: var(--muted); font-size: .75rem; }
+
+    .timescale-wrap { overflow-x: auto; }
+    #storageChart { min-width: 840px; }
+
+    .heatmap-controls, .company-controls { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; min-width: 0; max-width: 100%; }
+    .panel-header > *, .panel-body, .field { min-width: 0; }
+    .field { display: flex; flex-direction: column; gap: .25rem; }
+    .field label { font-size: .67rem; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+    input[type="search"], select {
+      border: 1px solid var(--line-strong); background: var(--bg-soft); color: var(--text); border-radius: 10px;
+      padding: .53rem .65rem; min-height: 38px;
+    }
+    select option { background: var(--panel-strong); color: var(--text); }
+
+    .heatmap-scroll { overflow-x: auto; padding-bottom: .4rem; }
+    .heatmap { min-width: 940px; display: grid; grid-template-columns: 195px repeat(6, minmax(105px, 1fr)); gap: 4px; align-items: stretch; }
+    .heatmap-head, .heatmap-label, .heatmap-cell { border-radius: 9px; min-height: 45px; }
+    .heatmap-head { display: grid; place-items: center; background: var(--bg-soft); border: 1px solid var(--line); padding: .35rem; text-align: center; font-size: .7rem; font-weight: 850; color: var(--muted); }
+    .heatmap-label { display: flex; align-items: center; gap: .55rem; background: var(--panel-strong); border: 1px solid var(--line); padding: .55rem .65rem; font-size: .76rem; font-weight: 760; }
+    .category-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+    .heatmap-cell { border: 1px solid var(--line); cursor: pointer; position: relative; background: var(--panel-strong); transition: transform .14s ease, border-color .14s ease; }
+    .heatmap-cell:hover { transform: scale(1.03); z-index: 2; border-color: rgba(255,255,255,.3); }
+    .heatmap-cell span { position: absolute; inset: 0; display: grid; place-items: center; font-size: .72rem; font-weight: 900; }
+    .heatmap-cell.selected { outline: 2px solid var(--cyan); outline-offset: 1px; }
+    .heatmap-detail { margin-top: 12px; border: 1px solid var(--line); background: var(--bg-soft); border-radius: 13px; padding: 1rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; }
+    .heatmap-detail h4 { margin: 0; }
+    .heatmap-detail p { margin: .35rem 0 0; color: var(--muted); font-size: .82rem; }
+    .score-box { display: grid; place-items: center; min-width: 82px; border-left: 1px solid var(--line); padding-left: 1rem; }
+    .score-box strong { font-size: 1.8rem; color: var(--green-bright); line-height: 1; }
+    .score-box span { color: var(--muted); font-size: .65rem; }
+
+    .company-layout { display: grid; grid-template-columns: 1.3fr .7fr; gap: 14px; }
+    .scatter-wrap { min-height: 540px; }
+    #companyScatter { width: 100%; min-height: 470px; }
+    .legend { display: flex; gap: .8rem; flex-wrap: wrap; font-size: .72rem; color: var(--muted); }
+    .legend-item { display: inline-flex; align-items: center; gap: .35rem; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .company-detail { height: 100%; display: flex; flex-direction: column; }
+    .company-detail-empty { color: var(--muted); display: grid; place-items: center; min-height: 330px; text-align: center; padding: 1rem; }
+    .company-name { font-size: 1.45rem; font-weight: 900; letter-spacing: -.035em; }
+    .company-ticker { color: var(--green-bright); font-weight: 850; }
+    .score-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .55rem; margin: 1rem 0; }
+    .metric-card { border: 1px solid var(--line); background: var(--bg-soft); border-radius: 11px; padding: .7rem; text-align: center; }
+    .metric-card strong { display: block; font-size: 1.25rem; }
+    .metric-card span { color: var(--muted); font-size: .65rem; }
+    .detail-section { border-top: 1px solid var(--line); padding-top: .75rem; margin-top: .75rem; }
+    .detail-section h5 { margin: 0 0 .3rem; font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .detail-section p { margin: 0; font-size: .83rem; }
+    .source-link { margin-top: auto; padding-top: 1rem; }
+
+    .table-wrap { overflow: auto; max-height: 640px; border: 1px solid var(--line); border-radius: 14px; }
+    table { width: 100%; border-collapse: collapse; min-width: 1080px; }
+    th, td { padding: .72rem .78rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { position: sticky; top: 0; background: var(--panel-strong); z-index: 3; font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    td { font-size: .78rem; }
+    tbody tr { cursor: pointer; transition: background .12s ease; }
+    tbody tr:hover { background: var(--green-soft); }
+    .table-company { font-weight: 850; }
+    .table-ticker { color: var(--green-bright); font-weight: 800; white-space: nowrap; }
+    .score-dots { display: inline-flex; gap: 3px; }
+    .score-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line-strong); }
+    .score-dots i.on { background: var(--green); }
+    .risk-text { color: var(--orange); }
+
+    .article-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .article-card { padding: 1.3rem; }
+    .article-card h3 { margin: 0 0 .65rem; font-size: 1.12rem; }
+    .article-card p { color: var(--muted); margin: .55rem 0; font-size: .9rem; }
+    .callout { border-left: 3px solid var(--green); padding: .7rem .85rem; background: var(--green-soft); border-radius: 0 11px 11px 0; margin-top: .85rem; font-weight: 700; }
+    .ordered-insights { display: grid; gap: .8rem; counter-reset: insight; }
+    .insight { counter-increment: insight; display: grid; grid-template-columns: 38px 1fr; gap: .75rem; align-items: start; }
+    .insight::before { content: counter(insight); width: 32px; height: 32px; display: grid; place-items: center; border-radius: 10px; background: var(--green-soft); color: var(--green-bright); font-weight: 900; border: 1px solid rgba(118,185,0,.28); }
+    .insight strong { display: block; }
+    .insight p { margin: .22rem 0 0; color: var(--muted); font-size: .86rem; }
+
+    details { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); overflow: hidden; }
+    details + details { margin-top: .65rem; }
+    summary { cursor: pointer; list-style: none; padding: 1rem 1.05rem; font-weight: 850; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--green-bright); font-size: 1.25rem; }
+    details[open] summary::after { content: "−"; }
+    .details-body { padding: 0 1.05rem 1.05rem; border-top: 1px solid var(--line); color: var(--muted); }
+    .details-body h4 { color: var(--text); margin: 1rem 0 .4rem; }
+    .details-body p { margin: .45rem 0; }
+
+    .sources { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
+    .source-item { border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: .85rem; text-decoration: none; transition: .15s ease; }
+    .source-item:hover { transform: translateY(-1px); border-color: rgba(118,185,0,.45); }
+    .source-id { color: var(--green-bright); font-weight: 900; font-size: .75rem; }
+    .source-title { display: block; font-weight: 800; margin-top: .18rem; }
+    .source-domain { display: block; color: var(--muted); font-size: .69rem; margin-top: .22rem; }
+
+    .footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: .76rem; }
+    .footer-grid { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+    .tooltip {
+      position: fixed; z-index: 100; pointer-events: none; opacity: 0; transform: translateY(4px);
+      background: #07100d; color: #f3fff5; border: 1px solid rgba(184,224,198,.28); border-radius: 10px;
+      padding: .55rem .65rem; max-width: 280px; box-shadow: 0 15px 38px rgba(0,0,0,.4); font-size: .73rem;
+      transition: opacity .1s ease, transform .1s ease;
+    }
+    .tooltip.show { opacity: 1; transform: translateY(0); }
+    .tooltip strong { color: #a4e63f; }
+
+    .toast {
+      position: fixed; right: 18px; bottom: 18px; z-index: 110; background: var(--panel-strong); color: var(--text);
+      border: 1px solid rgba(118,185,0,.4); border-radius: 11px; padding: .7rem .85rem; box-shadow: var(--shadow);
+      opacity: 0; transform: translateY(10px); pointer-events: none; transition: .2s ease; font-size: .8rem;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important; }
+
+
+
+    /* Valuation monitor */
+    .valuation-status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+    .valuation-status-card { border: 1px solid var(--line); background: var(--panel); border-radius: 15px; padding: 1rem; min-height: 122px; }
+    .valuation-status-card .label { color: var(--muted); font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+    .valuation-status-card strong { display: block; margin-top: .35rem; font-size: clamp(1.25rem, 2.5vw, 2rem); letter-spacing: -.04em; line-height: 1.1; }
+    .valuation-status-card p { color: var(--muted); font-size: .72rem; margin: .45rem 0 0; }
+    .valuation-layout { display: grid; grid-template-columns: 1.35fr .65fr; gap: 14px; }
+    #valuationScatter { width: 100%; min-height: 500px; }
+    .valuation-detail { height: 100%; display: flex; flex-direction: column; }
+    .valuation-price-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .55rem; margin: .8rem 0; }
+    .valuation-price-card { border: 1px solid var(--line); background: var(--bg-soft); border-radius: 12px; padding: .75rem; }
+    .valuation-price-card span { color: var(--muted); font-size: .67rem; display: block; }
+    .valuation-price-card strong { display: block; margin-top: .22rem; font-size: 1.15rem; letter-spacing: -.025em; }
+    .valuation-price-card .positive { color: var(--green-bright); }
+    .valuation-price-card .negative { color: var(--red); }
+    .valuation-progress { height: 12px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); overflow: hidden; margin-top: .55rem; }
+    .valuation-progress > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--green), var(--green-bright)); }
+    .valuation-progress.over > span { background: linear-gradient(90deg, var(--orange), var(--red)); }
+    .valuation-status-pill { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; border: 1px solid var(--line); padding: .28rem .52rem; font-size: .7rem; font-weight: 800; white-space: nowrap; }
+    .valuation-status-pill.deep { color: var(--cyan); border-color: rgba(80,213,255,.32); background: rgba(80,213,255,.07); }
+    .valuation-status-pill.room { color: var(--green-bright); border-color: rgba(118,185,0,.35); background: var(--green-soft); }
+    .valuation-status-pill.near { color: var(--orange); border-color: rgba(255,180,92,.35); background: rgba(255,180,92,.08); }
+    .valuation-status-pill.full { color: var(--red); border-color: rgba(255,120,120,.35); background: rgba(255,120,120,.08); }
+    .valuation-table td.price, .valuation-table td.target { white-space: nowrap; font-weight: 800; }
+    .valuation-table td.upside-positive { color: var(--green-bright); font-weight: 850; }
+    .valuation-table td.upside-negative { color: var(--red); font-weight: 850; }
+    .price-change { font-size: .68rem; display: block; margin-top: .14rem; }
+    .price-change.up { color: var(--green-bright); }
+    .price-change.down { color: var(--red); }
+    .price-change.flat { color: var(--muted); }
+    .data-health { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .7rem; }
+    .data-chip { border: 1px solid var(--line); background: var(--bg-soft); color: var(--muted); border-radius: 999px; padding: .28rem .5rem; font-size: .68rem; }
+    .data-chip.ok { color: var(--green-bright); border-color: rgba(118,185,0,.32); }
+    .data-chip.warn { color: var(--orange); border-color: rgba(255,180,92,.32); }
+    .valuation-mini { border: 1px solid rgba(80,213,255,.22); background: rgba(80,213,255,.05); border-radius: 12px; padding: .75rem; margin: .75rem 0; }
+    .valuation-mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+    .valuation-mini-grid div { text-align: center; }
+    .valuation-mini-grid strong { display: block; }
+    .valuation-mini-grid span { color: var(--muted); font-size: .64rem; }
+    dialog { width: min(1160px, calc(100% - 24px)); max-height: 88vh; border: 1px solid var(--line-strong); border-radius: 18px; padding: 0; color: var(--text); background: var(--panel-strong); box-shadow: 0 30px 100px rgba(0,0,0,.55); }
+    dialog::backdrop { background: rgba(0,0,0,.62); backdrop-filter: blur(4px); }
+    .dialog-head { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; padding: 1rem 1.1rem; border-bottom: 1px solid var(--line); background: var(--panel-strong); }
+    .dialog-body { padding: 1rem 1.1rem; overflow: auto; max-height: calc(88vh - 150px); }
+    .dialog-actions { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .55rem; padding: .9rem 1.1rem; border-top: 1px solid var(--line); background: var(--panel-strong); }
+    .target-input { width: 112px; border: 1px solid var(--line-strong); background: var(--bg-soft); color: var(--text); border-radius: 9px; padding: .45rem .55rem; }
+    .confidence-input { width: 78px; }
+    .target-editor-table { min-width: 900px; }
+    .target-editor-table tbody tr { cursor: default; }
+    .refresh-spin { display: inline-block; animation: valuation-spin .8s linear infinite; }
+    @keyframes valuation-spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1120px) {
+      .valuation-layout { grid-template-columns: 1fr; }
+      .valuation-status-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .valuation-status-grid { grid-template-columns: 1fr; }
+      .valuation-price-grid { grid-template-columns: 1fr 1fr; }
+      .valuation-mini-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 1120px) {
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .timeline-tabs { grid-template-columns: repeat(3, 1fr); }
+      .timeline-layout, .company-layout { grid-template-columns: 1fr; }
+      .timeline-side { display: grid; grid-template-columns: repeat(2, 1fr); }
+      .company-detail { min-height: 420px; }
+    }
+    @media (max-width: 820px) {
+      .hero-grid, .chart-grid, .article-grid { grid-template-columns: 1fr; }
+      .hero-side { grid-template-columns: 1fr 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .sources { grid-template-columns: 1fr; }
+      .section-head { align-items: start; flex-direction: column; }
+      .section-note { text-align: left; }
+      .top-actions .desktop-only, .nav-pills { display: none; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 580px) {
+      .container { width: min(100% - 22px, var(--max)); }
+      .hero { padding-top: 48px; }
+      .hero-side { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .timeline-tabs { grid-template-columns: repeat(2, 1fr); }
+      .timeline-side { grid-template-columns: 1fr; }
+      .brand-sub { display: none; }
+      .topbar-inner { min-height: 58px; }
+      .timeline-main { padding: .9rem; }
+      .score-row { grid-template-columns: 1fr 1fr 1fr; }
+      .panel-header { align-items: flex-start; flex-direction: column; }
+      .panel-header .btn { align-self: stretch; }
+      input[type="search"], select { max-width: 100%; }
+      .heatmap-detail { grid-template-columns: 1fr; }
+      .score-box { border-left: 0; border-top: 1px solid var(--line); padding: .75rem 0 0; }
+    }
+
+    @media print {
+      :root { --bg: #fff; --bg-soft: #fff; --panel: #fff; --panel-strong: #fff; --panel-alt: #fff; --text: #111; --muted: #444; --line: #ccc; --line-strong: #aaa; }
+      body { background: #fff; }
+      .topbar, .top-actions, .timeline-tabs, .control-row, .heatmap-controls, .company-controls, .btn, .tooltip, .toast, dialog { display: none !important; }
+      .hero { padding-top: 24px; }
+      .hero::after { display: none; }
+      .section { break-inside: avoid; padding: 24px 0; }
+      .panel, .stat-card, details { box-shadow: none; }
+      .timeline-layout, .chart-grid, .company-layout, .valuation-layout, .article-grid { grid-template-columns: 1fr; }
+      .timeline-side { display: grid; grid-template-columns: 1fr 1fr; }
+      .table-wrap { max-height: none; overflow: visible; }
+      table { min-width: 0; font-size: 9px; }
+      th { position: static; }
+      details { break-inside: avoid; }
+      details > * { display: block !important; }
+      summary::after { display: none; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <a class="skip-link" href="#main">跳至主要內容</a>
+  <div id="tooltip" class="tooltip" role="status" aria-live="polite"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">8V</div>
+        <div class="brand-text">
+          <div class="brand-title">NVIDIA 800 VDC 互動研究</div>
+          <div class="brand-sub">Grid → Rack → GPU｜架構、元件與台美股供應鏈</div>
+        </div>
+      </div>
+      <nav class="nav-pills" aria-label="頁面導覽">
+        <a href="#timeline">年代架構</a>
+        <a href="#physics">物理與儲能</a>
+        <a href="#components">元件熱圖</a>
+        <a href="#companies">受惠公司</a>
+        <a href="#valuation">價格對照</a>
+        <a href="#analysis">文字分析</a>
+      </nav>
+      <div class="top-actions">
+        <button class="btn icon-only" id="themeToggle" type="button" aria-label="切換亮色或暗色主題" title="切換主題">◐</button>
+        <button class="btn desktop-only" id="printButton" type="button">列印／另存 PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-dot"></span> Architecture & Supply Chain Dashboard</div>
+            <h1>800 VDC 將重新分配<br />AI 資料中心的電力價值量</h1>
+            <p class="hero-lead">
+              這不是把機櫃電壓由 54V 改成 800V 而已，而是把 AC/DC 轉換逐步由機櫃移到 Power Rack、Row Power Center，最終上移至設施端；同時讓短時儲能、BESS、DC 保護與 Grid-to-GPU 控制成為標準部件。
+              <a href="#sources" aria-label="前往來源">[S1–S4]</a>
+            </p>
+            <div class="hero-meta">
+              <span class="meta-chip">資料更新：2026-08-17</span>
+              <span class="meta-chip">官方時程：2026 H2 Power Rack、2027 Row Power Center</span>
+              <span class="meta-chip">2028 年後為白皮書路線＋分析推估</span>
+              <span class="meta-chip">新增：每日收盤價 × 可編輯理想情境價</span>
+            </div>
+          </div>
+          <div class="hero-side">
+            <article class="thesis-card">
+              <span class="thesis-label">核心架構判斷</span>
+              <strong>價值量由「AC UPS＋機櫃 PSU＋54V busbar」上移到「集中整流＋800V busway＋DC 保護＋儲能」。</strong>
+              <p>越接近原生 800VDC，白空間內的傳統 AC 層越少，設施端高壓電力電子、保護與軟體的價值越高。</p>
+            </article>
+            <article class="thesis-card">
+              <span class="thesis-label">投資辨識</span>
+              <strong>近期看 Power Rack；中期看 Row Power；長期看 MV Rectifier／SST。</strong>
+              <p>台股最直接為台達、光寶、貿聯；美股系統端以 VRT、ETN、FLEX，半導體端以 TXN、ON 的產品跨度較完整。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="stats" aria-label="關鍵數據">
+          <div class="stat-card">
+            <div class="stat-value"><span class="accent">14.8×</span></div>
+            <div>
+              <div class="stat-label">1.1MW 下，800V 相對 54V 的電流降幅倍數</div>
+              <div class="stat-note">20,370A → 1,375A，依 I=P/V 計算。</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><span class="accent">+157%</span></div>
+            <div>
+              <div class="stat-label">同導體截面，800VDC 相對 415VAC 的可傳功率</div>
+              <div class="stat-note">NVIDIA 白皮書 Table 1。[S2]</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><span class="accent">26%</span></div>
+            <div>
+              <div class="stat-label">800V→12V 單級轉換的近 GPU 面積縮減</div>
+              <div class="stat-note">64:1 LLC＋Matrix Transformer。[S2][S4]</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><span class="accent">2MW</span></div>
+            <div>
+              <div class="stat-label">2027 Row Power Center 的官方列級支援能力</div>
+              <div class="stat-note">以 overhead 800VDC busway 配電。[S3]</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><span class="accent">17.5MW</span></div>
+            <div>
+              <div class="stat-label">NVIDIA 白皮書 DC Power Block 參考設計</div>
+              <div class="stat-note">5×3.5MW，5-to-make-4 備援。[S2]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="timeline">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Architecture Roadmap</div>
+            <h2>依年代切換電力架構</h2>
+            <p class="section-desc">點選年代查看主電力鏈、儲能位置、上升與下降的元件，以及當期最直接的台美股供應商。</p>
+          </div>
+          <div class="section-note">「官方」代表 NVIDIA 已提供明確時程；「推估」代表依白皮書技術成熟度與綠地機房建置週期判斷。</div>
+        </div>
+
+        <div class="timeline-tabs" id="timelineTabs" role="tablist" aria-label="年代選擇"></div>
+
+        <div class="timeline-layout">
+          <article class="panel timeline-main" id="timelineMain" role="tabpanel" aria-live="polite"></article>
+          <aside class="panel timeline-side" id="timelineSide" aria-label="當期供應鏈與判斷"></aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="physics">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Power Physics & Storage</div>
+            <h2>為什麼 54V 撐不住 MW 級 AI 機櫃</h2>
+            <p class="section-desc">調整機櫃功率，觀察不同 DC 電壓下的電流；再用時間尺度圖理解電容、超級電容與 BESS 各自處理哪一種 GPU 波動。</p>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">同功率下的 DC 配電電流</div>
+                <div class="panel-sub">公式：<span class="formula">I = P / V</span>；可切換線性／對數座標。</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="control-row">
+                <div class="range-wrap">
+                  <label for="rackPower" class="sr-only">機櫃功率</label>
+                  <input id="rackPower" type="range" min="0.1" max="2" step="0.05" value="1.1" />
+                  <span class="value-pill" id="rackPowerValue">1.10 MW</span>
+                </div>
+                <div class="segmented" role="group" aria-label="座標模式">
+                  <button type="button" class="active" data-scale="linear">線性</button>
+                  <button type="button" data-scale="log">對數</button>
+                </div>
+              </div>
+              <svg id="currentChart" class="svg-chart" viewBox="0 0 720 330" role="img" aria-label="不同直流電壓下的電流比較"></svg>
+              <div class="chart-foot">此圖只比較 DC 電壓。AC 三相電流另受功率因數、相數與效率影響，不直接套用同一公式。</div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">固定導體截面的相對傳輸能力</div>
+                <div class="panel-sub">以 415VAC＝100，依 NVIDIA 白皮書 Table 1 換算。[S2]</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="density-bars" id="densityBars"></div>
+              <div class="callout">800V 的核心價值不是單純節省銅，而是讓 MW 級電力能以合理的入口數、接頭尺寸與白空間占用送進 Compute Rack。</div>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel" style="margin-top:14px;">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">GPU 負載波動與多時間尺度儲能</div>
+              <div class="panel-sub">游標移到技術帶與事件標記，可查看其功能。橫軸為對數時間。</div>
+            </div>
+          </div>
+          <div class="panel-body timescale-wrap">
+            <svg id="storageChart" class="svg-chart" viewBox="0 0 1100 340" role="img" aria-label="GPU 事件與儲能技術時間尺度圖"></svg>
+            <div class="chart-foot">NVIDIA 將近 GPU 的電容／超級電容用於微秒至秒級波動，設施端 BESS 用於秒至分鐘級 ramp、load shaping 與電網 ride-through。[S2][S4]</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="components">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Component Intensity Map</div>
+            <h2>元件使用強度如何隨年代轉移</h2>
+            <p class="section-desc">分數 0–5 表示該年代在主運算電力鏈中的相對重要性，不代表市場規模或公司營收增幅。點擊方格查看判讀。</p>
+          </div>
+        </div>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div class="heatmap-controls">
+              <div class="field">
+                <label for="componentCategory">元件分類</label>
+                <select id="componentCategory">
+                  <option value="all">全部</option>
+                  <option value="legacy">傳統 AC</option>
+                  <option value="dc">800VDC 核心</option>
+                  <option value="semiconductor">功率半導體</option>
+                  <option value="storage">儲能</option>
+                  <option value="cooling">冷卻</option>
+                  <option value="software">控制軟體</option>
+                </select>
+              </div>
+              <button class="btn small" id="heatmapReset" type="button">重設選取</button>
+            </div>
+            <div class="panel-sub">顏色越亮，代表該部件在該階段越核心。</div>
+          </div>
+          <div class="panel-body">
+            <div class="heatmap-scroll">
+              <div id="heatmap" class="heatmap" role="grid" aria-label="年代與元件使用強度熱圖"></div>
+            </div>
+            <div id="heatmapDetail" class="heatmap-detail" aria-live="polite"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="companies">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Taiwan & U.S. Beneficiaries</div>
+            <h2>台美股受惠矩陣與可篩選對照表</h2>
+            <p class="section-desc">縱軸為 800VDC 直接度，橫軸為主要商用時點；泡泡越大代表公開產品與合作證據越完整。這是供應鏈評分，不是估值評分。</p>
+          </div>
+        </div>
+
+        <div class="company-layout">
+          <article class="panel scatter-wrap">
+            <div class="panel-header">
+              <div class="company-controls">
+                <div class="field">
+                  <label for="scatterRegion">市場</label>
+                  <select id="scatterRegion">
+                    <option value="all">台美股全部</option>
+                    <option value="TW">台股</option>
+                    <option value="US">美股／美國掛牌</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="scatterCategory">角色</label>
+                  <select id="scatterCategory"></select>
+                </div>
+                <div class="field">
+                  <label for="scatterPhase">受惠階段</label>
+                  <select id="scatterPhase"></select>
+                </div>
+              </div>
+              <div class="legend">
+                <span class="legend-item"><span class="legend-dot" style="background:var(--cyan)"></span>台股</span>
+                <span class="legend-item"><span class="legend-dot" style="background:var(--green-bright)"></span>美股</span>
+                <span class="legend-item">泡泡大小＝確定性</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <svg id="companyScatter" class="svg-chart" viewBox="0 0 820 510" role="img" aria-label="台美股 800VDC 受惠矩陣"></svg>
+            </div>
+          </article>
+
+          <aside class="panel company-detail" id="companyDetail" aria-live="polite"></aside>
+        </div>
+
+        <article class="panel" style="margin-top:14px;">
+          <div class="panel-header">
+            <div class="company-controls">
+              <div class="field">
+                <label for="companySearch">搜尋公司／Ticker／角色</label>
+                <input id="companySearch" type="search" placeholder="例：台達、VRT、SiC、busbar" />
+              </div>
+              <div class="field">
+                <label for="tableRegion">市場</label>
+                <select id="tableRegion">
+                  <option value="all">全部</option>
+                  <option value="TW">台股</option>
+                  <option value="US">美股／美國掛牌</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="tableCategory">角色</label>
+                <select id="tableCategory"></select>
+              </div>
+              <div class="field">
+                <label for="tablePhase">階段</label>
+                <select id="tablePhase"></select>
+              </div>
+              <div class="field">
+                <label for="tableSort">排序</label>
+                <select id="tableSort">
+                  <option value="directness">直接度高→低</option>
+                  <option value="certainty">確定性高→低</option>
+                  <option value="timing">商用時點近→遠</option>
+                  <option value="name">公司名稱</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn small" id="exportCsv" type="button">匯出目前表格 CSV</button>
+          </div>
+          <div class="panel-body">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>公司</th>
+                    <th>Ticker</th>
+                    <th>市場</th>
+                    <th>供應鏈角色</th>
+                    <th>主要受惠期</th>
+                    <th>直接度</th>
+                    <th>確定性</th>
+                    <th>核心理由</th>
+                    <th>主要風險</th>
+                  </tr>
+                </thead>
+                <tbody id="companyTableBody"></tbody>
+              </table>
+            </div>
+            <div class="chart-foot" id="tableCount"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="section" id="valuation">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Dynamic Valuation Monitor</div>
+            <h2>最新收盤價相對理想情境價</h2>
+            <p class="section-desc">理想價採中期的樂觀、可驗證情境（主要依 2028E／FY2029E 獲利能力），並與供應鏈直接度分開評估。收盤價可每日自動更新；理想價不應機械式每天變動，可在重大財報、design win 或估值假設改變時手動修訂。</p>
+          </div>
+          <div class="section-note">「距離理想價」不是預期報酬率。理想情境未發生時，實際合理價可能顯著低於此處目標。</div>
+        </div>
+
+        <div class="valuation-status-grid" aria-label="估值監控摘要">
+          <article class="valuation-status-card"><div class="label">價格資料狀態</div><strong id="valuationDataStatus">讀取中</strong><p id="valuationDataNote">載入最近完成的每日收盤價。</p></article>
+          <article class="valuation-status-card"><div class="label">中位理想上行空間</div><strong id="valuationMedianUpside">—</strong><p>跨市場直接取中位數，不受幣別影響。</p></article>
+          <article class="valuation-status-card"><div class="label">高直接度＋上行 ≥ 20%</div><strong id="valuationOpportunityCount">—</strong><p>800V 直接度至少 4.0，且仍距理想價 20% 以上。</p></article>
+          <article class="valuation-status-card"><div class="label">理想情境修訂日</div><strong id="valuationRevisionDate">—</strong><p>價格每日更新；目標價應隨基本面而非股價追漲殺跌。</p></article>
+        </div>
+
+        <div class="valuation-layout">
+          <article class="panel scatter-wrap">
+            <div class="panel-header">
+              <div class="company-controls">
+                <div class="field"><label for="valuationRegion">市場</label><select id="valuationRegion"><option value="all">台美股全部</option><option value="TW">台股</option><option value="US">美股／美國掛牌</option></select></div>
+                <div class="field"><label for="valuationCategory">角色</label><select id="valuationCategory"></select></div>
+                <div class="field"><label for="valuationConfidence">最低目標信心</label><select id="valuationConfidence"><option value="0">全部</option><option value="2">2.0+</option><option value="3">3.0+</option><option value="4">4.0+</option></select></div>
+              </div>
+              <div class="legend"><span class="legend-item"><span class="legend-dot" style="background:var(--cyan)"></span>台股</span><span class="legend-item"><span class="legend-dot" style="background:var(--green-bright)"></span>美股</span><span class="legend-item">泡泡＝目標信心</span></div>
+            </div>
+            <div class="panel-body">
+              <svg id="valuationScatter" class="svg-chart" viewBox="0 0 860 520" role="img" aria-label="800V 直接度與理想情境上行空間散點圖"></svg>
+              <div class="chart-foot">橫軸越右代表距理想情境價越遠；縱軸越高代表供應鏈位置越直接。高上行但低信心的公司仍可能是高風險選擇權，而非低估。</div>
+            </div>
+          </article>
+
+          <aside class="panel valuation-detail" id="valuationDetail" aria-live="polite"></aside>
+        </div>
+
+        <article class="panel" style="margin-top:14px;">
+          <div class="panel-header">
+            <div class="company-controls">
+              <div class="field"><label for="valuationSearch">搜尋</label><input id="valuationSearch" type="search" placeholder="公司、Ticker、角色或情境" /></div>
+              <div class="field"><label for="valuationTableRegion">市場</label><select id="valuationTableRegion"><option value="all">全部</option><option value="TW">台股</option><option value="US">美股／美國掛牌</option></select></div>
+              <div class="field"><label for="valuationSort">排序</label><select id="valuationSort"><option value="opportunity">風險調整機會分數</option><option value="upside">理想上行空間</option><option value="priceIn">理想情境反映程度低→高</option><option value="directness">800V 直接度</option><option value="confidence">目標信心</option><option value="name">公司名稱</option></select></div>
+            </div>
+            <div class="company-controls">
+              <button class="btn small" id="refreshPrices" type="button">更新價格資料</button>
+              <button class="btn small" id="editTargets" type="button">編輯理想價</button>
+              <button class="btn small" id="exportValuationCsv" type="button">匯出估值 CSV</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="data-health" id="valuationHealth"></div>
+            <div class="table-wrap" style="margin-top:.75rem; max-height:720px;">
+              <table class="valuation-table">
+                <thead><tr><th>公司</th><th>最新完成收盤</th><th>理想情境價</th><th>理想上行</th><th>已反映程度</th><th>800V 直接度</th><th>目標信心</th><th>狀態</th><th>估值基礎</th></tr></thead>
+                <tbody id="valuationTableBody"></tbody>
+              </table>
+            </div>
+            <div class="chart-foot" id="valuationTableCount"></div>
+          </div>
+        </article>
+
+        <article class="panel article-card" style="margin-top:14px;">
+          <h3>如何解讀這張價格對照</h3>
+          <p><strong>已反映程度＝最新收盤價 ÷ 理想情境價。</strong>低於 60% 代表價格距離理想情境很遠，但也常伴隨較低目標信心；90% 以上則表示即使產業發展順利，估值安全邊際也已有限。</p>
+          <p>理想價只是上緣情境。對台達、VRT、ETN 等高確定性公司，主要風險可能是估值壓縮；對 NVTS、AOSL、康舒、群電等低確定性公司，真正風險則是 800V design win 根本沒有轉成足以支撐目標的獲利。</p>
+          <div class="callout">網站會自動更新價格，不會自動調高理想價。這可避免股價上漲後把目標價同步往上移，造成循環論證。</div>
+        </article>
+      </div>
+    </section>
+
+    <dialog id="targetEditorDialog">
+      <div class="dialog-head"><div><div class="panel-title">編輯理想情境價與信心</div><div class="panel-sub">儲存後只覆蓋此瀏覽器；可下載 targets.js 後放回 data 資料夾，讓所有訪客共用。</div></div><button class="btn small" id="closeTargetEditor" type="button">關閉</button></div>
+      <div class="dialog-body"><div class="table-wrap" style="max-height:none;"><table class="target-editor-table"><thead><tr><th>公司</th><th>Ticker</th><th>幣別</th><th>理想價</th><th>信心 1–5</th><th>期間</th><th>估值基礎</th></tr></thead><tbody id="targetEditorBody"></tbody></table></div></div>
+      <div class="dialog-actions"><button class="btn small" id="resetTargets" type="button">清除本機覆蓋</button><button class="btn small" id="downloadTargets" type="button">下載 targets.js</button><button class="btn primary" id="saveTargets" type="button">儲存到此瀏覽器</button></div>
+    </dialog>
+
+
+    <section class="section" id="analysis">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Written Interpretation</div>
+            <h2>文字分析：架構、部件與投資含義</h2>
+            <p class="section-desc">以下內容將互動圖表的判讀整理成可直接閱讀的研究摘要。</p>
+          </div>
+        </div>
+
+        <div class="article-grid">
+          <article class="panel article-card">
+            <h3>一、架構本質：轉換位置上移，而非單純升壓</h3>
+            <p>傳統架構把 AC 送到每座 Compute Rack，再由多個 PSU 轉成 54VDC。800VDC 的演進路線則把 AC/DC 轉換逐步移到 Sidecar Power Rack、Row Power Center，最後移到設施灰區或中壓端。這會減少高價值白空間內的 PSU、PDU 與大電流銅排，讓更多空間留給 GPU、NVLink 與液冷。</p>
+            <p>因此，產業價值量不只是增加，而是<strong>重新分配</strong>：機櫃內電源的數量與 U-space 占用下降，中央整流、800V busway、DC breaker、絕緣／互鎖與能源管理的單位價值提高。</p>
+            <div class="callout">最需要避免的誤判：把所有傳統 PSU、變壓器或重電股都直接視為 800V 核心受惠者。</div>
+          </article>
+
+          <article class="panel article-card">
+            <h3>二、儲能由備援設備變成運行中的功率濾波器</h3>
+            <p>同步 GPU 工作負載可在毫秒內由約 30% 負載跳到滿載。只用傳統 UPS 思維處理，會迫使整條配電鏈按峰值超額配置。NVIDIA 的方案是由近 GPU 電容與超級電容先吸收高頻波動，再由列級或設施端 BESS 管理秒至分鐘級 ramp、checkpoint 與工作負載啟停。</p>
+            <p>這代表 CBU、supercapacitor、BESS PCS、grid-forming control 與工作負載調度軟體不再只是停電時才啟動，而會持續參與正常運作。未來 AI Factory 的電力控制將與 GPU telemetry、排程與電網訊號形成閉環。</p>
+            <div class="callout">儲能價值量的關鍵不是「容量最大」，而是能否在正確的時間尺度、正確的位置快速充放電。</div>
+          </article>
+
+          <article class="panel article-card">
+            <h3>三、各階段的主要投資主線</h3>
+            <div class="ordered-insights">
+              <div class="insight">
+                <div><strong>2026 H2：Power Rack</strong><p>重點是整流器、Power Shelf、CBU／BBU、800V connector、cable、busbar，以及 800V→12V／6V DC/DC。此階段可直接改造既有 AC 機房，營收可見度最高。</p></div>
+              </div>
+              <div class="insight">
+                <div><strong>2027–2029：Row Power Center</strong><p>AC/DC 轉換由每櫃旁側移到列級集中，overhead DC busway、中央整流、DC protection、列級儲能與大型 CDU 的價值上升。</p></div>
+              </div>
+              <div class="insight">
+                <div><strong>2028–2032：MV Rectifier</strong><p>新建機房開始嘗試中壓直接整流到 800VDC。成熟的變壓器＋整流器方案較可能先於完全電力電子化 SST 商用。</p></div>
+              </div>
+              <div class="insight">
+                <div><strong>2030 年後：SST-native AI Factory</strong><p>若可靠度、認證與成本達標，SST 可整合變壓、整流、功率品質、ride-through、儲能介面與通訊控制；受惠重心轉向 MV power electronics、SiC/GaN 與固態保護。</p></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel article-card">
+            <h3>四、台美股的相對定位</h3>
+            <p><strong>台達</strong>的優勢是從 Power Rack、DC/DC、BBU、微電網、SST 到 CDU 的跨層整合；<strong>光寶</strong>對 2026–2029 Power Rack／Power Shelf 的營收純度更集中；<strong>貿聯</strong>則是高壓 connector、cable 與 liquid-cooled busbar 的直接實體介面。</p>
+            <p>美股中，<strong>VRT、ETN、FLEX</strong>位於系統與量產層；<strong>TXN、ON</strong>位於高壓轉換、hot-swap、隔離、VRM 與功率半導體層；<strong>ABB、GEV</strong>更偏向 2028 年後的 MV、DC protection、SST 與原生綠地機房。</p>
+            <p>高純度小型功率半導體公司可能具有較高營收彈性，但 design win、可靠度驗證、良率與客戶集中風險也顯著較高。供應鏈直接度高，不等於現價報酬率高。</p>
+            <div class="callout">研究順序應是：先確認產品位於哪一代架構，再確認量產時間與單位內容量，最後才比較估值與股價。</div>
+          </article>
+        </div>
+
+        <div style="margin-top:14px;" id="allPeriods"></div>
+      </div>
+    </section>
+
+    <section class="section" id="sources">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Primary Sources</div>
+            <h2>主要官方來源</h2>
+            <p class="section-desc">架構與時程優先採 NVIDIA 白皮書及 2026 年官方更新；公司定位採各公司官方產品或合作公告。</p>
+          </div>
+        </div>
+        <div class="sources" id="sourceList"></div>
+        <div class="callout" style="margin-top:14px;">
+          注意：NVIDIA 白皮書屬參考架構與產業協作方向，不構成產品交付承諾。2028 年後的年份為本研究基準推估，可能因安全標準、認證、電網互聯、成本及 hyperscaler 採用速度而前後移動。
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <span>NVIDIA 800 VDC AI Infrastructure Interactive Research｜單檔離線網站</span>
+      <span>供應鏈評分僅供研究比較，不構成投資建議。</span>
+    </div>
+  </footer>
+
+  <script src="data/valuation_targets.js" onerror="window.VALUATION_TARGETS_LOAD_ERROR=true"></script>
+  <script src="data/market_prices.js" onerror="window.MARKET_PRICES_LOAD_ERROR=true"></script>
+  <script>
+    "use strict";
+
+    const timelineData = [
+      {
+        id: "legacy",
+        years: "2020–2025",
+        shortName: "AC／54V 基準架構",
+        title: "傳統 415/480VAC＋機櫃內 54VDC",
+        status: "成熟既有裝機",
+        statusType: "official",
+        confidence: 5,
+        summary: "中壓電網先降到低壓 AC，經 AC UPS、PDU／RPP 或 busway 送至 Compute Rack，再由機櫃內 PSU 轉成 54VDC。這套架構適合數十至約 100–200kW 級機櫃，但在 MW 級會受限於 PSU 空間、入口數、銅排重量與多級轉換。",
+        nodes: [
+          ["13.8–35kVAC", "中壓電網", "normal"],
+          ["MV/LV 變壓器", "降至 415/480VAC", "normal"],
+          ["LV Switchboard", "低壓 AC 主配電", "normal"],
+          ["AC UPS", "備援與電力調理", "normal"],
+          ["PDU／RPP／Busway", "白空間 AC 配電", "normal"],
+          ["In-rack PSU", "AC→54VDC", "highlight"],
+          ["54V Busbar", "大電流送至 trays", "highlight"],
+          ["12V／VRM→GPU", "末端多級降壓", "normal"]
+        ],
+        storage: ["機櫃 BBU（選配）", "AC UPS 電池", "外部 BESS（少量）"],
+        tech: ["415/480VAC 三相配電", "AC UPS", "機櫃內 AC/DC PSU", "54V busbar", "多級 DC/DC"],
+        rising: ["MV/LV 變壓器", "AC UPS", "PDU／RPP", "機櫃 PSU", "54V busbar"],
+        falling: ["尚未進入結構性替代"],
+        tw: ["台達 2308", "光寶 2301", "群電 6412*", "康舒 6282*"],
+        us: ["Vertiv VRT", "Eaton ETN", "Flex FLEX"],
+        investment: "這是既有裝機基準，不是 800V 純受惠階段。傳統 PSU 廠若只停留在 rack PSU，長期內容量可能被轉換上移稀釋；能升級到 Power Rack、HVDC、BBU 或 DC/DC 的廠商才有延續性。",
+        sources: [1, 2, 4]
+      },
+      {
+        id: "power-rack",
+        years: "2026 H2",
+        shortName: "800V Power Rack",
+        title: "既有 AC 機房＋Sidecar／In-row 800V Power Rack",
+        status: "NVIDIA 官方時程",
+        statusType: "official",
+        confidence: 5,
+        summary: "在不改造建築主電力系統的前提下，於 Compute Rack 旁新增 800V Power Rack，把 AC/DC 轉換與部分儲能移出運算機櫃。NVIDIA 表示 MGX 相容 Power Rack 將於 2026 年下半年導入，是 brownfield 機房最快的升級路徑。",
+        nodes: [
+          ["既有 AC 基礎設施", "變壓器／UPS／PDU 保留", "declining"],
+          ["800V Power Rack", "整流器＋Power Shelf", "highlight"],
+          ["DC PDU／Busbar", "800V POS／RTN／PE", "highlight"],
+          ["Compute Rack", "高壓直送 compute node", "highlight"],
+          ["800V→12V／6V", "高變比隔離式 DC/DC", "highlight"],
+          ["多相 VRM", "降至 GPU core voltage", "normal"],
+          ["GPU／NVLink Domain", "白空間留給算力", "normal"]
+        ],
+        storage: ["Power Rack BBU", "CBU／超級電容", "Power Capacitance Shelf", "GPU Power Smoothing"],
+        tech: ["800V rectifier shelf", "64:1 LLC／Matrix Transformer", "hot-swap controller", "touch-safe connector", "機械互鎖與對稱熔絲", "SiC／GaN"],
+        rising: ["800V Power Rack", "HV connector／cable", "DC busbar", "800→12V／6V DC/DC", "CBU／BBU", "液冷 Power Shelf"],
+        falling: ["機櫃內 AC PSU", "54V 垂直 busbar", "Compute Rack 內電源 U-space"],
+        tw: ["台達 2308", "光寶 2301", "貿聯-KY 3665", "聯發科／立錡 2454"],
+        us: ["Flex FLEX", "Vertiv VRT", "Eaton ETN", "TI TXN", "onsemi ON"],
+        investment: "這是近期營收可見度最高的階段。Power Rack 幾乎沒有刪除既有上游 AC 設備，反而新增整流、儲能與 800V 介面，因此每 MW 電氣內容量會先上升；但它是過渡架構，長期部分 Power Rack 內容會被列級集中整流取代。",
+        sources: [2, 3, 5, 6, 7, 8, 9, 10, 11, 12]
+      },
+      {
+        id: "row-power",
+        years: "2027–2029",
+        shortName: "Row Power Center",
+        title: "集中式 Row Power Center＋Overhead 800VDC Busway",
+        status: "2027 起供應",
+        statusType: "official",
+        confidence: 4,
+        summary: "AC/DC 轉換由每座 Compute Rack 旁的 Power Rack，集中到列級 Row Power Center，再透過 overhead 800VDC busway 向多座機櫃配電。NVIDIA 最新路線圖表示可支援最高約 2MW／row。",
+        nodes: [
+          ["MV/LV 變壓器", "仍保留低壓 AC 層", "normal"],
+          ["LV Switchboard", "向中央整流供電", "normal"],
+          ["Row Power Center", "約 1–2MW 級整流", "highlight"],
+          ["Common DC Bus", "800VDC 集中母線", "highlight"],
+          ["Overhead Busway", "列級向多櫃配電", "highlight"],
+          ["Compute Racks", "800V 直送節點", "highlight"],
+          ["DC/DC→VRM→GPU", "末端轉換標準化", "normal"]
+        ],
+        storage: ["列級 CBU／BBU", "DC bus 直接掛接 BESS", "大型 2–3MW CDU"],
+        tech: ["1.5MVA rectifier string", "common DC bus", "overhead DC busway", "DC junction box", "solid-state／hybrid breaker", "insulation monitoring"],
+        rising: ["中央整流器", "DC busway／busduct", "DC switchboard", "固態斷路器", "列級儲能", "大型 CDU"],
+        falling: ["Power Rack 一櫃一座配置", "白空間 AC PDU／RPP", "傳統機櫃 PSU"],
+        tw: ["台達 2308", "光寶 2301", "貿聯-KY 3665"],
+        us: ["Vertiv VRT", "Eaton ETN", "Flex FLEX", "TI TXN", "onsemi ON"],
+        investment: "系統價值由單一 Power Rack 轉向列級整合。廠商需要同時具備中央整流、busway、DC 保護、現場服務與熱管理；只供應單顆 PSU 的議價能力會弱於能交付完整 row solution 的系統商。",
+        sources: [2, 3, 4, 9, 10]
+      },
+      {
+        id: "mv-rectifier",
+        years: "2028–2032",
+        shortName: "MV Rectifier／DC Power Block",
+        title: "中壓 AC 直接整流至 800VDC 的原生綠地機房",
+        status: "白皮書方向＋基準推估",
+        statusType: "estimate",
+        confidence: 3,
+        summary: "新建 AI Factory 開始繞過完整 480VAC 主運算配電層，以中壓整流器將 13.8–35kVAC 直接轉成 800VDC。白皮書認為成熟的 MV Rectifier 供應鏈較 SST 更接近商用，單機可達數 MW。",
+        nodes: [
+          ["13.8–35kVAC", "電網／園區中壓", "normal"],
+          ["MV Switchgear", "隔離、保護與量測", "highlight"],
+          ["MV Rectifier", "變壓＋整流＋濾波", "highlight"],
+          ["800V DC Board", "5000A 等級主母線", "highlight"],
+          ["1500A Branch", "SSCB＋contactor＋diode", "highlight"],
+          ["800V Busduct／Cable", "向列與機櫃配電", "highlight"],
+          ["1+1 Compute Rack", "獨立來源冗餘", "normal"]
+        ],
+        storage: ["設施 BESS", "Grid-forming PCS", "Local／aggregated rack storage", "CDU 與 IT support branch"],
+        tech: ["3.5–7.5MVA MV rectifier", "5-to-make-4 redundancy", "5000A DC distribution board", "1500A branch", "blocking diode", "fault current limiting"],
+        rising: ["MV switchgear", "MV rectifier", "大型 DC board", "SSCB", "BESS PCS", "液冷 busduct／cable"],
+        falling: ["完整 480VAC 主運算層", "傳統 AC UPS 主路徑", "白空間 AC switchgear"],
+        tw: ["台達 2308", "貿聯-KY 3665", "華城 1519*", "中興電 1513*", "士電 1503*"],
+        us: ["ABB ABB", "GE Vernova GEV", "Eaton ETN", "Vertiv VRT", "onsemi ON"],
+        investment: "此階段新增價值主要落在中壓配電、整流、DC 保護與 BESS，而不是普通低壓 PSU。台灣重電股屬 AI 建廠的條件式受惠；是否能取得 800V 專案內容，需觀察 MV rectifier、DC switchboard 或固態保護的實際產品與訂單。",
+        sources: [2, 4, 13, 14]
+      },
+      {
+        id: "sst",
+        years: "2030–2035+",
+        shortName: "SST-native AI Factory",
+        title: "Solid-State Transformer 驅動的原生 800VDC AI Factory",
+        status: "中長期技術路線",
+        statusType: "estimate",
+        confidence: 2,
+        summary: "SST 以 SiC／GaN 高頻功率電子整合中壓整流、隔離變壓、電壓調節、功率品質、ride-through、儲能介面與通訊。其功能密度高，但多 MW 模組可靠度、熱管理、成本及認證仍是大規模商用前提。",
+        nodes: [
+          ["13.8／34.5kVAC", "園區中壓輸入", "normal"],
+          ["SST AC/DC Stage", "多電平 SiC／GaN", "highlight"],
+          ["HF Isolation", "高頻變壓器", "highlight"],
+          ["DC/DC Stage", "穩壓至 800VDC", "highlight"],
+          ["Native DC Backbone", "儲能與負載共母線", "highlight"],
+          ["DC Protection", "高速雙向保護", "highlight"],
+          ["Compute＋Cooling", "Grid-to-GPU 協同控制", "normal"]
+        ],
+        storage: ["BESS 雙向介面", "grid-forming control", "MV-UPS 功能", "工作負載／電網聯動"],
+        tech: ["1200／1700V SiC", "高壓 GaN", "高頻磁性元件", "多電平 converter", "固態斷路器", "Ethernet power control"],
+        rising: ["SST", "WBG semiconductor", "高頻變壓器", "薄膜電容", "grid-forming inverter", "數位孿生／控制軟體"],
+        falling: ["工頻變壓器部分應用", "LV AC switchboard", "傳統 UPS 主運算路徑"],
+        tw: ["台達 2308", "貿聯-KY 3665"],
+        us: ["ABB ABB", "GE Vernova GEV", "Eaton ETN", "Vertiv VRT", "onsemi ON", "AOSL／POWI／NVTS"],
+        investment: "SST 是高選擇權而非近端確定營收。最有利的供應商是同時具備中壓系統、DC 保護、WBG 功率元件、韌體控制與全球維護能力者；單一元件廠的勝負取決於 design win 與長期可靠度。",
+        sources: [2, 3, 13, 14, 15, 16, 17]
+      },
+      {
+        id: "1500v",
+        years: "2035+",
+        shortName: "潛在 1500VDC",
+        title: "設施級 1500VDC 的長期選項",
+        status: "高度不確定",
+        statusType: "estimate",
+        confidence: 1,
+        summary: "1500VDC 可在同導體截面傳輸更多功率，但資料中心內部的 connector、breaker、creepage／clearance、arc-flash、UL／NEC 安全標準與維修流程尚未成熟。較可能先出現在設施或列級骨幹，而非直接進入 Compute Rack。",
+        nodes: [
+          ["MVAC", "園區中壓", "normal"],
+          ["MV Rectifier／SST", "輸出更高 DC 電壓", "highlight"],
+          ["1500VDC Backbone", "設施／列級配電", "highlight"],
+          ["DC/DC Interface", "降至 800V rack domain", "highlight"],
+          ["800V Compute Rack", "沿用成熟 rack interface", "normal"],
+          ["12V／6V→Core", "末端電源", "normal"]
+        ],
+        storage: ["1500V BESS string", "高壓 DC protection", "設施級絕緣監控"],
+        tech: ["1700V semiconductor", "1500V connector／breaker", "更大 creepage／clearance", "arc-flash mitigation", "分級 DC/DC"],
+        rising: ["1700V SiC／GaN", "高壓 DC breaker", "絕緣與安全元件", "高壓 cable／busbar"],
+        falling: ["部分 800V 設施骨幹設備可能升級", "但 rack 端未必同步升壓"],
+        tw: ["台達 2308", "貿聯-KY 3665"],
+        us: ["POWI", "onsemi ON", "AOSL", "Navitas NVTS", "ABB ABB", "Eaton ETN"],
+        investment: "此階段只能視為技術選擇權，不能以確定訂單計價。最值得追蹤的是安全標準、1500V 認證元件供應、breaker／connector 商用，以及 hyperscaler 是否選擇維持 800V rack interface。",
+        sources: [2, 16]
+      }
+    ];
+
+    const componentData = [
+      { name: "MV/LV 工頻變壓器", category: "legacy", scores: [5,5,4,3,2,1], desc: "既有 AC 架構的核心；Power Rack 階段仍保留。原生 MV Rectifier 可能把變壓器整合進設備，SST 則可能取代部分工頻變壓器功能。", beneficiaries: "ABB、GEV、ETN；台灣重電股屬條件式受惠。" },
+      { name: "LV AC Switchboard", category: "legacy", scores: [5,5,4,2,1,1], desc: "低壓 AC 主配電在 brownfield 過渡期仍存在；中壓直接轉 800VDC 後，主運算路徑內容量下降。", beneficiaries: "ETN、ABB、GEV、VRT；傳統設備商需轉向 DC-native。" },
+      { name: "AC UPS", category: "legacy", scores: [5,5,3,2,1,1], desc: "Power Rack 仍可掛在既有 UPS 下游；Row／facility DC 逐步由 DC storage、MV-UPS 或 SST 功能取代主運算路徑。", beneficiaries: "VRT、ETN、ABB；受惠需來自產品升級，而非舊型 UPS 數量。" },
+      { name: "AC PDU／RPP", category: "legacy", scores: [5,4,2,1,1,1], desc: "白空間內的 AC 分配層在集中 800VDC 後逐步縮減，尤其原生 DC 機房將減少 PDU／RPP。", beneficiaries: "傳統 AC PDU 為相對弱項；可轉向 DC busway 的系統商較有利。" },
+      { name: "機櫃內 AC/DC PSU", category: "legacy", scores: [5,2,1,0,0,0], desc: "800V 架構最明確被移出 Compute Rack 的部件之一；轉換改在 Power Rack、Row 或設施端進行。", beneficiaries: "傳統 PSU 廠必須升級到 Power Rack、rectifier shelf 或高壓 DC/DC。" },
+      { name: "54V Busbar", category: "legacy", scores: [5,2,1,0,0,0], desc: "MW 級功率下電流過大、銅排重量與空間不可接受，將被 800V rack distribution 取代。", beneficiaries: "普通大電流低壓銅排下降；高壓 busbar／connector 價值上升。" },
+      { name: "800V Rectifier", category: "dc", scores: [0,4,5,5,5,4], desc: "由 Power Rack 的分散式整流，逐步升級為 Row、facility 或 MV 級集中整流，是整條路線最核心的新增設備。", beneficiaries: "台達、光寶、FLEX、VRT、ETN；長期延伸到 ABB、GEV。" },
+      { name: "DC Busway／Busduct", category: "dc", scores: [0,3,5,5,5,5], desc: "800V 在列級與設施級配電需要 overhead busway、busduct、junction box 與高壓電纜；功率密度與安全認證提高單位價值。", beneficiaries: "貿聯、VRT、ETN、ABB、GEV。" },
+      { name: "DC Breaker／eFuse", category: "dc", scores: [1,4,5,5,5,5], desc: "DC 無自然過零點，斷路與電弧控制更困難。hot-swap、SSCB、雙向保護、預充電與故障隔離成為系統核心。", beneficiaries: "ETN、ABB、TI、台達、onsemi。" },
+      { name: "800V→12V／6V DC/DC", category: "dc", scores: [0,5,5,5,5,4], desc: "800V 直送 compute node 後，在靠近 GPU 處以高變比隔離式 converter 降壓；12V 與 6V 路徑仍在競爭。", beneficiaries: "TXN、FLEX Power Modules、ST、onsemi、MPS／ADI；台達與光寶亦有系統產品。" },
+      { name: "SiC／GaN", category: "semiconductor", scores: [1,4,5,5,5,5], desc: "高壓、高頻與高功率密度推動 650V GaN、1000／1200／1700V SiC 及驅動、隔離與控制 IC 用量。", beneficiaries: "ON、TXN、AOSL、POWI、NVTS，以及多家 NVIDIA 生態系半導體廠。" },
+      { name: "CBU／Supercapacitor", category: "storage", scores: [1,4,5,5,5,4], desc: "處理約 100ms 至數秒級的 GPU spike、checkpoint 與短暫 idle，並降低整條配電鏈的 peak 與 RMS 負擔。", beneficiaries: "ETN、台達、FLEX、光寶；控制與監測 IC 亦受惠。" },
+      { name: "BESS／Grid-forming PCS", category: "storage", scores: [2,3,4,5,5,5], desc: "秒至分鐘級 load shaping、ramp control、generator transfer 與 grid support；在原生 DC 架構可更直接掛接共同母線。", beneficiaries: "台達、ETN、ABB、GEV、VRT，以及 BESS 系統整合商。" },
+      { name: "液冷 CDU／Pump", category: "cooling", scores: [2,4,5,5,5,5], desc: "受惠原因是 MW 級功率密度，而非 800V 本身。Power Rack、DC/DC 與 busbar 也可能液冷化，列級 CDU 提升至 2–3MW。", beneficiaries: "台達、光寶、VRT；台股散熱廠為間接受惠。" },
+      { name: "IT/OT Power Control", category: "software", scores: [1,2,4,5,5,5], desc: "GPU telemetry、工作負載排程、儲能、冷卻與電網控制逐步整合，AI Factory 由被動負載轉為可控、可預測甚至 grid-supporting asset。", beneficiaries: "NVIDIA DSX 生態系、ABB、GEV、VRT、ETN、台達。" }
+    ];
+
+    const companyData = [
+      {
+        name: "台達電", ticker: "2308", region: "TW", category: "系統整合／Power Rack", phase: [1,2,3,4], timing: 1.05, directness: 5.0, certainty: 5.0,
+        role: "800V In-row Power Rack、AC/DC、DC/DC、BBU／電容、eFuse、微電網、SST、2.4／3MW CDU",
+        thesis: "台股中最接近 Grid-to-Chip 全架構，產品跨越 2026 Power Rack、Row Power、設施儲能、SST 與液冷，受惠時間最長。",
+        catalyst: "660kW 800V Power Rack、110kW shelf、90kW DC/DC shelf、微電網與 SST 產品驗證／量產。",
+        risk: "市場已高度認知 AI 電源與散熱成長；需追蹤實際市占、毛利組合與估值，而非只看題材。",
+        source: 5
+      },
+      {
+        name: "光寶科", ticker: "2301", region: "TW", category: "Power Rack／Power Shelf", phase: [1,2], timing: 1.12, directness: 4.6, certainty: 4.6,
+        role: "800V 液冷 Power Rack、110kW Power Shelf、BBU、DC/DC power shelf／brick、2.1MW In-row CDU",
+        thesis: "2026–2029 Power Rack 與 Power Shelf 曝險直接，產品集中度可能帶來較高近中期營收彈性。",
+        catalyst: "MGX／Vera Rubin 相關 power rack、shelf 與 CDU 量產節點。",
+        risk: "設施級 MV／SST／微電網的公開廣度低於台達；長期價值需看能否由 rack 延伸到 row／facility。",
+        source: 6
+      },
+      {
+        name: "貿聯-KY", ticker: "3665", region: "TW", category: "連接器／Cable／Busbar", phase: [1,2,3,4,5], timing: 1.2, directness: 4.5, certainty: 4.2,
+        role: "800V power connector、cable、busbar、liquid-cooling busbar，覆蓋 PDU、Power Shelf、Power Rack 與 Compute Rack",
+        thesis: "不是普通銅用量邏輯，而是高壓、高電流、touch-safe、互鎖、絕緣與液冷使單一連接系統價值提高。",
+        catalyst: "NVIDIA MGX 生態系認證、800V cable／busbar 量產、列級 busway 與液冷 busbar 滲透。",
+        risk: "單位內容量、認證時程與客戶集中度仍需由訂單／營收揭露驗證。",
+        source: 7
+      },
+      {
+        name: "聯發科／立錡", ticker: "2454", region: "TW", category: "PMIC／VRM／控制 IC", phase: [1,2,3], timing: 1.7, directness: 2.8, certainty: 3.1,
+        role: "NVIDIA 800V 生態系 PMIC、數位電源、多相 VRM 與控制器潛在供應",
+        thesis: "技術位置直接，但對聯發科集團營收的財務敏感度可能有限，且公開具體產品與 design win 少於系統廠。",
+        catalyst: "立錡高功率 VRM／PMIC 產品揭露與 MGX 設計導入。",
+        risk: "低集團營收占比、產品細節與客戶份額透明度不足。",
+        source: 1
+      },
+      {
+        name: "奇鋐", ticker: "3017", region: "TW", category: "液冷／熱管理", phase: [1,2,3,4], timing: 1.25, directness: 2.7, certainty: 4.2,
+        role: "液冷板、CDU、manifold、rack thermal solution",
+        thesis: "受惠主因是 MW 級機櫃與高功率密度，而非 800V 電氣架構本身；仍是 AI 基礎設施重要間接受惠者。",
+        catalyst: "Rubin／Kyber 液冷規格與單櫃散熱價值量提升。",
+        risk: "與 800V 電源的直接連結較弱，需避免把散熱成長全部歸因於 800V。",
+        source: 3
+      },
+      {
+        name: "雙鴻", ticker: "3324", region: "TW", category: "液冷／熱管理", phase: [1,2,3,4], timing: 1.28, directness: 2.6, certainty: 4.0,
+        role: "cold plate、CDU、液冷模組與高功率伺服器熱管理",
+        thesis: "同樣受惠於 800V 所支撐的高密度 Compute Rack，但屬功率密度與液冷的間接主線。",
+        catalyst: "高功率 GPU rack 液冷滲透與 CDU 容量升級。",
+        risk: "客戶／平台份額與產品組合波動，且非 DC 配電核心供應商。",
+        source: 3
+      },
+      {
+        name: "華城", ticker: "1519", region: "TW", category: "中壓重電／Switchgear", phase: [3,4], timing: 3.3, directness: 2.6, certainty: 2.8,
+        role: "變壓器與資料中心中壓配電的條件式受惠",
+        thesis: "AI 綠地機房將增加中壓設備需求；但原生 800V 也可能縮減部分低壓 AC 層，是否成為核心取決於 MV rectifier／DC switchboard 專案內容。",
+        catalyst: "資料中心中壓變電站訂單、與整流／DC 系統商合作。",
+        risk: "目前不能等同於 NVIDIA 800V design win；受惠較偏整體 AI 建廠。",
+        source: 2
+      },
+      {
+        name: "中興電", ticker: "1513", region: "TW", category: "中壓重電／Switchgear", phase: [3,4], timing: 3.4, directness: 2.4, certainty: 2.7,
+        role: "GIS／switchgear、變電站與中壓配電的條件式受惠",
+        thesis: "受惠於資料中心電網與中壓建置，但尚需證明能取得 800VDC 主運算鏈中的專用設備內容。",
+        catalyst: "AI 園區中壓工程、DC switchgear／rectifier 合作與產品升級。",
+        risk: "專案週期長，且 800V 直接曝險不明。",
+        source: 2
+      },
+      {
+        name: "士電", ticker: "1503", region: "TW", category: "中壓重電／Switchgear", phase: [3,4], timing: 3.45, directness: 2.3, certainty: 2.6,
+        role: "變壓器、switchgear 與園區配電",
+        thesis: "與華城、中興電類似，屬 AI 綠地機房電網端的條件式受惠，而非已確認 800V 核心供應商。",
+        catalyst: "大型資料中心中壓設備與海外專案。",
+        risk: "低壓層可能被原生 DC 精簡；需觀察產品組合是否升級。",
+        source: 2
+      },
+      {
+        name: "群電", ticker: "6412", region: "TW", category: "傳統 PSU／轉型觀察", phase: [0,1], timing: 1.8, directness: 1.7, certainty: 2.3,
+        role: "傳統伺服器 PSU；需轉入 Power Rack／HVDC／高壓 DC/DC 才能延續內容量",
+        thesis: "AI 電源需求成長不等於 800V 直接受惠。若 AC/DC 轉換移出 Compute Rack，傳統 rack PSU 的架構位置會被削弱。",
+        catalyst: "高壓 Power Shelf、BBU 或 800V DC/DC 新產品與 design win。",
+        risk: "若產品停留在傳統 PSU，長期可能被架構上移稀釋。",
+        source: 2
+      },
+      {
+        name: "康舒", ticker: "6282", region: "TW", category: "傳統 PSU／轉型觀察", phase: [0,1], timing: 1.9, directness: 1.6, certainty: 2.2,
+        role: "伺服器／工業電源；800V 受惠取決於高壓系統轉型",
+        thesis: "不能只以資料中心功率增加推論直接受惠，需確認是否切入 rectifier shelf、Power Rack 或 HVDC 模組。",
+        catalyst: "800V 產品線與客戶認證揭露。",
+        risk: "產品定位與 800V 主架構的連結尚不清楚。",
+        source: 2
+      },
+      {
+        name: "Vertiv", ticker: "VRT", region: "US", category: "系統整合／Row／Facility", phase: [1,2,3,4], timing: 1.08, directness: 5.0, certainty: 5.0,
+        role: "800V power portfolio、中央整流、DC busway、rack DC/DC、液冷、監控與全球維護服務",
+        thesis: "美股中最完整的 AI 資料中心系統型受惠者之一，能由 rack 延伸至 row、facility 與 thermal management。",
+        catalyst: "2026 H2 商用產品、2027 Rubin Ultra／Kyber 導入、MV DC UPS／facility architecture。",
+        risk: "高成長預期與估值、執行產能、資料中心資本支出週期。",
+        source: 9
+      },
+      {
+        name: "Eaton", ticker: "ETN", region: "US", category: "配電／保護／儲能", phase: [1,2,3,4,5], timing: 1.2, directness: 4.9, certainty: 5.0,
+        role: "busbar、DC connector、switchgear、protection、supercapacitor、儲能與中低壓配電",
+        thesis: "DC 無過零點使保護與斷路價值提高；Eaton 同時覆蓋列級配電與 fast-cycle supercapacitor，是多時間尺度儲能的重要受惠者。",
+        catalyst: "NVIDIA reference design 量產、DC protection／busbar／supercap 採用。",
+        risk: "800V 占集團營收的提升速度與大型專案時程。",
+        source: 10
+      },
+      {
+        name: "Flex", ticker: "FLEX", region: "US", category: "Power Rack／製造", phase: [1,2], timing: 1.0, directness: 4.7, certainty: 4.9,
+        role: "800V Power Rack、Power Shelf、CBU／BBU、DC/DC modules、全球量產與供應鏈",
+        thesis: "最接近 2026 Power Rack 實際量產的製造型受惠者之一，並可提供 in-region manufacturing。",
+        catalyst: "2026 Power Rack 出貨、Rubin／Kyber 平台量產、800V DC/DC 模組滲透。",
+        risk: "長期 Row／facility 集中化可能降低一櫃一 Power Rack 數量，需由模組與系統內容補足。",
+        source: 8
+      },
+      {
+        name: "Texas Instruments", ticker: "TXN", region: "US", category: "功率半導體／控制 IC", phase: [1,2,3,4], timing: 1.12, directness: 4.6, certainty: 4.8,
+        role: "hot-swap、隔離、感測、800V→6V／12V、核心 VRM、30kW PSU 與 CBU／BBU 控制",
+        thesis: "公開參考設計完整，涵蓋 800V 到 processor power 的兩級轉換與高壓保護，是半導體產品跨度最大的公司之一。",
+        catalyst: "800V→6V／12V reference design 採用、hot-swap 與 telemetry IC 放量。",
+        risk: "800V 相關營收占 TXN 整體比重初期可能有限，且拓撲與供應商份額仍在競爭。",
+        source: 11
+      },
+      {
+        name: "onsemi", ticker: "ON", region: "US", category: "功率半導體／SiC GaN", phase: [1,2,3,4,5], timing: 1.35, directness: 4.5, certainty: 4.4,
+        role: "SiC／GaN、高壓 AC/DC、PDB、BBU、multiphase power 與 grid-to-core power tree",
+        thesis: "從變電站高壓轉換到處理器 VRM 均有產品，受惠範圍長；SiC／GaN 在 MV rectifier／SST 階段的選擇權更大。",
+        catalyst: "NVIDIA MGX／800V PDB 設計導入、EliteSiC／vertical GaN 商用。",
+        risk: "功率半導體景氣、SiC 產能／價格競爭與實際設計份額。",
+        source: 12
+      },
+      {
+        name: "ABB", ticker: "ABB", region: "US", category: "中壓／DC 保護／SST", phase: [2,3,4,5], timing: 2.75, directness: 4.4, certainty: 4.5,
+        role: "MV switchgear、UPS、DC distribution、SACE Infinitus solid-state breaker、SST／solid-state electronics、DSX digital twin",
+        thesis: "偏向 2028 年後原生 DC 與中壓端，但具備 DC 保護、MV 與數位孿生整合，長期架構位置核心。",
+        catalyst: "NVIDIA DSX／800V 合作、MV-UPS、SST 與固態 breaker 專案。",
+        risk: "商用時點較遠，短期營收仍主要來自整體資料中心電氣需求。",
+        source: 13
+      },
+      {
+        name: "GE Vernova", ticker: "GEV", region: "US", category: "電網／MV／Facility", phase: [3,4,5], timing: 3.0, directness: 4.0, certainty: 3.8,
+        role: "grid-to-GPU electrification、HV/MV switchgear、transformer、power electronics、800V reference architecture",
+        thesis: "位置更靠近發電、電網與設施端，受惠週期長且單案金額大；原生 DC／SST 成熟後價值量提高。",
+        catalyst: "AI campus electrification 訂單、800V facility reference design、MV rectifier／SST 產品。",
+        risk: "800V 專案仍在探索與設計期，營收歸因需與一般資料中心電氣訂單區分。",
+        source: 14
+      },
+      {
+        name: "Alpha & Omega Semi", ticker: "AOSL", region: "US", category: "功率半導體／SiC GaN", phase: [1,2,3,4,5], timing: 1.9, directness: 4.1, certainty: 3.1,
+        role: "SiC、GaN、MOSFET 與 power IC，對高壓整流與 rack DC/DC 具技術槓桿",
+        thesis: "規模較小，若取得 800V design win，營收彈性可能高於大型類比廠；但量產份額與可靠度驗證不確定。",
+        catalyst: "NVIDIA 生態系 design win、SiC／GaN 量產與客戶導入。",
+        risk: "規模、客戶集中、產品認證與價格競爭。",
+        source: 15
+      },
+      {
+        name: "Power Integrations", ticker: "POWI", region: "US", category: "功率半導體／高壓 GaN", phase: [1,2,3,4,5], timing: 2.0, directness: 4.0, certainty: 3.2,
+        role: "高壓 GaN、輔助電源與未來 1250／1700V 類元件選擇權",
+        thesis: "高壓 GaN 對 800V 主／輔助電源與更高 DC 電壓具潛在優勢，但實際主功率份額需 design win 驗證。",
+        catalyst: "高壓 GaN 產品導入 800V rectifier／DC/DC／SST。",
+        risk: "技術路徑競爭、量產時程與市場份額。",
+        source: 16
+      },
+      {
+        name: "Navitas", ticker: "NVTS", region: "US", category: "功率半導體／GaN SiC", phase: [1,2,3,4,5], timing: 1.8, directness: 4.5, certainty: 2.6,
+        role: "GaNFast、GeneSiC、高頻高壓 conversion 與 800V→低壓拓撲",
+        thesis: "技術純度與股價彈性高，但 design win、可靠度、現金消耗與營收實現風險也最高。",
+        catalyst: "800V reference design 轉為量產訂單、GaN／SiC 客戶認證。",
+        risk: "規模小、虧損／融資、量產與競爭風險。",
+        source: 17
+      },
+      {
+        name: "Monolithic Power", ticker: "MPWR", region: "US", category: "PMIC／VRM／控制 IC", phase: [1,2,3], timing: 1.7, directness: 3.3, certainty: 3.4,
+        role: "多相 VRM、PMIC、電源模組與 NVIDIA 800V 生態系參與者",
+        thesis: "GPU 末端電源價值高，但公開 800V 專用產品與訂單資訊較 TI 少；需追蹤實際份額。",
+        catalyst: "Rubin／Kyber VRM 與 DC/DC design win。",
+        risk: "估值、客戶集中與產品揭露不足。",
+        source: 1
+      },
+      {
+        name: "Analog Devices", ticker: "ADI", region: "US", category: "PMIC／隔離／感測", phase: [1,2,3,4], timing: 2.0, directness: 3.2, certainty: 3.4,
+        role: "隔離、感測、控制、電源管理與 NVIDIA 800V 生態系",
+        thesis: "高壓 DC 的量測、隔離與控制是必要部件，但對 ADI 集團營收純度較低。",
+        catalyst: "800V hot-swap、isolation、telemetry 與 BESS control design win。",
+        risk: "財務敏感度低、具體產品份額透明度不足。",
+        source: 1
+      }
+    ];
+
+    const sources = [
+      { id: 1, title: "NVIDIA 800 VDC Architecture — 官方架構頁與生態系名單", url: "https://www.nvidia.com/en-us/data-center/technologies/800-vdc-architecture/", domain: "nvidia.com" },
+      { id: 2, title: "800 VDC Architecture for Next-Generation AI Infrastructure — NVIDIA Whitepaper", url: "https://dam-cdn.nvd.orangelogic.com/AssetLink/12077q676nxqj8nu1bv852hobc7wmn1s.pdf", domain: "NVIDIA PDF" },
+      { id: 3, title: "Why Scaling AI Compute Performance Requires a New Power Architecture — 2026 路線圖", url: "https://blogs.nvidia.com/blog/800-vdc-power-architecture-ai-factory/", domain: "blogs.nvidia.com" },
+      { id: 4, title: "Building the 800 VDC Ecosystem for Efficient, Scalable AI Factories", url: "https://developer.nvidia.com/blog/building-the-800-vdc-ecosystem-for-efficient-scalable-ai-factories/", domain: "developer.nvidia.com" },
+      { id: 5, title: "Delta Bolsters 800 VDC Architecture with Power, Cooling and Microgrid Solutions", url: "https://www.deltaww.com/en-US/press/40334", domain: "deltaww.com" },
+      { id: 6, title: "LITEON at NVIDIA GTC 2026 — 800 VDC Power Rack, 110kW Shelf, 2.1MW CDU", url: "https://www.liteon.com/en/news/press-center/content/liteon-nvidia-gtc-2026", domain: "liteon.com" },
+      { id: 7, title: "BizLink Advances 800 VDC Power Solutions for AI Infrastructure With NVIDIA", url: "https://www.bizlinktech.com/news/bizlink-advances-800-vdc-power-solutions-for-ai-infrastructure-with-nvidia", domain: "bizlinktech.com" },
+      { id: 8, title: "Flex Launches 800 VDC Power Rack for Next-Generation NVIDIA AI Infrastructure", url: "https://investors.flex.com/news/news-details/2026/Flex-Launches-800-VDC-Power-Rack-for-Next-Generation-NVIDIA-AI-Infrastructure/default.aspx", domain: "flex.com" },
+      { id: 9, title: "Vertiv Advances 800 VDC Platform Designs — 2026 H2 Product Timing", url: "https://www.vertiv.com/en-us/about/news-and-events/corporate-news/from-vision-to-readiness-vertiv-collaborates-with-nvidia-to-advance-800-vdc-platform-designs-to-power-the-next-generation-of-ai-factories/", domain: "vertiv.com" },
+      { id: 10, title: "Eaton 800 VDC Reference Architecture — Supercapacitor, Busbar, Connector", url: "https://www.eaton.com/us/en-us/company/news-insights/news-releases/2025/eaton-unveils-next-generation-architecture.html", domain: "eaton.com" },
+      { id: 11, title: "Texas Instruments Complete 800 VDC Power Architecture with NVIDIA", url: "https://www.ti.com/about-ti/newsroom/news-releases/2026/2026-03-16-ti-unveils-complete-800-vdc-power-architecture-for-future-generation-ai-data-centers-with-nvidia.html", domain: "ti.com" },
+      { id: 12, title: "onsemi Collaborates with NVIDIA on 800 VDC Power Solutions", url: "https://www.onsemi.com/company/news-media/press-announcements/en/onsemi-collaborates-with-nvidia-to-accelerate-transition-to-800-vdc-power-solutions-for-next-generation-ai-data-centers", domain: "onsemi.com" },
+      { id: 13, title: "ABB Expands NVIDIA Collaboration through DSX and 800 VDC Architecture", url: "https://new.abb.com/news/detail/136274/abb-expands-collaboration-with-nvidia-through-integration-of-dsx-blueprint-for-ai-infrastructure", domain: "abb.com" },
+      { id: 14, title: "GE Vernova — AI Factory 800 VDC Reference Designs and Grid-to-GPU Electrification", url: "https://library.grid.gevernova.com/white-papers-case-studies/ai-factory-800vdc-reference-designs", domain: "gevernova.com" },
+      { id: 15, title: "AOSL — SiC、650V／100V GaN 與 800 VDC Power IC Solutions", url: "https://investor.aosmd.com/press-releases/press-release-details/2025/Alpha-and-Omega-Semiconductor-Supports-800-VDC-Power-Architecture-for-Next-Generation-AI-Factories-with-Innovative-SiC-and-GaN-Power-MOSFET-and-Power-IC-Solutions/default.aspx", domain: "aosmd.com" },
+      { id: 16, title: "Power Integrations — 1250V／1700V PowiGaN for 800 VDC AI Data Centers", url: "https://investors.power.com/news/news-details/2025/Power-Integrations-Details-1250-V-and-1700-V-PowiGaN-Technology-for-Next-Generation-800-VDC-AI-Data-Centers/default.aspx", domain: "power.com" },
+      { id: 17, title: "Navitas — GaNFast／GeneSiC 800 VDC AI Data Center Solutions", url: "https://navitassemi.com/en/applications/ai-datacenter", domain: "navitassemi.com" }
+    ];
+
+    const phaseOptions = timelineData.map((d, i) => ({ value: String(i), label: `${d.years}｜${d.shortName}` }));
+    const categoryLabels = {
+      legacy: "傳統 AC", dc: "800VDC 核心", semiconductor: "功率半導體", storage: "儲能", cooling: "冷卻", software: "控制軟體"
+    };
+
+    let activeTimeline = 1;
+    let currentScale = "linear";
+    let selectedCompany = null;
+    let selectedHeatmap = { row: 6, col: 1 };
+
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[ch]));
+    }
+
+    function sourceBadges(ids) {
+      return ids.map(id => `<a href="#source-${id}" title="前往來源 S${id}">[S${id}]</a>`).join("");
+    }
+
+    function scoreDots(score) {
+      const rounded = Math.round(score);
+      return `<span class="score-dots" aria-label="${score.toFixed(1)} 分">${[1,2,3,4,5].map(i => `<i class="${i <= rounded ? "on" : ""}"></i>`).join("")}</span>`;
+    }
+
+    function showTooltip(event, html) {
+      const tip = $("#tooltip");
+      tip.innerHTML = html;
+      tip.classList.add("show");
+      moveTooltip(event);
+    }
+    function moveTooltip(event) {
+      const tip = $("#tooltip");
+      const pad = 14;
+      const w = tip.offsetWidth || 240;
+      const h = tip.offsetHeight || 80;
+      let x = event.clientX + 14;
+      let y = event.clientY + 14;
+      if (x + w + pad > window.innerWidth) x = event.clientX - w - 14;
+      if (y + h + pad > window.innerHeight) y = event.clientY - h - 14;
+      tip.style.left = `${Math.max(pad, x)}px`;
+      tip.style.top = `${Math.max(pad, y)}px`;
+    }
+    function hideTooltip() { $("#tooltip").classList.remove("show"); }
+    function showToast(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    function renderTimelineTabs() {
+      const root = $("#timelineTabs");
+      root.innerHTML = timelineData.map((d, i) => `
+        <button type="button" class="timeline-tab ${i === activeTimeline ? "active" : ""}" role="tab" aria-selected="${i === activeTimeline}" data-index="${i}">
+          <span class="timeline-year"><span class="timeline-status-dot"></span>${d.years}</span>
+          <span class="timeline-name">${d.shortName}</span>
+        </button>
+      `).join("");
+      $$(".timeline-tab", root).forEach(btn => btn.addEventListener("click", () => {
+        activeTimeline = Number(btn.dataset.index);
+        renderTimelineTabs();
+        renderTimelinePanel();
+      }));
+    }
+
+    function renderTimelinePanel() {
+      const d = timelineData[activeTimeline];
+      $("#timelineMain").innerHTML = `
+        <div class="timeline-title-row">
+          <div>
+            <div class="section-kicker">${d.years}</div>
+            <h3>${d.title}</h3>
+          </div>
+          <span class="status-badge ${d.statusType}">${d.status}</span>
+        </div>
+        <p class="timeline-summary">${d.summary} ${sourceBadges(d.sources)}</p>
+        <div class="architecture-wrap">
+          <div class="architecture-flow">
+            ${d.nodes.map(node => `<div class="architecture-node ${node[2]}"><span class="node-label">${node[0]}</span><span class="node-sub">${node[1]}</span></div>`).join("")}
+          </div>
+          <div class="storage-row"><span class="storage-label">儲能／動態負載層：</span>${d.storage.map(x => `<span class="storage-chip">${x}</span>`).join("")}</div>
+        </div>
+        <div class="two-col">
+          <div class="mini-card"><h4>核心技術</h4><div class="tag-list">${d.tech.map(x => `<span class="tag tech">${x}</span>`).join("")}</div></div>
+          <div class="mini-card"><h4>元件價值量轉移</h4><div class="tag-list">${d.rising.map(x => `<span class="tag up">↑ ${x}</span>`).join("")}${d.falling.map(x => `<span class="tag down">↓ ${x}</span>`).join("")}</div></div>
+        </div>
+      `;
+      $("#timelineSide").innerHTML = `
+        <div class="side-block">
+          <h4>技術／商用確定性</h4>
+          <p>${d.statusType === "official" ? "已有官方路線或成熟裝機支撐。" : "年份為基準推估，需追蹤標準、認證與 hyperscaler 採用。"}</p>
+          <div class="confidence" aria-label="確定性 ${d.confidence} / 5">${[1,2,3,4,5].map(i => `<span class="${i <= d.confidence ? "on" : ""}"></span>`).join("")}</div>
+        </div>
+        <div class="side-block">
+          <h4>台股主要受惠</h4>
+          <div class="benefit-list">${d.tw.map(x => `<div class="benefit-item"><span>${x}</span><span class="region-label">TW</span></div>`).join("")}</div>
+        </div>
+        <div class="side-block">
+          <h4>美股主要受惠</h4>
+          <div class="benefit-list">${d.us.map(x => `<div class="benefit-item"><span>${x}</span><span class="region-label">US</span></div>`).join("")}</div>
+        </div>
+        <div class="side-block">
+          <h4>投資判讀</h4>
+          <p>${d.investment}</p>
+        </div>
+      `;
+    }
+
+    function renderCurrentChart() {
+      const powerMW = Number($("#rackPower").value);
+      $("#rackPowerValue").textContent = `${powerMW.toFixed(2)} MW`;
+      const systems = [
+        { name: "54VDC", v: 54, note: "既有 rack bus" },
+        { name: "800VDC", v: 800, note: "NVIDIA near-term" },
+        { name: "1500VDC", v: 1500, note: "潛在長期" }
+      ].map(s => ({ ...s, current: powerMW * 1e6 / s.v }));
+      const svg = $("#currentChart");
+      const width = 720, height = 330, left = 150, right = 54, top = 38, bottom = 50;
+      const plotW = width - left - right;
+      const max = Math.max(...systems.map(s => s.current));
+      const logMin = Math.log10(Math.min(...systems.map(s => s.current)) * .75);
+      const logMax = Math.log10(max * 1.12);
+      const scaleX = value => {
+        if (currentScale === "log") return left + ((Math.log10(value) - logMin) / (logMax - logMin)) * plotW;
+        return left + (value / max) * plotW;
+      };
+      const gridValues = currentScale === "log"
+        ? [100, 300, 1000, 3000, 10000, 30000].filter(v => v >= 10 ** logMin && v <= 10 ** logMax)
+        : [0, .25, .5, .75, 1].map(p => max * p);
+      let html = `<text x="${left}" y="20" fill="var(--muted)" font-size="12">電流（A）｜${currentScale === "log" ? "對數座標" : "線性座標"}</text>`;
+      gridValues.forEach(v => {
+        const x = scaleX(v);
+        html += `<line x1="${x}" y1="${top}" x2="${x}" y2="${height-bottom}" stroke="var(--line)" />`;
+        html += `<text x="${x}" y="${height-22}" fill="var(--muted)" font-size="10" text-anchor="middle">${v >= 1000 ? (v/1000).toFixed(v >= 10000 ? 0 : 1)+"k" : Math.round(v)}</text>`;
+      });
+      systems.forEach((s, i) => {
+        const y = top + i * 82;
+        const xEnd = scaleX(s.current);
+        const barW = Math.max(5, xEnd - left);
+        const fill = i === 1 ? "var(--green-bright)" : i === 2 ? "var(--cyan)" : "var(--orange)";
+        html += `<text x="${left-16}" y="${y+22}" fill="var(--text)" font-size="16" font-weight="800" text-anchor="end">${s.name}</text>`;
+        html += `<text x="${left-16}" y="${y+40}" fill="var(--muted)" font-size="10" text-anchor="end">${s.note}</text>`;
+        html += `<rect x="${left}" y="${y+5}" width="${barW}" height="34" rx="9" fill="${fill}" opacity=".86" data-current-index="${i}" tabindex="0" />`;
+        html += `<text x="${Math.min(width-right, xEnd+10)}" y="${y+27}" fill="var(--text)" font-size="13" font-weight="850">${s.current >= 1000 ? (s.current/1000).toFixed(2)+" kA" : s.current.toFixed(0)+" A"}</text>`;
+      });
+      const ratio = systems[0].current / systems[1].current;
+      html += `<text x="${left}" y="${height-3}" fill="var(--green-bright)" font-size="12" font-weight="800">54V→800V：電流降低 ${ratio.toFixed(1)} 倍；相同電阻下 I²R 損失的理論比例為 ${(ratio*ratio).toFixed(0)} 倍。</text>`;
+      svg.innerHTML = html;
+      $$('[data-current-index]', svg).forEach(el => {
+        const item = systems[Number(el.dataset.currentIndex)];
+        const handler = ev => showTooltip(ev, `<strong>${item.name}</strong><br>${powerMW.toFixed(2)}MW ÷ ${item.v}V = ${item.current.toLocaleString(undefined, {maximumFractionDigits:0})}A`);
+        el.addEventListener("mousemove", handler); el.addEventListener("mouseenter", handler); el.addEventListener("mouseleave", hideTooltip);
+        el.addEventListener("focus", e => showTooltip({clientX: innerWidth/2, clientY: innerHeight/2}, `<strong>${item.name}</strong><br>${item.current.toLocaleString(undefined,{maximumFractionDigits:0})}A`));
+        el.addEventListener("blur", hideTooltip);
+      });
+    }
+
+    function renderDensityBars() {
+      const data = [
+        { name: "415VAC", index: 100, note: "基準" },
+        { name: "480VAC", index: 116, note: "+16%" },
+        { name: "800VDC", index: 257, note: "+157%" },
+        { name: "1500VDC", index: 482, note: "+382%" }
+      ];
+      const max = Math.max(...data.map(d => d.index));
+      $("#densityBars").innerHTML = data.map(d => `
+        <div class="density-row">
+          <div class="density-name">${d.name}</div>
+          <div class="density-track"><div class="density-fill" style="width:${(d.index/max*100).toFixed(1)}%"></div></div>
+          <div class="density-value">${d.index}｜${d.note}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderStorageChart() {
+      const svg = $("#storageChart");
+      const W = 1100, H = 340, left = 100, right = 55, top = 52, axisY = 288;
+      const minT = 0.0001, maxT = 600;
+      const logMin = Math.log10(minT), logMax = Math.log10(maxT);
+      const x = t => left + ((Math.log10(t) - logMin) / (logMax - logMin)) * (W-left-right);
+      const bands = [
+        { name: "電解／DC-link 電容", start: .0001, end: .1, y: 72, h: 42, fill: "var(--green)", detail: "靠近 GPU／DC-link，處理微秒到約 100ms 的 overshoot、短暫 idle 與高頻 ripple。" },
+        { name: "超級電容／CBU", start: .03, end: 10, y: 132, h: 42, fill: "var(--cyan)", detail: "適合約 100ms 至數秒，處理 checkpoint、短時 spike 與 Power Rack／row 的功率平滑。" },
+        { name: "Battery／BESS", start: 1, end: 600, y: 192, h: 42, fill: "var(--orange)", detail: "秒至分鐘級，用於 workload ramp、load shaping、generator transfer、ride-through 與 grid-forming。" }
+      ];
+      const events = [
+        { name: "GPU EDPp／快速 overshoot", t: .0004, y: 52, detail: "白皮書提到近 rack 儲能需能處理最快約 400µs 的動態。" },
+        { name: "典型 idle／peak", t: .1, y: 247, detail: "GPU peak 與 idle 事件常在 100ms 以內。" },
+        { name: "Checkpoint", t: 3, y: 247, detail: "checkpoint 常約 1–5 秒，適合 CBU／電池混合。" },
+        { name: "Workload ramp", t: 180, y: 247, detail: "整群啟停需在數分鐘內平滑，通常由設施 BESS 與調度控制。" }
+      ];
+      const ticks = [.0001, .001, .01, .1, 1, 10, 60, 600];
+      let html = `<text x="${left}" y="26" fill="var(--text)" font-size="15" font-weight="850">儲能技術覆蓋範圍與 GPU 事件</text>`;
+      ticks.forEach(t => {
+        const px = x(t);
+        html += `<line x1="${px}" y1="${top}" x2="${px}" y2="${axisY}" stroke="var(--line)" />`;
+        const label = t < .001 ? `${Math.round(t*1e6)}µs` : t < 1 ? `${t*1000}ms` : t < 60 ? `${t}s` : `${t/60}min`;
+        html += `<text x="${px}" y="${axisY+24}" text-anchor="middle" fill="var(--muted)" font-size="11">${label}</text>`;
+      });
+      bands.forEach((b, i) => {
+        const bx = x(b.start), bw = x(b.end)-bx;
+        html += `<rect x="${bx}" y="${b.y}" width="${bw}" height="${b.h}" rx="12" fill="${b.fill}" opacity=".36" stroke="${b.fill}" data-band="${i}" tabindex="0" />`;
+        html += `<text x="${bx+12}" y="${b.y+26}" fill="var(--text)" font-size="13" font-weight="800">${b.name}</text>`;
+      });
+      events.forEach((e, i) => {
+        const ex = x(e.t);
+        html += `<line x1="${ex}" y1="${top}" x2="${ex}" y2="${axisY-12}" stroke="var(--purple)" stroke-dasharray="5 5" opacity=".8" />`;
+        html += `<circle cx="${ex}" cy="${e.y}" r="7" fill="var(--purple)" data-event="${i}" tabindex="0" />`;
+        const anchor = ex > W-220 ? "end" : "start";
+        const tx = ex > W-220 ? ex-10 : ex+10;
+        html += `<text x="${tx}" y="${e.y-11}" fill="var(--text)" font-size="11" font-weight="750" text-anchor="${anchor}">${e.name}</text>`;
+      });
+      html += `<line x1="${left}" y1="${axisY}" x2="${W-right}" y2="${axisY}" stroke="var(--line-strong)" />`;
+      html += `<text x="${W-right}" y="${H-10}" text-anchor="end" fill="var(--muted)" font-size="11">時間尺度（對數）</text>`;
+      svg.innerHTML = html;
+      $$('[data-band]', svg).forEach(el => {
+        const b = bands[Number(el.dataset.band)];
+        const handler = ev => showTooltip(ev, `<strong>${b.name}</strong><br>${b.detail}`);
+        el.addEventListener("mousemove", handler); el.addEventListener("mouseenter", handler); el.addEventListener("mouseleave", hideTooltip);
+        el.addEventListener("focus", e => showTooltip({clientX: innerWidth/2, clientY: innerHeight/2}, `<strong>${b.name}</strong><br>${b.detail}`)); el.addEventListener("blur", hideTooltip);
+      });
+      $$('[data-event]', svg).forEach(el => {
+        const e = events[Number(el.dataset.event)];
+        const handler = ev => showTooltip(ev, `<strong>${e.name}</strong><br>${e.detail}`);
+        el.addEventListener("mousemove", handler); el.addEventListener("mouseenter", handler); el.addEventListener("mouseleave", hideTooltip);
+        el.addEventListener("focus", () => showTooltip({clientX: innerWidth/2, clientY: innerHeight/2}, `<strong>${e.name}</strong><br>${e.detail}`)); el.addEventListener("blur", hideTooltip);
+      });
+    }
+
+    function renderHeatmap() {
+      const category = $("#componentCategory").value;
+      const rows = componentData.map((d, originalIndex) => ({ ...d, originalIndex })).filter(d => category === "all" || d.category === category);
+      const root = $("#heatmap");
+      const categoryColor = { legacy: "#ffb45c", dc: "#76b900", semiconductor: "#c094ff", storage: "#50d5ff", cooling: "#ff7878", software: "#8dd1a1" };
+      root.innerHTML = `<div class="heatmap-head">元件／年代</div>${timelineData.map(d => `<div class="heatmap-head">${d.years}<br><span style="font-weight:600">${d.shortName}</span></div>`).join("")}` +
+        rows.map(row => {
+          const label = `<div class="heatmap-label"><span class="category-dot" style="background:${categoryColor[row.category]}"></span><span>${row.name}</span></div>`;
+          const cells = row.scores.map((score, col) => {
+            const alpha = score === 0 ? .02 : .12 + score * .13;
+            const selected = selectedHeatmap.row === row.originalIndex && selectedHeatmap.col === col;
+            return `<button type="button" class="heatmap-cell ${selected ? "selected" : ""}" data-row="${row.originalIndex}" data-col="${col}" style="background:rgba(118,185,0,${alpha})" aria-label="${row.name}，${timelineData[col].years}，重要性 ${score}/5"><span>${score}</span></button>`;
+          }).join("");
+          return label + cells;
+        }).join("");
+      $$(".heatmap-cell", root).forEach(cell => cell.addEventListener("click", () => {
+        selectedHeatmap = { row: Number(cell.dataset.row), col: Number(cell.dataset.col) };
+        renderHeatmap();
+        renderHeatmapDetail();
+      }));
+      renderHeatmapDetail();
+    }
+
+    function renderHeatmapDetail() {
+      const row = componentData[selectedHeatmap.row] || componentData[0];
+      const col = timelineData[selectedHeatmap.col] || timelineData[0];
+      const score = row.scores[selectedHeatmap.col] ?? 0;
+      $("#heatmapDetail").innerHTML = `
+        <div>
+          <h4>${row.name}｜${col.years}</h4>
+          <p>${row.desc}</p>
+          <p><strong style="color:var(--text)">主要受惠／影響：</strong>${row.beneficiaries}</p>
+        </div>
+        <div class="score-box"><strong>${score}</strong><span>重要性／5</span></div>
+      `;
+    }
+
+    function populateSelect(select, items, allLabel = "全部") {
+      select.innerHTML = `<option value="all">${allLabel}</option>` + items.map(item => `<option value="${escapeHtml(item.value)}">${escapeHtml(item.label)}</option>`).join("");
+    }
+
+    function categoriesFromCompanies() {
+      return [...new Set(companyData.map(d => d.category))].sort((a,b) => a.localeCompare(b, "zh-Hant"));
+    }
+
+    function getFilteredCompanies(source = "scatter") {
+      const region = $(`#${source}Region`)?.value || "all";
+      const category = $(`#${source}Category`)?.value || "all";
+      const phase = $(`#${source}Phase`)?.value || "all";
+      const search = source === "table" ? $("#companySearch").value.trim().toLowerCase() : "";
+      return companyData.filter(d => {
+        if (region !== "all" && d.region !== region) return false;
+        if (category !== "all" && d.category !== category) return false;
+        if (phase !== "all" && !d.phase.includes(Number(phase))) return false;
+        if (search) {
+          const haystack = `${d.name} ${d.ticker} ${d.category} ${d.role} ${d.thesis}`.toLowerCase();
+          if (!haystack.includes(search)) return false;
+        }
+        return true;
+      });
+    }
+
+    function timingLabel(value) {
+      if (value <= 1.3) return "2026 H2";
+      if (value <= 2.2) return "2027–2029";
+      if (value <= 3.5) return "2028–2032";
+      if (value <= 4.5) return "2030–2035+";
+      return "2035+";
+    }
+
+    function renderScatter() {
+      const data = getFilteredCompanies("scatter");
+      const svg = $("#companyScatter");
+      const W = 820, H = 510, left = 78, right = 38, top = 38, bottom = 68;
+      const plotW = W-left-right, plotH = H-top-bottom;
+      const x = v => left + ((v-.8)/(5.2-.8))*plotW;
+      const y = v => top + (5.25-v)/(5.25-.75)*plotH;
+      const xTicks = [1,2,3,4,5];
+      let html = "";
+      xTicks.forEach(t => {
+        const px = x(t);
+        const label = ["2026 H2", "2027–29", "2028–32", "2030–35+", "2035+"][t-1];
+        html += `<line x1="${px}" y1="${top}" x2="${px}" y2="${H-bottom}" stroke="var(--line)" />`;
+        html += `<text x="${px}" y="${H-bottom+24}" fill="var(--muted)" font-size="11" text-anchor="middle">${label}</text>`;
+      });
+      [1,2,3,4,5].forEach(t => {
+        const py = y(t);
+        html += `<line x1="${left}" y1="${py}" x2="${W-right}" y2="${py}" stroke="var(--line)" />`;
+        html += `<text x="${left-16}" y="${py+4}" fill="var(--muted)" font-size="11" text-anchor="end">${t}</text>`;
+      });
+      html += `<text x="${left}" y="18" fill="var(--text)" font-size="12" font-weight="800">800VDC 直接度 ↑</text>`;
+      html += `<text x="${W-right}" y="${H-12}" fill="var(--text)" font-size="12" font-weight="800" text-anchor="end">主要商用時點 →</text>`;
+      data.forEach((d, i) => {
+        const cx = x(d.timing), cy = y(d.directness), r = 7 + d.certainty * 2.4;
+        const fill = d.region === "TW" ? "var(--cyan)" : "var(--green-bright)";
+        const selected = selectedCompany && selectedCompany.ticker === d.ticker;
+        html += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" opacity=".74" stroke="${selected ? "var(--text)" : "var(--bg)"}" stroke-width="${selected ? 4 : 2}" data-company-index="${companyData.indexOf(d)}" tabindex="0" />`;
+        const anchor = cx > W-150 ? "end" : "start";
+        const tx = cx > W-150 ? cx-r-5 : cx+r+5;
+        html += `<text x="${tx}" y="${cy+4}" text-anchor="${anchor}" fill="var(--text)" font-size="10" font-weight="800" pointer-events="none">${d.ticker}</text>`;
+      });
+      if (!data.length) html += `<text x="${W/2}" y="${H/2}" text-anchor="middle" fill="var(--muted)" font-size="15">目前篩選條件沒有公司</text>`;
+      svg.innerHTML = html;
+      $$('[data-company-index]', svg).forEach(el => {
+        const d = companyData[Number(el.dataset.companyIndex)];
+        const handler = ev => showTooltip(ev, `<strong>${d.name}｜${d.ticker}</strong><br>${d.category}<br>直接度 ${d.directness.toFixed(1)}／確定性 ${d.certainty.toFixed(1)}<br>主要時點：${timingLabel(d.timing)}`);
+        el.addEventListener("mousemove", handler); el.addEventListener("mouseenter", handler); el.addEventListener("mouseleave", hideTooltip);
+        el.addEventListener("click", () => selectCompany(d));
+        el.addEventListener("focus", () => showTooltip({clientX: innerWidth/2, clientY: innerHeight/2}, `<strong>${d.name}｜${d.ticker}</strong><br>${d.category}`));
+        el.addEventListener("blur", hideTooltip);
+        el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectCompany(d); } });
+      });
+    }
+
+    function selectCompany(d) {
+      selectedCompany = d;
+      renderScatter();
+      renderCompanyDetail();
+    }
+
+    function renderCompanyDetail() {
+      const root = $("#companyDetail");
+      if (!selectedCompany) {
+        root.innerHTML = `<div class="panel-header"><div><div class="panel-title">公司詳細資訊</div><div class="panel-sub">點擊散點或表格列</div></div></div><div class="company-detail-empty">選取一家公司後，這裡會顯示產品角色、催化劑、風險與官方來源。</div>`;
+        return;
+      }
+      const d = selectedCompany;
+      const src = sources.find(s => s.id === d.source);
+      root.innerHTML = `
+        <div class="panel-header">
+          <div><div class="company-name">${d.name}</div><div class="company-ticker">${d.ticker}｜${d.region === "TW" ? "台股" : "美股／美國掛牌"}</div></div>
+          <span class="status-badge official">${d.category}</span>
+        </div>
+        <div class="panel-body" style="display:flex; flex-direction:column; flex:1;">
+          <div class="score-row">
+            <div class="metric-card"><strong>${d.directness.toFixed(1)}</strong><span>800V 直接度</span></div>
+            <div class="metric-card"><strong>${d.certainty.toFixed(1)}</strong><span>公開確定性</span></div>
+            <div class="metric-card"><strong>${timingLabel(d.timing)}</strong><span>主要商用時點</span></div>
+          </div>
+          ${(() => { const row = valuationRows().find(x => x.ticker === d.ticker); return row && row.price && row.target ? `<div class="valuation-mini"><div class="valuation-mini-grid"><div><strong>${formatMarketPrice(row.close,row.price.currency)}</strong><span>最新完成收盤</span></div><div><strong>${formatMarketPrice(row.ideal,row.price.currency)}</strong><span>理想情境價</span></div><div><strong style="color:${row.upside>=0?'var(--green-bright)':'var(--red)'}">${formatValuationPct(row.upside,true)}</strong><span>理想上行</span></div></div></div>` : ''; })()}
+          <div class="detail-section"><h5>供應鏈角色</h5><p>${d.role}</p></div>
+          <div class="detail-section"><h5>核心判斷</h5><p>${d.thesis}</p></div>
+          <div class="detail-section"><h5>主要催化劑</h5><p>${d.catalyst}</p></div>
+          <div class="detail-section"><h5>主要風險</h5><p style="color:var(--orange)">${d.risk}</p></div>
+          <div class="source-link"><a class="btn primary" href="${src.url}" target="_blank" rel="noopener">開啟官方來源 S${src.id}</a></div>
+        </div>
+      `;
+    }
+
+    function renderCompanyTable() {
+      let data = getFilteredCompanies("table");
+      const sort = $("#tableSort").value;
+      data = [...data].sort((a,b) => {
+        if (sort === "directness") return b.directness - a.directness || b.certainty - a.certainty;
+        if (sort === "certainty") return b.certainty - a.certainty || b.directness - a.directness;
+        if (sort === "timing") return a.timing - b.timing || b.directness - a.directness;
+        return a.name.localeCompare(b.name, "zh-Hant");
+      });
+      $("#companyTableBody").innerHTML = data.map(d => `
+        <tr data-ticker="${d.ticker}" tabindex="0">
+          <td class="table-company">${d.name}</td>
+          <td class="table-ticker">${d.ticker}</td>
+          <td>${d.region === "TW" ? "台股" : "美股／美國掛牌"}</td>
+          <td>${d.category}<br><span style="color:var(--muted)">${d.role}</span></td>
+          <td>${d.phase.map(i => timelineData[i]?.years).filter(Boolean).join("、")}</td>
+          <td>${scoreDots(d.directness)}<br>${d.directness.toFixed(1)}</td>
+          <td>${scoreDots(d.certainty)}<br>${d.certainty.toFixed(1)}</td>
+          <td>${d.thesis}</td>
+          <td class="risk-text">${d.risk}</td>
+        </tr>
+      `).join("");
+      $("#tableCount").textContent = `目前顯示 ${data.length}／${companyData.length} 家公司。`;
+      $$('[data-ticker]', $("#companyTableBody")).forEach(row => {
+        const d = companyData.find(x => x.ticker === row.dataset.ticker);
+        const activate = () => { selectCompany(d); $("#companyDetail").scrollIntoView({behavior:"smooth", block:"center"}); };
+        row.addEventListener("click", activate);
+        row.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); } });
+      });
+      return data;
+    }
+
+    function exportCsv() {
+      const data = renderCompanyTable();
+      const headers = ["公司","Ticker","市場","角色","主要受惠期","直接度","確定性","核心理由","主要催化劑","主要風險"];
+      const rows = data.map(d => [
+        d.name, d.ticker, d.region === "TW" ? "台股" : "美股／美國掛牌", d.category,
+        d.phase.map(i => timelineData[i]?.years).filter(Boolean).join("／"), d.directness, d.certainty, d.thesis, d.catalyst, d.risk
+      ]);
+      const esc = value => `"${String(value).replace(/"/g, '""')}"`;
+      const csv = "\ufeff" + [headers, ...rows].map(row => row.map(esc).join(",")).join("\r\n");
+      const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a"); a.href = url; a.download = "nvidia_800vdc_supply_chain_filtered.csv"; a.click();
+      URL.revokeObjectURL(url);
+      showToast(`已匯出 ${data.length} 家公司 CSV`);
+    }
+
+    function renderAllPeriods() {
+      $("#allPeriods").innerHTML = timelineData.map((d, i) => `
+        <details ${i === 1 ? "open" : ""}>
+          <summary><span>${d.years}｜${d.title}</span><span class="status-badge ${d.statusType}">${d.status}</span></summary>
+          <div class="details-body">
+            <h4>主要架構</h4><p>${d.summary} ${sourceBadges(d.sources)}</p>
+            <h4>核心技術</h4><p>${d.tech.join("、")}。</p>
+            <h4>部件變化</h4><p><strong>上升：</strong>${d.rising.join("、")}。<br><strong>下降：</strong>${d.falling.join("、")}。</p>
+            <h4>受惠公司</h4><p><strong>台股：</strong>${d.tw.join("、")}。<br><strong>美股：</strong>${d.us.join("、")}。</p>
+            <h4>投資含義</h4><p>${d.investment}</p>
+          </div>
+        </details>
+      `).join("");
+    }
+
+    function renderSources() {
+      $("#sourceList").innerHTML = sources.map(s => `
+        <a class="source-item" id="source-${s.id}" href="${s.url}" target="_blank" rel="noopener">
+          <span class="source-id">S${s.id}</span>
+          <span class="source-title">${s.title}</span>
+          <span class="source-domain">${s.domain}</span>
+        </a>
+      `).join("");
+    }
+
+
+
+    // ---------- Dynamic closing-price and ideal-scenario valuation monitor ----------
+    const embeddedPriceSnapshot = {"schemaVersion": 1, "generatedAt": "2026-08-18T00:20:00+08:00", "source": "Build-time closing-price snapshot; scheduled updates use Yahoo Finance through yfinance", "sourceType": "fallback", "prices": {"2308": {"symbol": "2308.TW", "close": 1885.0, "previousClose": 1885.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": 0.0, "changePct": 0.0, "history": [], "status": "ok"}, "2301": {"symbol": "2301.TW", "close": 263.5, "previousClose": 267.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": -3.5, "changePct": -1.3109, "history": [], "status": "ok"}, "3665": {"symbol": "3665.TW", "close": 2135.0, "previousClose": 2200.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": -65.0, "changePct": -2.9545, "history": [], "status": "ok"}, "2454": {"symbol": "2454.TW", "close": 4050.0, "previousClose": 4210.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": -160.0, "changePct": -3.8005, "history": [], "status": "ok"}, "3017": {"symbol": "3017.TW", "close": 3150.0, "previousClose": 3235.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": -85.0, "changePct": -2.6275, "history": [], "status": "ok"}, "3324": {"symbol": "3324.TWO", "close": 1005.0, "previousClose": 1010.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TPEX", "change": -5.0, "changePct": -0.495, "history": [], "status": "ok"}, "1519": {"symbol": "1519.TW", "close": 720.0, "previousClose": 710.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": 10.0, "changePct": 1.4085, "history": [], "status": "ok"}, "1513": {"symbol": "1513.TW", "close": 171.0, "previousClose": 170.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": 1.0, "changePct": 0.5882, "history": [], "status": "ok"}, "1503": {"symbol": "1503.TW", "close": 203.5, "previousClose": 198.5, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": 5.0, "changePct": 2.5189, "history": [], "status": "ok"}, "6412": {"symbol": "6412.TW", "close": 78.7, "previousClose": 79.1, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": -0.4, "changePct": -0.5057, "history": [], "status": "ok"}, "6282": {"symbol": "6282.TW", "close": 46.55, "previousClose": 47.0, "currency": "TWD", "priceDate": "2026-08-17", "market": "TWSE", "change": -0.45, "changePct": -0.9574, "history": [], "status": "ok"}, "VRT": {"symbol": "VRT", "close": 293.84, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NYSE", "change": null, "changePct": null, "history": [], "status": "ok"}, "ETN": {"symbol": "ETN", "close": 451.51, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NYSE", "change": null, "changePct": null, "history": [], "status": "ok"}, "FLEX": {"symbol": "FLEX", "close": 126.16, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}, "TXN": {"symbol": "TXN", "close": 279.58, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}, "ON": {"symbol": "ON", "close": 82.66, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}, "ABB": {"symbol": "ABBNY", "close": 101.95, "previousClose": 102.2, "currency": "USD", "priceDate": "2026-08-14", "market": "OTC", "change": -0.25, "changePct": -0.2446, "history": [], "status": "ok"}, "GEV": {"symbol": "GEV", "close": 1063.25, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NYSE", "change": null, "changePct": null, "history": [], "status": "ok"}, "AOSL": {"symbol": "AOSL", "close": 30.77, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}, "POWI": {"symbol": "POWI", "close": 62.75, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}, "NVTS": {"symbol": "NVTS", "close": 14.45, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}, "MPWR": {"symbol": "MPWR", "close": 1402.01, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}, "ADI": {"symbol": "ADI", "close": 389.39, "previousClose": null, "currency": "USD", "priceDate": "2026-08-14", "market": "NASDAQ", "change": null, "changePct": null, "history": [], "status": "ok"}}, "errors": []};
+    const embeddedValuationTargets = {"schemaVersion": 1, "revisionDate": "2026-08-18", "defaultHorizon": "中期理想情境；主要依 2028E／FY2029E", "methodology": "以可驗證的 800VDC／AI 基礎設施理想情境、正常化獲利與合理高檔估值倍數建立。不是券商共識，也不是保證報酬；小型虧損公司採情境市銷率，信心分數較低。", "targets": {"2308": {"ideal": 2350, "confidence": 4.1, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 56–60 元，AI 電源、800VDC、液冷與微電網維持領先市占，給予約 39–41 倍本益比。", "conditions": "Power Rack／DC/DC 量產、液冷組合改善、資料中心營收高速成長。"}, "2301": {"ideal": 360, "confidence": 3.7, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 14–15 元，Power Rack／Power Shelf／BBU 成為主要成長引擎，給予約 24–25 倍本益比。", "conditions": "MGX／Rubin 相關 power shelf 放量，資料中心產品毛利率高於公司平均。"}, "3665": {"ideal": 2900, "confidence": 3.5, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 92–98 元，800V 高壓線束、busbar 與液冷連接系統提高內容量，給予約 29–31 倍本益比。", "conditions": "NVIDIA 生態系認證轉為量產，高壓互連營收與毛利持續高成長。"}, "2454": {"ideal": 5000, "confidence": 3.0, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 105–115 元，ASIC／AI 加速器、PMIC 與邊緣 AI 擴張，給予約 43–46 倍本益比。", "conditions": "AI ASIC 進入大規模營收，手機週期穩定，立錡高功率電源設計導入。"}, "3017": {"ideal": 4100, "confidence": 3.7, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 125–132 元，液冷與高階散熱維持高毛利，給予約 31–32 倍本益比。", "conditions": "Rubin／Kyber 液冷內容量上升，主要客戶份額穩定，產能擴張順利。"}, "3324": {"ideal": 1500, "confidence": 3.4, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 59–63 元，cold plate／CDU 放量，給予約 24–25 倍本益比。", "conditions": "液冷產品占比提高、毛利率維持、客戶集中風險未惡化。"}, "1519": {"ideal": 900, "confidence": 2.9, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 23–24 元，美國電網與資料中心中壓設備需求延續，給予約 37–39 倍本益比。", "conditions": "北美變壓器供需緊張延續，資料中心專案占比提升。"}, "1513": {"ideal": 250, "confidence": 3.1, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 11.5–12 元，GIS／變電站訂單穩健，給予約 20–22 倍本益比。", "conditions": "在手訂單續創高、民間／半導體資料中心專案如期認列。"}, "1503": {"ideal": 260, "confidence": 2.9, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 10–10.5 元，重電與海外專案成長，給予約 24–25 倍本益比。", "conditions": "重電產能擴張、海外資料中心與電網專案取得實績。"}, "6412": {"ideal": 125, "confidence": 2.0, "horizon": "2028E", "basis": "理想情境：成功由傳統 PSU 轉向 HVDC／Power Shelf，2028E EPS 約 7.5–8 元，給予約 16 倍本益比。", "conditions": "必須出現可驗證的 800V／高壓電源 design win；否則此目標不成立。"}, "6282": {"ideal": 75, "confidence": 1.8, "horizon": "2028E", "basis": "理想情境：轉型與併購整合成功，資料中心高壓電源帶動 2028E EPS 約 3.5–4 元，給予約 19–21 倍本益比。", "conditions": "獲利能力明顯轉正、AI 電源產品量產，現金流與財務結構改善。"}, "VRT": {"ideal": 390, "confidence": 4.1, "horizon": "2028E", "basis": "理想情境：2028E 調整後 EPS 約 8.6–9.0 美元，AI 電力與液冷高成長延續，給予約 43–45 倍本益比。", "conditions": "800V portfolio 與液冷訂單按期轉營收，服務與產能擴張不拖累毛利。"}, "ETN": {"ideal": 550, "confidence": 4.3, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 17–18 美元，資料中心配電、保護與 supercapacitor 高成長，給予約 30–32 倍本益比。", "conditions": "Electrical Americas 訂單與價格維持，DC protection／busway 取得高市占。"}, "FLEX": {"ideal": 150, "confidence": 3.9, "horizon": "FY2029E", "basis": "理想情境：FY2029E 調整後 EPS 約 4.8–5.0 美元，Power Rack 與資料中心製造組合改善，給予約 29–31 倍本益比。", "conditions": "800V Power Rack 真正放量，長期集中式 Row 架構未大幅稀釋內容量。"}, "TXN": {"ideal": 315, "confidence": 4.0, "horizon": "2028E", "basis": "理想情境：類比景氣復甦，2028E EPS 約 10–10.5 美元，800V power tree 增加內容量，給予約 30 倍本益比。", "conditions": "工業需求復甦、300mm 產能利用率提升，800V reference design 取得份額。"}, "ON": {"ideal": 125, "confidence": 3.6, "horizon": "2028E", "basis": "理想情境：SiC／GaN 與工業景氣復甦，2028E EPS 約 5.1–5.4 美元，給予約 23–24 倍本益比。", "conditions": "SiC 價格壓力受控、資料中心設計導入抵銷車用週期波動。"}, "ABB": {"ideal": 120, "confidence": 3.9, "horizon": "2028E", "basis": "理想情境：2028E ADR EPS 約 4.0–4.2 美元，Electrification 與 DC protection 維持溢價，給予約 29 倍本益比。", "conditions": "MV／DC breaker、資料中心電氣化與自動化訂單維持高增長。"}, "GEV": {"ideal": 1450, "confidence": 3.7, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 48–51 美元，Grid 與 Electrification backlog 高成長，給予約 28–30 倍本益比。", "conditions": "Grid 訂單順利轉營收、設備供應瓶頸緩解、AI campus 訂單占比提升。"}, "AOSL": {"ideal": 50, "confidence": 2.1, "horizon": "2028E", "basis": "理想情境：800V SiC／GaN design win 帶動高毛利產品，2028E EPS 約 1.8–2.0 美元，給予約 25 倍本益比。", "conditions": "必須取得可量化量產訂單並改善虧損；屬高風險小型股情境。"}, "POWI": {"ideal": 82, "confidence": 2.5, "horizon": "2028E", "basis": "理想情境：高壓 PowiGaN 進入資料中心主／輔助電源，正常化 EPS 約 2.9–3.1 美元，給予約 26–28 倍本益比。", "conditions": "1250V／1700V GaN 從展示轉為 design win，終端週期同步復甦。"}, "NVTS": {"ideal": 25, "confidence": 1.5, "horizon": "2028E", "basis": "理想情境：GaN／SiC 800V 訂單快速放量，市場以高成長 EV/Sales 評價；此目標不是以獲利本益比推導。", "conditions": "營收高速擴張、現金消耗下降、無大幅稀釋；失敗情境落差極大。"}, "MPWR": {"ideal": 1580, "confidence": 3.8, "horizon": "2028E", "basis": "理想情境：2028E EPS 約 28–29 美元，GPU VRM／power module 維持高市占，給予約 54–56 倍本益比。", "conditions": "AI 電源份額維持、客戶集中可控，估值溢價未快速壓縮。"}, "ADI": {"ideal": 420, "confidence": 3.8, "horizon": "2028E", "basis": "理想情境：工業週期正常化，2028E EPS 約 11.7–12 美元，隔離／感測／控制受惠 800V，給予約 35–36 倍本益比。", "conditions": "工業庫存修正結束，資料中心增量可見，但 800V 對集團純度仍低。"}}};
+    const TARGET_OVERRIDE_KEY = "800vdc-valuation-target-overrides-v1";
+    let activePriceSnapshot = normalizePriceSnapshot(window.MARKET_PRICES || embeddedPriceSnapshot);
+    let valuationSelectedTicker = "2308";
+
+    function normalizePriceSnapshot(snapshot) {
+      const base = snapshot && snapshot.prices ? snapshot : embeddedPriceSnapshot;
+      const merged = JSON.parse(JSON.stringify(embeddedPriceSnapshot));
+      merged.generatedAt = base.generatedAt || merged.generatedAt;
+      merged.source = base.source || merged.source;
+      merged.sourceType = base.sourceType || merged.sourceType;
+      merged.errors = Array.isArray(base.errors) ? base.errors : [];
+      Object.entries(base.prices || {}).forEach(([ticker, value]) => {
+        if (value && Number.isFinite(Number(value.close))) merged.prices[ticker] = {...merged.prices[ticker], ...value};
+      });
+      return merged;
+    }
+
+    function loadTargetOverrides() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(TARGET_OVERRIDE_KEY) || "null");
+        return parsed && parsed.targets ? parsed : null;
+      } catch (_) { return null; }
+    }
+
+    function activeTargetSnapshot() {
+      const external = window.VALUATION_TARGETS && window.VALUATION_TARGETS.targets ? window.VALUATION_TARGETS : embeddedValuationTargets;
+      const base = JSON.parse(JSON.stringify(external));
+      const overrides = loadTargetOverrides();
+      if (overrides) {
+        Object.entries(overrides.targets).forEach(([ticker, value]) => {
+          base.targets[ticker] = {...(base.targets[ticker] || {}), ...value};
+        });
+        base.localOverrideDate = overrides.revisionDate;
+      }
+      return base;
+    }
+
+    function formatMarketPrice(value, currency) {
+      if (!Number.isFinite(Number(value))) return "—";
+      const n = Number(value);
+      const digits = currency === "TWD" ? (Math.abs(n) < 100 ? 2 : Math.abs(n) < 1000 ? 1 : 0) : 2;
+      try {
+        return new Intl.NumberFormat("zh-TW", {style:"currency", currency, minimumFractionDigits:digits, maximumFractionDigits:digits}).format(n);
+      } catch (_) { return `${currency || ""} ${n.toFixed(digits)}`; }
+    }
+
+    function formatValuationPct(value, signed=false) {
+      if (!Number.isFinite(Number(value))) return "—";
+      const n = Number(value);
+      return `${signed && n > 0 ? "+" : ""}${n.toFixed(1)}%`;
+    }
+
+    function dateAgeDays(dateString) {
+      if (!dateString) return Infinity;
+      const date = new Date(`${dateString}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return Infinity;
+      return Math.floor((Date.now() - date.getTime()) / 86400000);
+    }
+
+    function valuationStatus(row) {
+      if (!row.price || !Number.isFinite(row.upside)) return {key:"full", label:"無有效行情"};
+      if (row.priceIn < 60) return {key:"deep", label:"距理想情境很遠"};
+      if (row.priceIn < 78) return {key:"room", label:"仍有明顯空間"};
+      if (row.priceIn < 92) return {key:"near", label:"接近充分反映"};
+      return {key:"full", label:row.priceIn <= 108 ? "理想情境大致反映" : "已超前理想情境"};
+    }
+
+    function valuationRows() {
+      const targetSnapshot = activeTargetSnapshot();
+      return companyData.map(company => {
+        const price = activePriceSnapshot.prices[company.ticker];
+        const target = targetSnapshot.targets[company.ticker];
+        const close = Number(price?.close);
+        const ideal = Number(target?.ideal);
+        const hasData = Number.isFinite(close) && close > 0 && Number.isFinite(ideal) && ideal > 0;
+        const upside = hasData ? (ideal / close - 1) * 100 : NaN;
+        const priceIn = hasData ? close / ideal * 100 : NaN;
+        const confidence = Number(target?.confidence || 0);
+        const opportunity = hasData ? Math.max(-30, upside) * company.directness * (confidence / 5) : -Infinity;
+        const row = {...company, price, target, close, ideal, upside, priceIn, confidence, opportunity};
+        row.status = valuationStatus(row);
+        return row;
+      });
+    }
+
+    function priceChangeHtml(price) {
+      if (!price || !Number.isFinite(Number(price.changePct))) return `<span class="price-change flat">日變動：—</span>`;
+      const pct = Number(price.changePct), cls = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
+      return `<span class="price-change ${cls}">${formatValuationPct(pct, true)}</span>`;
+    }
+
+    function renderValuationSummary() {
+      const rows = valuationRows().filter(r => Number.isFinite(r.upside));
+      const sorted = rows.map(r => r.upside).sort((a,b) => a-b);
+      const median = sorted.length ? (sorted.length % 2 ? sorted[(sorted.length-1)/2] : (sorted[sorted.length/2-1] + sorted[sorted.length/2]) / 2) : NaN;
+      const opportunityCount = rows.filter(r => r.directness >= 4 && r.upside >= 20).length;
+      const dates = Object.values(activePriceSnapshot.prices).map(p => p?.priceDate).filter(Boolean).sort();
+      const latest = dates[dates.length-1] || "—";
+      const stale = Object.values(activePriceSnapshot.prices).filter(p => p?.status === "stale" || dateAgeDays(p?.priceDate) > 5).length;
+      const targetSnapshot = activeTargetSnapshot();
+      $("#valuationDataStatus").textContent = stale ? `${23-stale}／23 正常` : "23／23 已載入";
+      $("#valuationDataNote").textContent = `最近資料日 ${latest}；${stale ? `${stale} 檔可能過期` : "未偵測到明顯過期資料"}。`;
+      $("#valuationMedianUpside").textContent = formatValuationPct(median, true);
+      $("#valuationOpportunityCount").textContent = `${opportunityCount} 家`;
+      $("#valuationRevisionDate").textContent = targetSnapshot.localOverrideDate || targetSnapshot.revisionDate || "—";
+      const generated = activePriceSnapshot.generatedAt ? new Date(activePriceSnapshot.generatedAt) : null;
+      const generatedText = generated && !Number.isNaN(generated.getTime()) ? generated.toLocaleString("zh-TW", {hour12:false}) : "未知";
+      $("#valuationHealth").innerHTML = `
+        <span class="data-chip ${stale ? "warn" : "ok"}">價格檔生成：${generatedText}</span>
+        <span class="data-chip">來源：${activePriceSnapshot.source || "內建快照"}</span>
+        <span class="data-chip">台股：TWD｜美股：USD，不進行匯率換算</span>
+        <span class="data-chip ${activePriceSnapshot.errors?.length ? "warn" : "ok"}">更新錯誤：${activePriceSnapshot.errors?.length || 0}</span>`;
+    }
+
+    function filteredValuationRows(source="scatter") {
+      const region = source === "scatter" ? $("#valuationRegion").value : $("#valuationTableRegion").value;
+      const category = source === "scatter" ? $("#valuationCategory").value : "all";
+      const minConfidence = source === "scatter" ? Number($("#valuationConfidence").value) : 0;
+      const search = source === "table" ? $("#valuationSearch").value.trim().toLowerCase() : "";
+      return valuationRows().filter(row => {
+        const hay = `${row.name} ${row.ticker} ${row.category} ${row.role} ${row.target?.basis || ""}`.toLowerCase();
+        return (region === "all" || row.region === region) && (category === "all" || row.category === category) && row.confidence >= minConfidence && (!search || hay.includes(search));
+      });
+    }
+
+    function renderValuationScatter() {
+      const data = filteredValuationRows("scatter").filter(r => Number.isFinite(r.upside));
+      const svg = $("#valuationScatter");
+      const W=860,H=520,left=70,right=38,top=34,bottom=62;
+      const xMin = Math.min(-10, Math.floor((Math.min(...data.map(d=>d.upside), 0)-10)/10)*10);
+      const xMax = Math.max(60, Math.ceil((Math.max(...data.map(d=>d.upside), 40)+10)/10)*10);
+      const x = v => left + (v-xMin)/(xMax-xMin)*(W-left-right);
+      const y = v => H-bottom - (v-1)/(5-1)*(H-top-bottom);
+      let html = `<rect x="${left}" y="${top}" width="${W-left-right}" height="${H-top-bottom}" rx="12" fill="var(--bg-soft)" stroke="var(--line)" />`;
+      for (let v=1; v<=5; v++) {
+        const cy=y(v); html += `<line x1="${left}" y1="${cy}" x2="${W-right}" y2="${cy}" stroke="var(--line)"/><text x="${left-14}" y="${cy+4}" text-anchor="end" fill="var(--muted)" font-size="11">${v}</text>`;
+      }
+      const step = xMax-xMin <= 80 ? 10 : 20;
+      for (let v=Math.ceil(xMin/step)*step; v<=xMax; v+=step) {
+        const cx=x(v); html += `<line x1="${cx}" y1="${top}" x2="${cx}" y2="${H-bottom}" stroke="${v===0 ? "var(--orange)" : "var(--line)"}" stroke-dasharray="${v===0 ? "5 5" : "0"}"/><text x="${cx}" y="${H-bottom+22}" text-anchor="middle" fill="var(--muted)" font-size="10">${v}%</text>`;
+      }
+      html += `<text x="18" y="${top}" fill="var(--text)" font-size="12" font-weight="800">800V 直接度 ↑</text><text x="${W-right}" y="${H-13}" fill="var(--text)" font-size="12" font-weight="800" text-anchor="end">距理想情境價的上行空間 →</text>`;
+      data.forEach(row => {
+        const cx=x(row.upside), cy=y(row.directness), radius=7+row.confidence*2.2;
+        const fill=row.region === "TW" ? "var(--cyan)" : "var(--green-bright)";
+        const selected=valuationSelectedTicker===row.ticker;
+        html += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="${fill}" opacity=".76" stroke="${selected ? "var(--text)" : "var(--bg)"}" stroke-width="${selected ? 4 : 2}" data-valuation-ticker="${row.ticker}" tabindex="0"/>`;
+        const anchor=cx>W-150?"end":"start", tx=cx>W-150?cx-radius-5:cx+radius+5;
+        html += `<text x="${tx}" y="${cy+4}" text-anchor="${anchor}" fill="var(--text)" font-size="10" font-weight="800" pointer-events="none">${row.ticker}</text>`;
+      });
+      if (!data.length) html += `<text x="${W/2}" y="${H/2}" text-anchor="middle" fill="var(--muted)" font-size="15">目前條件沒有可顯示公司</text>`;
+      svg.innerHTML=html;
+      $$('[data-valuation-ticker]', svg).forEach(el => {
+        const row=valuationRows().find(r=>r.ticker===el.dataset.valuationTicker);
+        const tip=ev=>showTooltip(ev, `<strong>${row.name}｜${row.ticker}</strong><br>收盤 ${formatMarketPrice(row.close,row.price?.currency)}<br>理想價 ${formatMarketPrice(row.ideal,row.price?.currency)}<br>上行 ${formatValuationPct(row.upside,true)}｜直接度 ${row.directness.toFixed(1)}`);
+        el.addEventListener("mousemove", tip); el.addEventListener("mouseenter", tip); el.addEventListener("mouseleave", hideTooltip);
+        el.addEventListener("click", ()=>selectValuation(row.ticker));
+        el.addEventListener("keydown", e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectValuation(row.ticker);}});
+      });
+    }
+
+    function selectValuation(ticker) {
+      valuationSelectedTicker=ticker;
+      renderValuationScatter();
+      renderValuationDetail();
+    }
+
+    function renderValuationDetail() {
+      const row=valuationRows().find(r=>r.ticker===valuationSelectedTicker) || valuationRows()[0];
+      const root=$("#valuationDetail");
+      if (!row || !row.price || !row.target) {
+        root.innerHTML=`<div class="panel-header"><div class="panel-title">價格與理想情境</div></div><div class="company-detail-empty">目前沒有可用資料。</div>`; return;
+      }
+      const progress=Math.min(125, Math.max(0,row.priceIn));
+      root.innerHTML=`
+        <div class="panel-header"><div><div class="company-name">${row.name}</div><div class="company-ticker">${row.ticker}｜${row.region==="TW"?"台股":"美股／美國掛牌"}</div></div><span class="valuation-status-pill ${row.status.key}">${row.status.label}</span></div>
+        <div class="panel-body" style="display:flex;flex-direction:column;flex:1;">
+          <div class="valuation-price-grid">
+            <div class="valuation-price-card"><span>最新完成收盤</span><strong>${formatMarketPrice(row.close,row.price.currency)}</strong>${priceChangeHtml(row.price)}</div>
+            <div class="valuation-price-card"><span>理想情境價</span><strong>${formatMarketPrice(row.ideal,row.price.currency)}</strong><span>${row.target.horizon || "—"}</span></div>
+            <div class="valuation-price-card"><span>理想上行空間</span><strong class="${row.upside>=0?"positive":"negative"}">${formatValuationPct(row.upside,true)}</strong><span>不是機率加權報酬</span></div>
+            <div class="valuation-price-card"><span>理想情境已反映</span><strong>${formatValuationPct(row.priceIn)}</strong><span>越高代表安全邊際越低</span></div>
+          </div>
+          <div class="valuation-progress ${row.priceIn>100?"over":""}" title="已反映 ${formatValuationPct(row.priceIn)}"><span style="width:${Math.min(100,progress)}%"></span></div>
+          <div class="detail-section"><h5>估值基礎</h5><p>${row.target.basis}</p></div>
+          <div class="detail-section"><h5>理想情境成立條件</h5><p>${row.target.conditions}</p></div>
+          <div class="detail-section"><h5>信心與資料</h5><p>目標信心 ${row.confidence.toFixed(1)}／5；供應鏈直接度 ${row.directness.toFixed(1)}／5。價格日 ${row.price.priceDate}，市場 ${row.price.market || "—"}，代號 ${row.price.symbol || row.ticker}。</p></div>
+          <div class="detail-section"><h5>主要風險</h5><p style="color:var(--orange)">${row.risk}</p></div>
+          <div class="source-link"><button class="btn primary" type="button" id="detailEditTarget">修改此公司理想價</button></div>
+        </div>`;
+      $("#detailEditTarget")?.addEventListener("click", ()=>openTargetEditor(row.ticker));
+    }
+
+    function renderValuationTable() {
+      let data=filteredValuationRows("table");
+      const sort=$("#valuationSort").value;
+      data=[...data].sort((a,b)=>{
+        if(sort==="opportunity") return b.opportunity-a.opportunity;
+        if(sort==="upside") return (Number.isFinite(b.upside)?b.upside:-Infinity)-(Number.isFinite(a.upside)?a.upside:-Infinity);
+        if(sort==="priceIn") return (Number.isFinite(a.priceIn)?a.priceIn:Infinity)-(Number.isFinite(b.priceIn)?b.priceIn:Infinity);
+        if(sort==="directness") return b.directness-a.directness;
+        if(sort==="confidence") return b.confidence-a.confidence;
+        return a.name.localeCompare(b.name,"zh-Hant");
+      });
+      $("#valuationTableBody").innerHTML=data.map(row=>`
+        <tr data-valuation-row="${row.ticker}" tabindex="0">
+          <td><span class="table-company">${row.name}</span><br><span class="table-ticker">${row.ticker}</span><br><span style="color:var(--muted)">${row.category}</span></td>
+          <td class="price">${formatMarketPrice(row.close,row.price?.currency)}${priceChangeHtml(row.price)}<span style="color:var(--muted);font-size:.67rem">${row.price?.priceDate||"—"}</span></td>
+          <td class="target">${formatMarketPrice(row.ideal,row.price?.currency)}<br><span style="color:var(--muted);font-size:.67rem">${row.target?.horizon||"—"}</span></td>
+          <td class="${row.upside>=0?"upside-positive":"upside-negative"}">${formatValuationPct(row.upside,true)}</td>
+          <td>${formatValuationPct(row.priceIn)}<div class="valuation-progress ${row.priceIn>100?"over":""}" style="width:110px"><span style="width:${Math.min(100,Math.max(0,row.priceIn))}%"></span></div></td>
+          <td>${row.directness.toFixed(1)}</td><td>${row.confidence.toFixed(1)}</td>
+          <td><span class="valuation-status-pill ${row.status.key}">${row.status.label}</span></td>
+          <td>${row.target?.basis||"—"}<br><span style="color:var(--orange)">成立條件：${row.target?.conditions||"—"}</span></td>
+        </tr>`).join("");
+      $("#valuationTableCount").textContent=`目前顯示 ${data.length}／${companyData.length} 家。理想價修訂：${activeTargetSnapshot().localOverrideDate || activeTargetSnapshot().revisionDate}。`;
+      $$('[data-valuation-row]', $("#valuationTableBody")).forEach(rowEl=>{
+        const activate=()=>{selectValuation(rowEl.dataset.valuationRow);$("#valuationDetail").scrollIntoView({behavior:"smooth",block:"center"});};
+        rowEl.addEventListener("click",activate); rowEl.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();activate();}});
+      });
+      return data;
+    }
+
+    function exportValuationCsv() {
+      const data=renderValuationTable();
+      const headers=["公司","Ticker","市場","幣別","最新完成收盤","價格日","理想情境價","理想上行%","已反映%","800V直接度","目標信心","期間","狀態","估值基礎","成立條件","主要風險"];
+      const rows=data.map(r=>[r.name,r.ticker,r.region,r.price?.currency,r.close,r.price?.priceDate,r.ideal,r.upside,r.priceIn,r.directness,r.confidence,r.target?.horizon,r.status.label,r.target?.basis,r.target?.conditions,r.risk]);
+      const esc=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+      const csv="\ufeff"+[headers,...rows].map(row=>row.map(esc).join(",")).join("\r\n");
+      downloadBlob(csv,"nvidia_800vdc_valuation_monitor.csv","text/csv;charset=utf-8");
+      showToast(`已匯出 ${data.length} 家估值資料`);
+    }
+
+    function downloadBlob(content, filename, type) {
+      const blob=new Blob([content],{type}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }
+
+    function openTargetEditor(focusTicker=null) {
+      const snapshot=activeTargetSnapshot();
+      $("#targetEditorBody").innerHTML=companyData.map(company=>{
+        const target=snapshot.targets[company.ticker]||{}; const price=activePriceSnapshot.prices[company.ticker];
+        return `<tr data-editor-ticker="${company.ticker}"><td>${company.name}</td><td class="table-ticker">${company.ticker}</td><td>${price?.currency||"—"}</td><td><input class="target-input" data-target-value="${company.ticker}" type="number" min="0" step="${price?.currency==="TWD"?"0.5":"0.01"}" value="${target.ideal??""}" /></td><td><input class="target-input confidence-input" data-target-confidence="${company.ticker}" type="number" min="1" max="5" step="0.1" value="${target.confidence??3}" /></td><td>${target.horizon||"—"}</td><td>${target.basis||"—"}</td></tr>`;
+      }).join("");
+      const dialog=$("#targetEditorDialog"); dialog.showModal();
+      if(focusTicker){setTimeout(()=>{$(`[data-target-value="${focusTicker}"]`)?.focus();$(`[data-editor-ticker="${focusTicker}"]`)?.scrollIntoView({block:"center"});},80);}
+    }
+
+    function saveTargetOverrides() {
+      const base=activeTargetSnapshot(); const overrides={revisionDate:new Date().toISOString().slice(0,10),targets:{}};
+      companyData.forEach(company=>{
+        const ideal=Number($(`[data-target-value="${company.ticker}"]`)?.value);
+        const confidence=Number($(`[data-target-confidence="${company.ticker}"]`)?.value);
+        if(Number.isFinite(ideal)&&ideal>0) overrides.targets[company.ticker]={...(base.targets[company.ticker]||{}),ideal,confidence:Math.min(5,Math.max(1,confidence||3))};
+      });
+      try{localStorage.setItem(TARGET_OVERRIDE_KEY,JSON.stringify(overrides));showToast("理想價已儲存到此瀏覽器");}catch(_){showToast("瀏覽器不允許儲存設定");}
+      $("#targetEditorDialog").close(); renderValuationAll(); renderCompanyDetail();
+    }
+
+    function resetTargetOverrides() {
+      try{localStorage.removeItem(TARGET_OVERRIDE_KEY);}catch(_){}
+      showToast("已清除本機理想價覆蓋"); $("#targetEditorDialog").close(); renderValuationAll(); renderCompanyDetail();
+    }
+
+    function downloadTargetsJs() {
+      const snapshot=activeTargetSnapshot(); snapshot.revisionDate=new Date().toISOString().slice(0,10); delete snapshot.localOverrideDate;
+      downloadBlob(`window.VALUATION_TARGETS = ${JSON.stringify(snapshot,null,2)};\n`,"valuation_targets.js","text/javascript;charset=utf-8");
+      showToast("已下載 valuation_targets.js");
+    }
+
+    function refreshMarketPriceFile() {
+      const button=$("#refreshPrices"); const original=button.textContent; button.disabled=true; button.innerHTML=`<span class="refresh-spin">↻</span> 讀取中`;
+      const old=document.getElementById("marketPriceReload"); if(old) old.remove();
+      const script=document.createElement("script"); script.id="marketPriceReload"; script.src=`data/market_prices.js?v=${Date.now()}`;
+      script.onload=()=>{activePriceSnapshot=normalizePriceSnapshot(window.MARKET_PRICES||embeddedPriceSnapshot);renderValuationAll();renderCompanyDetail();showToast("已載入最新價格資料檔");button.disabled=false;button.textContent=original;};
+      script.onerror=()=>{showToast("無法取得外部價格檔，保留內建快照");button.disabled=false;button.textContent=original;};
+      document.head.appendChild(script);
+    }
+
+    function renderValuationAll() {
+      renderValuationSummary(); renderValuationScatter(); renderValuationDetail(); renderValuationTable();
+    }
+
+
+    function initControls() {
+      const categories = categoriesFromCompanies().map(x => ({value:x, label:x}));
+      populateSelect($("#scatterCategory"), categories, "全部角色");
+      populateSelect($("#tableCategory"), categories, "全部角色");
+      populateSelect($("#valuationCategory"), categories, "全部角色");
+      populateSelect($("#scatterPhase"), phaseOptions, "全部階段");
+      populateSelect($("#tablePhase"), phaseOptions, "全部階段");
+
+      $("#rackPower").addEventListener("input", renderCurrentChart);
+      $$(".segmented button").forEach(btn => btn.addEventListener("click", () => {
+        currentScale = btn.dataset.scale;
+        $$(".segmented button").forEach(x => x.classList.toggle("active", x === btn));
+        renderCurrentChart();
+      }));
+      $("#componentCategory").addEventListener("change", renderHeatmap);
+      $("#heatmapReset").addEventListener("click", () => { selectedHeatmap = {row:6,col:1}; $("#componentCategory").value = "all"; renderHeatmap(); });
+      ["scatterRegion","scatterCategory","scatterPhase"].forEach(id => $("#"+id).addEventListener("change", renderScatter));
+      ["companySearch","tableRegion","tableCategory","tablePhase","tableSort"].forEach(id => $("#"+id).addEventListener(id === "companySearch" ? "input" : "change", renderCompanyTable));
+      ["valuationRegion","valuationCategory","valuationConfidence"].forEach(id => $("#"+id).addEventListener("change", renderValuationScatter));
+      ["valuationSearch","valuationTableRegion","valuationSort"].forEach(id => $("#"+id).addEventListener(id === "valuationSearch" ? "input" : "change", renderValuationTable));
+      $("#refreshPrices").addEventListener("click", refreshMarketPriceFile);
+      $("#editTargets").addEventListener("click", () => openTargetEditor());
+      $("#exportValuationCsv").addEventListener("click", exportValuationCsv);
+      $("#closeTargetEditor").addEventListener("click", () => $("#targetEditorDialog").close());
+      $("#saveTargets").addEventListener("click", saveTargetOverrides);
+      $("#resetTargets").addEventListener("click", resetTargetOverrides);
+      $("#downloadTargets").addEventListener("click", downloadTargetsJs);
+      $("#exportCsv").addEventListener("click", exportCsv);
+      $("#printButton").addEventListener("click", () => window.print());
+      $("#themeToggle").addEventListener("click", () => {
+        const next = document.body.dataset.theme === "dark" ? "light" : "dark";
+        document.body.dataset.theme = next;
+        try { localStorage.setItem("800vdc-theme", next); } catch (_) { /* 私密模式或受限來源仍可正常使用 */ }
+        showToast(next === "dark" ? "已切換暗色主題" : "已切換亮色主題");
+      });
+      let saved = null;
+      try { saved = localStorage.getItem("800vdc-theme"); } catch (_) { /* 保持預設主題 */ }
+      if (saved === "light" || saved === "dark") document.body.dataset.theme = saved;
+      document.addEventListener("mousemove", e => { if ($("#tooltip").classList.contains("show")) moveTooltip(e); });
+      window.addEventListener("scroll", hideTooltip, {passive:true});
+    }
+
+    function init() {
+      renderTimelineTabs();
+      renderTimelinePanel();
+      renderDensityBars();
+      renderStorageChart();
+      renderHeatmap();
+      renderCompanyDetail();
+      renderAllPeriods();
+      renderSources();
+      initControls();
+      renderCurrentChart();
+      renderScatter();
+      renderCompanyTable();
+      renderValuationAll();
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
