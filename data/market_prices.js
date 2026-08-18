@@ -1,8 +1,8 @@
 window.MARKET_PRICES = {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T00:20:00+08:00",
-  "source": "Build-time closing-price snapshot; scheduled updates use Yahoo Finance through yfinance",
-  "sourceType": "fallback",
+  "generatedAt": "2026-08-18T05:19:12+00:00",
+  "source": "Yahoo Finance public market data via yfinance; latest completed daily close",
+  "sourceType": "scheduled",
   "prices": {
     "2308": {
       "symbol": "2308.TW",
@@ -14,7 +14,8 @@ window.MARKET_PRICES = {
       "change": 0.0,
       "changePct": 0.0,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "2301": {
       "symbol": "2301.TW",
@@ -26,7 +27,8 @@ window.MARKET_PRICES = {
       "change": -3.5,
       "changePct": -1.3109,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "3665": {
       "symbol": "3665.TW",
@@ -38,7 +40,8 @@ window.MARKET_PRICES = {
       "change": -65.0,
       "changePct": -2.9545,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "2454": {
       "symbol": "2454.TW",
@@ -50,7 +53,8 @@ window.MARKET_PRICES = {
       "change": -160.0,
       "changePct": -3.8005,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "3017": {
       "symbol": "3017.TW",
@@ -62,7 +66,8 @@ window.MARKET_PRICES = {
       "change": -85.0,
       "changePct": -2.6275,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "3324": {
       "symbol": "3324.TWO",
@@ -74,7 +79,8 @@ window.MARKET_PRICES = {
       "change": -5.0,
       "changePct": -0.495,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "1519": {
       "symbol": "1519.TW",
@@ -86,7 +92,8 @@ window.MARKET_PRICES = {
       "change": 10.0,
       "changePct": 1.4085,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "1513": {
       "symbol": "1513.TW",
@@ -98,7 +105,8 @@ window.MARKET_PRICES = {
       "change": 1.0,
       "changePct": 0.5882,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "1503": {
       "symbol": "1503.TW",
@@ -110,7 +118,8 @@ window.MARKET_PRICES = {
       "change": 5.0,
       "changePct": 2.5189,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "6412": {
       "symbol": "6412.TW",
@@ -122,7 +131,8 @@ window.MARKET_PRICES = {
       "change": -0.4,
       "changePct": -0.5057,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "6282": {
       "symbol": "6282.TW",
@@ -134,7 +144,8 @@ window.MARKET_PRICES = {
       "change": -0.45,
       "changePct": -0.9574,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
     },
     "VRT": {
       "symbol": "VRT",
@@ -146,7 +157,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "ETN": {
       "symbol": "ETN",
@@ -158,7 +170,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "FLEX": {
       "symbol": "FLEX",
@@ -170,7 +183,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "TXN": {
       "symbol": "TXN",
@@ -182,7 +196,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "ON": {
       "symbol": "ON",
@@ -194,7 +209,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "ABB": {
       "symbol": "ABBNY",
@@ -206,7 +222,8 @@ window.MARKET_PRICES = {
       "change": -0.25,
       "changePct": -0.2446,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "GEV": {
       "symbol": "GEV",
@@ -218,7 +235,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "AOSL": {
       "symbol": "AOSL",
@@ -230,7 +248,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "POWI": {
       "symbol": "POWI",
@@ -242,7 +261,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "NVTS": {
       "symbol": "NVTS",
@@ -254,7 +274,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "MPWR": {
       "symbol": "MPWR",
@@ -266,7 +287,8 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     },
     "ADI": {
       "symbol": "ADI",
@@ -278,8 +300,125 @@ window.MARKET_PRICES = {
       "change": null,
       "changePct": null,
       "history": [],
-      "status": "ok"
+      "status": "stale",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
     }
   },
-  "errors": []
+  "errors": [
+    {
+      "ticker": "2308",
+      "symbol": "2308.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "2301",
+      "symbol": "2301.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "3665",
+      "symbol": "3665.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "2454",
+      "symbol": "2454.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "3017",
+      "symbol": "3017.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "3324",
+      "symbol": "3324.TWO",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "1519",
+      "symbol": "1519.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "1513",
+      "symbol": "1513.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "1503",
+      "symbol": "1503.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "6412",
+      "symbol": "6412.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "6282",
+      "symbol": "6282.TW",
+      "error": "ModuleNotFoundError: No module named 'scipy'"
+    },
+    {
+      "ticker": "VRT",
+      "symbol": "VRT",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "ETN",
+      "symbol": "ETN",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "FLEX",
+      "symbol": "FLEX",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "TXN",
+      "symbol": "TXN",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "ON",
+      "symbol": "ON",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "ABB",
+      "symbol": "ABBNY",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "GEV",
+      "symbol": "GEV",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "AOSL",
+      "symbol": "AOSL",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "POWI",
+      "symbol": "POWI",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "NVTS",
+      "symbol": "NVTS",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "MPWR",
+      "symbol": "MPWR",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    },
+    {
+      "ticker": "ADI",
+      "symbol": "ADI",
+      "error": "ModuleNotFoundError: No module named 'sklearn'"
+    }
+  ]
 };
