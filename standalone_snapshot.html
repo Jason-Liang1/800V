@@ -60,6 +60,10 @@
     button, input, select { font: inherit; }
     button { color: inherit; }
     :focus-visible { outline: 3px solid rgba(80, 213, 255, 0.65); outline-offset: 3px; }
+    h1[tabindex="-1"]:focus-visible, h2[tabindex="-1"]:focus-visible {
+      outline: none; text-decoration: underline; text-decoration-thickness: 2px;
+      text-decoration-color: rgba(80, 213, 255, .62); text-underline-offset: .16em;
+    }
 
     .skip-link {
       position: absolute; left: -999px; top: 0;
@@ -78,7 +82,7 @@
     .topbar-inner {
       min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
     }
-    .brand { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+    .brand { display: flex; align-items: center; gap: .75rem; min-width: 0; text-decoration: none; border-radius: 12px; }
     .brand-mark {
       width: 38px; height: 38px; display: grid; place-items: center;
       border: 1px solid rgba(118, 185, 0, .45); border-radius: 12px;
@@ -142,6 +146,13 @@
     .stat-note { color: var(--muted); font-size: .72rem; margin-top: .35rem; }
 
     .section { padding: 44px 0; scroll-margin-top: 78px; }
+    .view-panel { min-height: calc(100vh - 122px); scroll-margin-top: 78px; }
+    .view-panel[hidden] { display: none !important; }
+    .view-panel.route-active { animation: route-enter .24s ease both; }
+    @keyframes route-enter {
+      from { opacity: .35; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .section-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 18px; }
     .section-kicker { color: var(--green-bright); font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
     h2 { margin: .22rem 0 0; font-size: clamp(1.75rem, 3.6vw, 3.1rem); line-height: 1.12; letter-spacing: -.045em; }
@@ -154,9 +165,21 @@
     .panel-sub { color: var(--muted); font-size: .78rem; margin-top: .12rem; }
     .panel-body { padding: 1.2rem; }
 
-    .nav-pills { display: flex; gap: .55rem; flex-wrap: wrap; }
-    .nav-pills a { text-decoration: none; color: var(--muted); font-size: .82rem; font-weight: 700; padding: .38rem .62rem; border-radius: 999px; border: 1px solid transparent; }
+    .nav-pills {
+      display: flex; flex: 1; min-width: 0; justify-content: center; gap: .4rem;
+      flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-inline: contain;
+    }
+    .nav-pills::-webkit-scrollbar { display: none; }
+    .nav-pills a {
+      flex: 0 0 auto; white-space: nowrap; text-decoration: none; color: var(--muted); font-size: .8rem;
+      font-weight: 760; padding: .38rem .58rem; border-radius: 999px; border: 1px solid transparent;
+      transition: color .16s ease, background .16s ease, border-color .16s ease, transform .16s ease;
+    }
     .nav-pills a:hover { color: var(--text); border-color: var(--line); background: var(--panel); }
+    .nav-pills a[aria-current="page"] {
+      color: #07100d; border-color: var(--green); background: var(--green);
+      box-shadow: 0 6px 18px rgba(118, 185, 0, .2);
+    }
 
     .timeline-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
     .timeline-tab {
@@ -326,7 +349,7 @@
     .details-body p { margin: .45rem 0; }
 
     .sources { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
-    .source-item { border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: .85rem; text-decoration: none; transition: .15s ease; }
+    .source-item { border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: .85rem; text-decoration: none; transition: .15s ease; scroll-margin-top: 92px; }
     .source-item:hover { transform: translateY(-1px); border-color: rgba(118,185,0,.45); }
     .source-id { color: var(--green-bright); font-weight: 900; font-size: .75rem; }
     .source-title { display: block; font-weight: 800; margin-top: .18rem; }
@@ -430,8 +453,12 @@
       .sources { grid-template-columns: 1fr; }
       .section-head { align-items: start; flex-direction: column; }
       .section-note { text-align: left; }
-      .top-actions .desktop-only, .nav-pills { display: none; }
+      .top-actions .desktop-only { display: none; }
+      .topbar-inner { min-height: 0; padding-block: .45rem; flex-wrap: wrap; gap: .45rem .75rem; }
+      .brand { flex: 1 1 auto; }
+      .nav-pills { order: 3; flex: 1 0 100%; width: 100%; justify-content: flex-start; padding-bottom: .05rem; }
       .two-col { grid-template-columns: 1fr; }
+      .view-panel, .source-item { scroll-margin-top: 126px; }
     }
     @media (max-width: 580px) {
       .container { width: min(100% - 22px, var(--max)); }
@@ -451,6 +478,12 @@
       .score-box { border-left: 0; border-top: 1px solid var(--line); padding: .75rem 0 0; }
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .view-panel.route-active { animation: none; }
+      .nav-pills a, .source-item, .timeline-tab { transition: none; }
+    }
+
     @media print {
       :root { --bg: #fff; --bg-soft: #fff; --panel: #fff; --panel-strong: #fff; --panel-alt: #fff; --text: #111; --muted: #444; --line: #ccc; --line-strong: #aaa; }
       body { background: #fff; }
@@ -468,6 +501,8 @@
       details > * { display: block !important; }
       summary::after { display: none; }
       a { text-decoration: none; }
+      .view-panel[hidden] { display: block !important; }
+      .view-panel { min-height: 0; animation: none !important; }
     }
   </style>
 </head>
@@ -475,17 +510,19 @@
   <a class="skip-link" href="#main">跳至主要內容</a>
   <div id="tooltip" class="tooltip" role="status" aria-live="polite"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="viewStatus" class="sr-only" role="status" aria-live="polite"></div>
 
   <header class="topbar">
     <div class="container topbar-inner">
-      <div class="brand">
+      <a class="brand" href="#overview" aria-label="返回網站總覽">
         <div class="brand-mark" aria-hidden="true">8V</div>
         <div class="brand-text">
           <div class="brand-title">NVIDIA 800 VDC 互動研究</div>
           <div class="brand-sub">Grid → Rack → GPU｜架構、元件與台美股供應鏈</div>
         </div>
-      </div>
-      <nav class="nav-pills" aria-label="頁面導覽">
+      </a>
+      <nav class="nav-pills" id="primaryNav" aria-label="主頁面導覽">
+        <a href="#overview">總覽</a>
         <a href="#timeline">年代架構</a>
         <a href="#physics">物理與儲能</a>
         <a href="#components">元件熱圖</a>
@@ -500,13 +537,13 @@
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero">
+  <main id="main" tabindex="-1">
+    <section class="hero view-panel" id="overview" data-view="overview" aria-labelledby="overview-title">
       <div class="container">
         <div class="hero-grid">
           <div>
             <div class="eyebrow"><span class="eyebrow-dot"></span> Architecture & Supply Chain Dashboard</div>
-            <h1>800 VDC 將重新分配<br />AI 資料中心的電力價值量</h1>
+            <h1 id="overview-title" tabindex="-1">800 VDC 將重新分配<br />AI 資料中心的電力價值量</h1>
             <p class="hero-lead">
               這不是把機櫃電壓由 54V 改成 800V 而已，而是把 AC/DC 轉換逐步由機櫃移到 Power Rack、Row Power Center，最終上移至設施端；同時讓短時儲能、BESS、DC 保護與 Grid-to-GPU 控制成為標準部件。
               <a href="#sources" aria-label="前往來源">[S1–S4]</a>
@@ -572,12 +609,12 @@
       </div>
     </section>
 
-    <section class="section" id="timeline">
+    <section class="section view-panel" id="timeline" data-view="timeline" aria-labelledby="timeline-title">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="section-kicker">Architecture Roadmap</div>
-            <h2>依年代切換電力架構</h2>
+            <h2 id="timeline-title" tabindex="-1">依年代切換電力架構</h2>
             <p class="section-desc">點選年代查看主電力鏈、儲能位置、上升與下降的元件，以及當期最直接的台美股供應商。</p>
           </div>
           <div class="section-note">「官方」代表 NVIDIA 已提供明確時程；「推估」代表依白皮書技術成熟度與綠地機房建置週期判斷。</div>
@@ -586,18 +623,18 @@
         <div class="timeline-tabs" id="timelineTabs" role="tablist" aria-label="年代選擇"></div>
 
         <div class="timeline-layout">
-          <article class="panel timeline-main" id="timelineMain" role="tabpanel" aria-live="polite"></article>
+          <article class="panel timeline-main" id="timelineMain" role="tabpanel" aria-labelledby="timeline-tab-1" tabindex="0" aria-live="polite"></article>
           <aside class="panel timeline-side" id="timelineSide" aria-label="當期供應鏈與判斷"></aside>
         </div>
       </div>
     </section>
 
-    <section class="section" id="physics">
+    <section class="section view-panel" id="physics" data-view="physics" aria-labelledby="physics-title">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="section-kicker">Power Physics & Storage</div>
-            <h2>為什麼 54V 撐不住 MW 級 AI 機櫃</h2>
+            <h2 id="physics-title" tabindex="-1">為什麼 54V 撐不住 MW 級 AI 機櫃</h2>
             <p class="section-desc">調整機櫃功率，觀察不同 DC 電壓下的電流；再用時間尺度圖理解電容、超級電容與 BESS 各自處理哪一種 GPU 波動。</p>
           </div>
         </div>
@@ -656,12 +693,12 @@
       </div>
     </section>
 
-    <section class="section" id="components">
+    <section class="section view-panel" id="components" data-view="components" aria-labelledby="components-title">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="section-kicker">Component Intensity Map</div>
-            <h2>元件使用強度如何隨年代轉移</h2>
+            <h2 id="components-title" tabindex="-1">元件使用強度如何隨年代轉移</h2>
             <p class="section-desc">分數 0–5 表示該年代在主運算電力鏈中的相對重要性，不代表市場規模或公司營收增幅。點擊方格查看判讀。</p>
           </div>
         </div>
@@ -695,12 +732,12 @@
       </div>
     </section>
 
-    <section class="section" id="companies">
+    <section class="section view-panel" id="companies" data-view="companies" aria-labelledby="companies-title">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="section-kicker">Taiwan & U.S. Beneficiaries</div>
-            <h2>台美股受惠矩陣與可篩選對照表</h2>
+            <h2 id="companies-title" tabindex="-1">台美股受惠矩陣與可篩選對照表</h2>
             <p class="section-desc">縱軸為 800VDC 直接度，橫軸為主要商用時點；泡泡越大代表公開產品與合作證據越完整。這是供應鏈評分，不是估值評分。</p>
           </div>
         </div>
@@ -801,12 +838,12 @@
     </section>
 
 
-    <section class="section" id="valuation">
+    <section class="section view-panel" id="valuation" data-view="valuation" aria-labelledby="valuation-title">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="section-kicker">Dynamic Valuation Monitor</div>
-            <h2>最新收盤價相對理想情境價</h2>
+            <h2 id="valuation-title" tabindex="-1">最新收盤價相對理想情境價</h2>
             <p class="section-desc">理想價採中期的樂觀、可驗證情境（主要依 2028E／FY2029E 獲利能力），並與供應鏈直接度分開評估。收盤價可每日自動更新；理想價不應機械式每天變動，可在重大財報、design win 或估值假設改變時手動修訂。</p>
           </div>
           <div class="section-note">「距離理想價」不是預期報酬率。理想情境未發生時，實際合理價可能顯著低於此處目標。</div>
@@ -879,12 +916,12 @@
     </dialog>
 
 
-    <section class="section" id="analysis">
+    <section class="section view-panel" id="analysis" data-view="analysis" aria-labelledby="analysis-title">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="section-kicker">Written Interpretation</div>
-            <h2>文字分析：架構、部件與投資含義</h2>
+            <h2 id="analysis-title" tabindex="-1">文字分析：架構、部件與投資含義</h2>
             <p class="section-desc">以下內容將互動圖表的判讀整理成可直接閱讀的研究摘要。</p>
           </div>
         </div>
@@ -935,12 +972,12 @@
       </div>
     </section>
 
-    <section class="section" id="sources">
+    <section class="section view-panel" id="sources" data-view="analysis" aria-labelledby="sources-title">
       <div class="container">
         <div class="section-head">
           <div>
             <div class="section-kicker">Primary Sources</div>
-            <h2>主要官方來源</h2>
+            <h2 id="sources-title" tabindex="-1">主要官方來源</h2>
             <p class="section-desc">架構與時程優先採 NVIDIA 白皮書及 2026 年官方更新；公司定位採各公司官方產品或合作公告。</p>
           </div>
         </div>
@@ -1410,16 +1447,42 @@
     function renderTimelineTabs() {
       const root = $("#timelineTabs");
       root.innerHTML = timelineData.map((d, i) => `
-        <button type="button" class="timeline-tab ${i === activeTimeline ? "active" : ""}" role="tab" aria-selected="${i === activeTimeline}" data-index="${i}">
+        <button type="button" id="timeline-tab-${i}" class="timeline-tab ${i === activeTimeline ? "active" : ""}" role="tab" aria-selected="${i === activeTimeline}" aria-controls="timelineMain" tabindex="${i === activeTimeline ? "0" : "-1"}" data-index="${i}">
           <span class="timeline-year"><span class="timeline-status-dot"></span>${d.years}</span>
           <span class="timeline-name">${d.shortName}</span>
         </button>
       `).join("");
-      $$(".timeline-tab", root).forEach(btn => btn.addEventListener("click", () => {
-        activeTimeline = Number(btn.dataset.index);
-        renderTimelineTabs();
-        renderTimelinePanel();
-      }));
+      $$(".timeline-tab", root).forEach(btn => {
+        btn.addEventListener("click", () => selectTimeline(Number(btn.dataset.index), true));
+        btn.addEventListener("keydown", event => {
+          const current = Number(btn.dataset.index);
+          const keyTargets = {
+            ArrowRight: (current + 1) % timelineData.length,
+            ArrowDown: (current + 1) % timelineData.length,
+            ArrowLeft: (current - 1 + timelineData.length) % timelineData.length,
+            ArrowUp: (current - 1 + timelineData.length) % timelineData.length,
+            Home: 0,
+            End: timelineData.length - 1
+          };
+          if (!(event.key in keyTargets)) return;
+          event.preventDefault();
+          selectTimeline(keyTargets[event.key], true);
+        });
+      });
+    }
+
+    function selectTimeline(index, moveFocus = false) {
+      activeTimeline = index;
+      $$(".timeline-tab", $("#timelineTabs")).forEach((tab, i) => {
+        const active = i === activeTimeline;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      const activeTab = $(`#timeline-tab-${activeTimeline}`);
+      $("#timelineMain").setAttribute("aria-labelledby", activeTab.id);
+      renderTimelinePanel();
+      if (moveFocus) activeTab.focus();
     }
 
     function renderTimelinePanel() {
@@ -2095,6 +2158,121 @@
       renderValuationSummary(); renderValuationScatter(); renderValuationDetail(); renderValuationTable();
     }
 
+    const baseDocumentTitle = "NVIDIA 800 VDC｜架構、供應鏈與動態估值監控";
+    const viewRoutes = {
+      overview: { label: "總覽", title: baseDocumentTitle },
+      timeline: { label: "年代架構", title: `年代架構｜${baseDocumentTitle}` },
+      physics: { label: "物理與儲能", title: `物理與儲能｜${baseDocumentTitle}` },
+      components: { label: "元件熱圖", title: `元件熱圖｜${baseDocumentTitle}` },
+      companies: { label: "受惠公司", title: `受惠公司｜${baseDocumentTitle}` },
+      valuation: { label: "價格對照", title: `價格對照｜${baseDocumentTitle}` },
+      analysis: { label: "文字分析與來源", title: `文字分析與來源｜${baseDocumentTitle}` }
+    };
+
+    function routeFromHash(hash = window.location.hash) {
+      let target = "";
+      try { target = decodeURIComponent(String(hash).replace(/^#/, "")); }
+      catch (_) { target = ""; }
+
+      if (!target) return { view: "overview", target: "overview" };
+      if (target === "main") {
+        return { view: document.body.dataset.activeView || "overview", target: "main" };
+      }
+      if (viewRoutes[target]) return { view: target, target };
+      if (target === "sources" || /^source-\d+$/.test(target)) {
+        return { view: "analysis", target };
+      }
+
+      const targetElement = document.getElementById(target);
+      const containingView = targetElement?.closest("[data-view]")?.dataset.view;
+      if (containingView && viewRoutes[containingView]) return { view: containingView, target };
+      return { view: "overview", target: "overview" };
+    }
+
+    function routeFocusTarget(route, targetElement, activePanels) {
+      if (route.target === "main") return $("#main");
+      if (/^source-\d+$/.test(route.target)) return targetElement;
+      if (route.target === "sources") return $("#sources-title");
+      return activePanels[0]?.querySelector("h1, h2") || activePanels[0];
+    }
+
+    function activateView(route, options = {}) {
+      const { focus = false, scroll = true, announce = true } = options;
+      const safeRoute = viewRoutes[route.view] ? route : { view: "overview", target: "overview" };
+      const previousView = document.body.dataset.activeView;
+      const panels = $$("[data-view]");
+      const activePanels = [];
+
+      panels.forEach(panel => {
+        const active = panel.dataset.view === safeRoute.view;
+        panel.hidden = !active;
+        panel.setAttribute("aria-hidden", String(!active));
+        panel.classList.toggle("route-active", active);
+        if (active) activePanels.push(panel);
+      });
+
+      document.body.dataset.activeView = safeRoute.view;
+      document.title = viewRoutes[safeRoute.view].title;
+      $$("#primaryNav a[href^='#']").forEach(link => {
+        const active = routeFromHash(link.getAttribute("href")).view === safeRoute.view;
+        if (active) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      });
+      hideTooltip();
+
+      if (announce && previousView && previousView !== safeRoute.view) {
+        $("#viewStatus").textContent = `已切換至${viewRoutes[safeRoute.view].label}`;
+      }
+      if (!scroll && !focus) return;
+
+      requestAnimationFrame(() => {
+        const targetElement = document.getElementById(safeRoute.target);
+        const deepTarget = safeRoute.target !== safeRoute.view && safeRoute.target !== "main" ? targetElement : null;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const behavior = reducedMotion ? "auto" : "smooth";
+
+        if (scroll) {
+          if (deepTarget) deepTarget.scrollIntoView({ behavior, block: "start" });
+          else window.scrollTo({ top: 0, left: 0, behavior });
+        }
+        if (focus) {
+          const focusTarget = routeFocusTarget(safeRoute, targetElement, activePanels);
+          focusTarget?.focus({ preventScroll: true });
+        }
+      });
+    }
+
+    function syncViewFromHash(options = {}) {
+      activateView(routeFromHash(), options);
+    }
+
+    function initViewNavigation() {
+      syncViewFromHash({ focus: false, scroll: Boolean(window.location.hash), announce: false });
+
+      window.addEventListener("hashchange", () => {
+        syncViewFromHash({ focus: true, scroll: true });
+      });
+
+      document.addEventListener("click", event => {
+        const anchor = event.target.closest("a[href^='#']");
+        if (!anchor) return;
+
+        if (anchor.classList.contains("skip-link")) {
+          event.preventDefault();
+          const activePanel = $("[data-view]:not([hidden])");
+          const focusTarget = activePanel?.querySelector("h1, h2") || $("#main");
+          window.scrollTo({ top: 0, left: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+          focusTarget.focus({ preventScroll: true });
+          return;
+        }
+
+        if (anchor.getAttribute("href") === window.location.hash) {
+          event.preventDefault();
+          syncViewFromHash({ focus: true, scroll: true, announce: false });
+        }
+      });
+    }
+
 
     function initControls() {
       const categories = categoriesFromCompanies().map(x => ({value:x, label:x}));
@@ -2152,6 +2330,7 @@
       renderScatter();
       renderCompanyTable();
       renderValuationAll();
+      initViewNavigation();
     }
 
     document.addEventListener("DOMContentLoaded", init);
