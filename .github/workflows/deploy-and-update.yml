@@ -1,0 +1,69 @@
+name: Update closing prices and deploy site
+
+on:
+  push:
+    branches: ["main"]
+  schedule:
+    # 22:45 UTC = 06:45 Asia/Taipei on the following day.
+    # Runs after the regular U.S. close and long after the Taiwan close.
+    - cron: "45 22 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install market-data updater
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: pip install -r requirements.txt
+
+      - name: Update latest completed closes
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python scripts/update_prices.py
+
+      - name: Commit refreshed price snapshot
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/market_prices.json data/market_prices.js
+          if git diff --cached --quiet; then
+            echo "No market-price changes to commit."
+          else
+            git commit -m "chore: update closing-price snapshot"
+            git push
+          fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
