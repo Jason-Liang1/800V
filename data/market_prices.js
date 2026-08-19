@@ -1,424 +1,2148 @@
 window.MARKET_PRICES = {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T23:05:54+00:00",
+  "generatedAt": "2026-08-19T10:45:23+00:00",
   "source": "Yahoo Finance public market data via yfinance; latest completed daily close",
   "sourceType": "scheduled",
   "prices": {
     "2308": {
       "symbol": "2308.TW",
-      "close": 1885.0,
-      "previousClose": 1885.0,
+      "close": 1765.0,
+      "previousClose": 1820.0,
+      "change": -55.0,
+      "changePct": -3.021978,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": 0.0,
-      "changePct": 0.0,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 1880.0
+        },
+        {
+          "date": "2026-07-24",
+          "close": 1785.0
+        },
+        {
+          "date": "2026-07-27",
+          "close": 1755.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 1580.0
+        },
+        {
+          "date": "2026-07-29",
+          "close": 1495.0
+        },
+        {
+          "date": "2026-07-30",
+          "close": 1530.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 1640.0
+        },
+        {
+          "date": "2026-08-03",
+          "close": 1580.0
+        },
+        {
+          "date": "2026-08-04",
+          "close": 1620.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 1650.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 1680.0
+        },
+        {
+          "date": "2026-08-07",
+          "close": 1650.0
+        },
+        {
+          "date": "2026-08-10",
+          "close": 1815.0
+        },
+        {
+          "date": "2026-08-11",
+          "close": 1805.0
+        },
+        {
+          "date": "2026-08-12",
+          "close": 1790.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 1885.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 1885.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 1885.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 1820.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 1765.0
+        }
+      ],
+      "status": "ok"
     },
     "2301": {
       "symbol": "2301.TW",
-      "close": 263.5,
-      "previousClose": 267.0,
+      "close": 273.5,
+      "previousClose": 273.5,
+      "change": 0.0,
+      "changePct": 0.0,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": -3.5,
-      "changePct": -1.3109,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 218.0
+        },
+        {
+          "date": "2026-07-24",
+          "close": 214.5
+        },
+        {
+          "date": "2026-07-27",
+          "close": 212.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 194.0
+        },
+        {
+          "date": "2026-07-29",
+          "close": 185.0
+        },
+        {
+          "date": "2026-07-30",
+          "close": 190.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 209.0
+        },
+        {
+          "date": "2026-08-03",
+          "close": 229.5
+        },
+        {
+          "date": "2026-08-04",
+          "close": 252.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 249.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 252.5
+        },
+        {
+          "date": "2026-08-07",
+          "close": 247.0
+        },
+        {
+          "date": "2026-08-10",
+          "close": 271.5
+        },
+        {
+          "date": "2026-08-11",
+          "close": 268.5
+        },
+        {
+          "date": "2026-08-12",
+          "close": 259.5
+        },
+        {
+          "date": "2026-08-13",
+          "close": 269.5
+        },
+        {
+          "date": "2026-08-14",
+          "close": 267.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 263.5
+        },
+        {
+          "date": "2026-08-18",
+          "close": 273.5
+        },
+        {
+          "date": "2026-08-19",
+          "close": 273.5
+        }
+      ],
+      "status": "ok"
     },
     "3665": {
       "symbol": "3665.TW",
-      "close": 2135.0,
-      "previousClose": 2200.0,
+      "close": 2200.0,
+      "previousClose": 2240.0,
+      "change": -40.0,
+      "changePct": -1.785714,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": -65.0,
-      "changePct": -2.9545,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 2285.0
+        },
+        {
+          "date": "2026-07-24",
+          "close": 2205.0
+        },
+        {
+          "date": "2026-07-27",
+          "close": 2150.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 2215.0
+        },
+        {
+          "date": "2026-07-29",
+          "close": 2090.0
+        },
+        {
+          "date": "2026-07-30",
+          "close": 1910.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 2100.0
+        },
+        {
+          "date": "2026-08-03",
+          "close": 2095.0
+        },
+        {
+          "date": "2026-08-04",
+          "close": 2300.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 2355.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 2370.0
+        },
+        {
+          "date": "2026-08-07",
+          "close": 2200.0
+        },
+        {
+          "date": "2026-08-10",
+          "close": 2190.0
+        },
+        {
+          "date": "2026-08-11",
+          "close": 2200.0
+        },
+        {
+          "date": "2026-08-12",
+          "close": 2155.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 2205.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 2200.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 2135.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 2240.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 2200.0
+        }
+      ],
+      "status": "ok"
     },
     "2454": {
       "symbol": "2454.TW",
-      "close": 4050.0,
-      "previousClose": 4210.0,
+      "close": 3845.0,
+      "previousClose": 3885.0,
+      "change": -40.0,
+      "changePct": -1.029601,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": -160.0,
-      "changePct": -3.8005,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 3875.0
+        },
+        {
+          "date": "2026-07-24",
+          "close": 3750.0
+        },
+        {
+          "date": "2026-07-27",
+          "close": 3680.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 3315.0
+        },
+        {
+          "date": "2026-07-29",
+          "close": 3150.0
+        },
+        {
+          "date": "2026-07-30",
+          "close": 3235.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 3555.0
+        },
+        {
+          "date": "2026-08-03",
+          "close": 3910.0
+        },
+        {
+          "date": "2026-08-04",
+          "close": 3865.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 4000.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 3920.0
+        },
+        {
+          "date": "2026-08-07",
+          "close": 3900.0
+        },
+        {
+          "date": "2026-08-10",
+          "close": 3960.0
+        },
+        {
+          "date": "2026-08-11",
+          "close": 4020.0
+        },
+        {
+          "date": "2026-08-12",
+          "close": 4015.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 4225.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 4210.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 4050.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 3885.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 3845.0
+        }
+      ],
+      "status": "ok"
     },
     "3017": {
       "symbol": "3017.TW",
-      "close": 3150.0,
-      "previousClose": 3235.0,
+      "close": 3095.0,
+      "previousClose": 3035.0,
+      "change": 60.0,
+      "changePct": 1.976936,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": -85.0,
-      "changePct": -2.6275,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 2440.0
+        },
+        {
+          "date": "2026-07-24",
+          "close": 2380.0
+        },
+        {
+          "date": "2026-07-27",
+          "close": 2400.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 2240.0
+        },
+        {
+          "date": "2026-07-29",
+          "close": 2095.0
+        },
+        {
+          "date": "2026-07-30",
+          "close": 2110.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 2320.0
+        },
+        {
+          "date": "2026-08-03",
+          "close": 2550.0
+        },
+        {
+          "date": "2026-08-04",
+          "close": 2600.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 2730.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 2940.0
+        },
+        {
+          "date": "2026-08-07",
+          "close": 2785.0
+        },
+        {
+          "date": "2026-08-10",
+          "close": 2765.0
+        },
+        {
+          "date": "2026-08-11",
+          "close": 2760.0
+        },
+        {
+          "date": "2026-08-12",
+          "close": 2910.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 3200.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 3235.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 3150.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 3035.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 3095.0
+        }
+      ],
+      "status": "ok"
     },
     "3324": {
       "symbol": "3324.TWO",
-      "close": 1005.0,
-      "previousClose": 1010.0,
+      "close": 989.0,
+      "previousClose": 978.0,
+      "change": 11.0,
+      "changePct": 1.124744,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TPEX",
-      "change": -5.0,
-      "changePct": -0.495,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 923.0
+        },
+        {
+          "date": "2026-07-24",
+          "close": 943.0
+        },
+        {
+          "date": "2026-07-27",
+          "close": 930.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 870.0
+        },
+        {
+          "date": "2026-07-29",
+          "close": 855.0
+        },
+        {
+          "date": "2026-07-30",
+          "close": 820.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 902.0
+        },
+        {
+          "date": "2026-08-03",
+          "close": 944.0
+        },
+        {
+          "date": "2026-08-04",
+          "close": 944.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 965.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 1060.0
+        },
+        {
+          "date": "2026-08-07",
+          "close": 1015.0
+        },
+        {
+          "date": "2026-08-10",
+          "close": 1010.0
+        },
+        {
+          "date": "2026-08-11",
+          "close": 1045.0
+        },
+        {
+          "date": "2026-08-12",
+          "close": 1050.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 1035.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 1010.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 1005.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 978.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 989.0
+        }
+      ],
+      "status": "ok"
     },
     "1519": {
       "symbol": "1519.TW",
-      "close": 720.0,
-      "previousClose": 710.0,
+      "close": 718.0,
+      "previousClose": 714.0,
+      "change": 4.0,
+      "changePct": 0.560224,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": 10.0,
-      "changePct": 1.4085,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 640.909119
+        },
+        {
+          "date": "2026-07-24",
+          "close": 633.636353
+        },
+        {
+          "date": "2026-07-27",
+          "close": 660.909119
+        },
+        {
+          "date": "2026-07-28",
+          "close": 607.272705
+        },
+        {
+          "date": "2026-07-29",
+          "close": 607.272705
+        },
+        {
+          "date": "2026-07-30",
+          "close": 602.727295
+        },
+        {
+          "date": "2026-07-31",
+          "close": 640.909119
+        },
+        {
+          "date": "2026-08-03",
+          "close": 639.090881
+        },
+        {
+          "date": "2026-08-04",
+          "close": 648.181824
+        },
+        {
+          "date": "2026-08-05",
+          "close": 663.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 662.0
+        },
+        {
+          "date": "2026-08-07",
+          "close": 653.0
+        },
+        {
+          "date": "2026-08-10",
+          "close": 671.0
+        },
+        {
+          "date": "2026-08-11",
+          "close": 703.0
+        },
+        {
+          "date": "2026-08-12",
+          "close": 720.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 720.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 710.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 720.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 714.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 718.0
+        }
+      ],
+      "status": "ok"
     },
     "1513": {
       "symbol": "1513.TW",
-      "close": 171.0,
-      "previousClose": 170.0,
+      "close": 164.0,
+      "previousClose": 167.0,
+      "change": -3.0,
+      "changePct": -1.796407,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": 1.0,
-      "changePct": 0.5882,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 160.0
+        },
+        {
+          "date": "2026-07-24",
+          "close": 158.0
+        },
+        {
+          "date": "2026-07-27",
+          "close": 158.5
+        },
+        {
+          "date": "2026-07-28",
+          "close": 152.5
+        },
+        {
+          "date": "2026-07-29",
+          "close": 149.5
+        },
+        {
+          "date": "2026-07-30",
+          "close": 147.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 153.5
+        },
+        {
+          "date": "2026-08-03",
+          "close": 155.5
+        },
+        {
+          "date": "2026-08-04",
+          "close": 159.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 161.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 160.5
+        },
+        {
+          "date": "2026-08-07",
+          "close": 157.5
+        },
+        {
+          "date": "2026-08-10",
+          "close": 159.5
+        },
+        {
+          "date": "2026-08-11",
+          "close": 160.5
+        },
+        {
+          "date": "2026-08-12",
+          "close": 165.5
+        },
+        {
+          "date": "2026-08-13",
+          "close": 171.0
+        },
+        {
+          "date": "2026-08-14",
+          "close": 170.0
+        },
+        {
+          "date": "2026-08-17",
+          "close": 171.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 167.0
+        },
+        {
+          "date": "2026-08-19",
+          "close": 164.0
+        }
+      ],
+      "status": "ok"
     },
     "1503": {
       "symbol": "1503.TW",
-      "close": 203.5,
-      "previousClose": 198.5,
+      "close": 197.0,
+      "previousClose": 199.5,
+      "change": -2.5,
+      "changePct": -1.253133,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": 5.0,
-      "changePct": 2.5189,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 211.5
+        },
+        {
+          "date": "2026-07-24",
+          "close": 204.5
+        },
+        {
+          "date": "2026-07-27",
+          "close": 202.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 190.5
+        },
+        {
+          "date": "2026-07-29",
+          "close": 188.5
+        },
+        {
+          "date": "2026-07-30",
+          "close": 183.0
+        },
+        {
+          "date": "2026-07-31",
+          "close": 195.0
+        },
+        {
+          "date": "2026-08-03",
+          "close": 195.0
+        },
+        {
+          "date": "2026-08-04",
+          "close": 195.0
+        },
+        {
+          "date": "2026-08-05",
+          "close": 197.5
+        },
+        {
+          "date": "2026-08-06",
+          "close": 195.5
+        },
+        {
+          "date": "2026-08-07",
+          "close": 193.5
+        },
+        {
+          "date": "2026-08-10",
+          "close": 195.5
+        },
+        {
+          "date": "2026-08-11",
+          "close": 197.0
+        },
+        {
+          "date": "2026-08-12",
+          "close": 199.0
+        },
+        {
+          "date": "2026-08-13",
+          "close": 201.5
+        },
+        {
+          "date": "2026-08-14",
+          "close": 198.5
+        },
+        {
+          "date": "2026-08-17",
+          "close": 203.5
+        },
+        {
+          "date": "2026-08-18",
+          "close": 199.5
+        },
+        {
+          "date": "2026-08-19",
+          "close": 197.0
+        }
+      ],
+      "status": "ok"
     },
     "6412": {
       "symbol": "6412.TW",
-      "close": 78.7,
-      "previousClose": 79.1,
+      "close": 77.0,
+      "previousClose": 76.900002,
+      "change": 0.099998,
+      "changePct": 0.130037,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": -0.4,
-      "changePct": -0.5057,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 82.400002
+        },
+        {
+          "date": "2026-07-24",
+          "close": 81.300003
+        },
+        {
+          "date": "2026-07-27",
+          "close": 82.0
+        },
+        {
+          "date": "2026-07-28",
+          "close": 78.699997
+        },
+        {
+          "date": "2026-07-29",
+          "close": 77.5
+        },
+        {
+          "date": "2026-07-30",
+          "close": 75.400002
+        },
+        {
+          "date": "2026-07-31",
+          "close": 76.5
+        },
+        {
+          "date": "2026-08-03",
+          "close": 78.699997
+        },
+        {
+          "date": "2026-08-04",
+          "close": 81.800003
+        },
+        {
+          "date": "2026-08-05",
+          "close": 78.599998
+        },
+        {
+          "date": "2026-08-06",
+          "close": 78.900002
+        },
+        {
+          "date": "2026-08-07",
+          "close": 78.199997
+        },
+        {
+          "date": "2026-08-10",
+          "close": 79.400002
+        },
+        {
+          "date": "2026-08-11",
+          "close": 78.800003
+        },
+        {
+          "date": "2026-08-12",
+          "close": 79.800003
+        },
+        {
+          "date": "2026-08-13",
+          "close": 79.599998
+        },
+        {
+          "date": "2026-08-14",
+          "close": 79.099998
+        },
+        {
+          "date": "2026-08-17",
+          "close": 78.699997
+        },
+        {
+          "date": "2026-08-18",
+          "close": 76.900002
+        },
+        {
+          "date": "2026-08-19",
+          "close": 77.0
+        }
+      ],
+      "status": "ok"
     },
     "6282": {
       "symbol": "6282.TW",
-      "close": 46.55,
-      "previousClose": 47.0,
+      "close": 45.549999,
+      "previousClose": 46.400002,
+      "change": -0.850002,
+      "changePct": -1.831901,
       "currency": "TWD",
-      "priceDate": "2026-08-17",
+      "priceDate": "2026-08-19",
       "market": "TWSE",
-      "change": -0.45,
-      "changePct": -0.9574,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-23",
+          "close": 48.900002
+        },
+        {
+          "date": "2026-07-24",
+          "close": 47.150002
+        },
+        {
+          "date": "2026-07-27",
+          "close": 46.799999
+        },
+        {
+          "date": "2026-07-28",
+          "close": 42.849998
+        },
+        {
+          "date": "2026-07-29",
+          "close": 40.700001
+        },
+        {
+          "date": "2026-07-30",
+          "close": 38.849998
+        },
+        {
+          "date": "2026-07-31",
+          "close": 42.400002
+        },
+        {
+          "date": "2026-08-03",
+          "close": 44.650002
+        },
+        {
+          "date": "2026-08-04",
+          "close": 47.900002
+        },
+        {
+          "date": "2026-08-05",
+          "close": 48.0
+        },
+        {
+          "date": "2026-08-06",
+          "close": 48.299999
+        },
+        {
+          "date": "2026-08-07",
+          "close": 47.150002
+        },
+        {
+          "date": "2026-08-10",
+          "close": 50.0
+        },
+        {
+          "date": "2026-08-11",
+          "close": 49.849998
+        },
+        {
+          "date": "2026-08-12",
+          "close": 47.150002
+        },
+        {
+          "date": "2026-08-13",
+          "close": 48.150002
+        },
+        {
+          "date": "2026-08-14",
+          "close": 47.799999
+        },
+        {
+          "date": "2026-08-17",
+          "close": 46.549999
+        },
+        {
+          "date": "2026-08-18",
+          "close": 46.400002
+        },
+        {
+          "date": "2026-08-19",
+          "close": 45.549999
+        }
+      ],
+      "status": "ok"
     },
     "VRT": {
       "symbol": "VRT",
-      "close": 293.84,
-      "previousClose": null,
+      "close": 272.540009,
+      "previousClose": 292.429993,
+      "change": -19.889984,
+      "changePct": -6.801622,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NYSE",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 301.160004
+        },
+        {
+          "date": "2026-07-23",
+          "close": 304.040009
+        },
+        {
+          "date": "2026-07-24",
+          "close": 290.359985
+        },
+        {
+          "date": "2026-07-27",
+          "close": 287.600006
+        },
+        {
+          "date": "2026-07-28",
+          "close": 269.559998
+        },
+        {
+          "date": "2026-07-29",
+          "close": 223.039993
+        },
+        {
+          "date": "2026-07-30",
+          "close": 227.5
+        },
+        {
+          "date": "2026-07-31",
+          "close": 241.570007
+        },
+        {
+          "date": "2026-08-03",
+          "close": 263.049988
+        },
+        {
+          "date": "2026-08-04",
+          "close": 269.929993
+        },
+        {
+          "date": "2026-08-05",
+          "close": 277.940002
+        },
+        {
+          "date": "2026-08-06",
+          "close": 275.170013
+        },
+        {
+          "date": "2026-08-07",
+          "close": 272.399994
+        },
+        {
+          "date": "2026-08-10",
+          "close": 270.100006
+        },
+        {
+          "date": "2026-08-11",
+          "close": 281.809998
+        },
+        {
+          "date": "2026-08-12",
+          "close": 288.359985
+        },
+        {
+          "date": "2026-08-13",
+          "close": 287.070007
+        },
+        {
+          "date": "2026-08-14",
+          "close": 293.839996
+        },
+        {
+          "date": "2026-08-17",
+          "close": 292.429993
+        },
+        {
+          "date": "2026-08-18",
+          "close": 272.540009
+        }
+      ],
+      "status": "ok"
     },
     "ETN": {
       "symbol": "ETN",
-      "close": 451.51,
-      "previousClose": null,
+      "close": 431.329987,
+      "previousClose": 455.399994,
+      "change": -24.070007,
+      "changePct": -5.285465,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NYSE",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 406.910004
+        },
+        {
+          "date": "2026-07-23",
+          "close": 415.130005
+        },
+        {
+          "date": "2026-07-24",
+          "close": 404.070007
+        },
+        {
+          "date": "2026-07-27",
+          "close": 398.640015
+        },
+        {
+          "date": "2026-07-28",
+          "close": 386.26001
+        },
+        {
+          "date": "2026-07-29",
+          "close": 361.880005
+        },
+        {
+          "date": "2026-07-30",
+          "close": 386.890015
+        },
+        {
+          "date": "2026-07-31",
+          "close": 415.200012
+        },
+        {
+          "date": "2026-08-03",
+          "close": 438.230011
+        },
+        {
+          "date": "2026-08-04",
+          "close": 444.769989
+        },
+        {
+          "date": "2026-08-05",
+          "close": 447.279999
+        },
+        {
+          "date": "2026-08-06",
+          "close": 448.190002
+        },
+        {
+          "date": "2026-08-07",
+          "close": 448.679993
+        },
+        {
+          "date": "2026-08-10",
+          "close": 444.959991
+        },
+        {
+          "date": "2026-08-11",
+          "close": 459.290009
+        },
+        {
+          "date": "2026-08-12",
+          "close": 459.959991
+        },
+        {
+          "date": "2026-08-13",
+          "close": 453.329987
+        },
+        {
+          "date": "2026-08-14",
+          "close": 451.51001
+        },
+        {
+          "date": "2026-08-17",
+          "close": 455.399994
+        },
+        {
+          "date": "2026-08-18",
+          "close": 431.329987
+        }
+      ],
+      "status": "ok"
     },
     "FLEX": {
       "symbol": "FLEX",
-      "close": 126.16,
-      "previousClose": null,
+      "close": 120.239998,
+      "previousClose": 130.0,
+      "change": -9.760002,
+      "changePct": -7.507694,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 127.0
+        },
+        {
+          "date": "2026-07-23",
+          "close": 127.940002
+        },
+        {
+          "date": "2026-07-24",
+          "close": 118.510002
+        },
+        {
+          "date": "2026-07-27",
+          "close": 116.07
+        },
+        {
+          "date": "2026-07-28",
+          "close": 113.279999
+        },
+        {
+          "date": "2026-07-29",
+          "close": 103.019997
+        },
+        {
+          "date": "2026-07-30",
+          "close": 111.910004
+        },
+        {
+          "date": "2026-07-31",
+          "close": 113.75
+        },
+        {
+          "date": "2026-08-03",
+          "close": 117.449997
+        },
+        {
+          "date": "2026-08-04",
+          "close": 126.709999
+        },
+        {
+          "date": "2026-08-05",
+          "close": 121.879997
+        },
+        {
+          "date": "2026-08-06",
+          "close": 122.650002
+        },
+        {
+          "date": "2026-08-07",
+          "close": 121.349998
+        },
+        {
+          "date": "2026-08-10",
+          "close": 119.699997
+        },
+        {
+          "date": "2026-08-11",
+          "close": 122.410004
+        },
+        {
+          "date": "2026-08-12",
+          "close": 124.529999
+        },
+        {
+          "date": "2026-08-13",
+          "close": 124.300003
+        },
+        {
+          "date": "2026-08-14",
+          "close": 126.160004
+        },
+        {
+          "date": "2026-08-17",
+          "close": 130.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 120.239998
+        }
+      ],
+      "status": "ok"
     },
     "TXN": {
       "symbol": "TXN",
-      "close": 279.58,
-      "previousClose": null,
+      "close": 272.23999,
+      "previousClose": 282.910004,
+      "change": -10.670013,
+      "changePct": -3.771522,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 294.190002
+        },
+        {
+          "date": "2026-07-23",
+          "close": 284.98999
+        },
+        {
+          "date": "2026-07-24",
+          "close": 279.579987
+        },
+        {
+          "date": "2026-07-27",
+          "close": 279.410004
+        },
+        {
+          "date": "2026-07-28",
+          "close": 277.070007
+        },
+        {
+          "date": "2026-07-29",
+          "close": 271.299988
+        },
+        {
+          "date": "2026-07-30",
+          "close": 278.76001
+        },
+        {
+          "date": "2026-07-31",
+          "close": 275.73999
+        },
+        {
+          "date": "2026-08-03",
+          "close": 269.040009
+        },
+        {
+          "date": "2026-08-04",
+          "close": 283.630005
+        },
+        {
+          "date": "2026-08-05",
+          "close": 277.720001
+        },
+        {
+          "date": "2026-08-06",
+          "close": 278.399994
+        },
+        {
+          "date": "2026-08-07",
+          "close": 286.079987
+        },
+        {
+          "date": "2026-08-10",
+          "close": 280.440002
+        },
+        {
+          "date": "2026-08-11",
+          "close": 281.23999
+        },
+        {
+          "date": "2026-08-12",
+          "close": 276.589996
+        },
+        {
+          "date": "2026-08-13",
+          "close": 273.429993
+        },
+        {
+          "date": "2026-08-14",
+          "close": 279.579987
+        },
+        {
+          "date": "2026-08-17",
+          "close": 282.910004
+        },
+        {
+          "date": "2026-08-18",
+          "close": 272.23999
+        }
+      ],
+      "status": "ok"
     },
     "ON": {
       "symbol": "ON",
-      "close": 82.66,
-      "previousClose": null,
+      "close": 79.419998,
+      "previousClose": 83.379997,
+      "change": -3.959999,
+      "changePct": -4.749339,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 92.330002
+        },
+        {
+          "date": "2026-07-23",
+          "close": 90.129997
+        },
+        {
+          "date": "2026-07-24",
+          "close": 86.809998
+        },
+        {
+          "date": "2026-07-27",
+          "close": 89.040001
+        },
+        {
+          "date": "2026-07-28",
+          "close": 84.389999
+        },
+        {
+          "date": "2026-07-29",
+          "close": 78.860001
+        },
+        {
+          "date": "2026-07-30",
+          "close": 83.739998
+        },
+        {
+          "date": "2026-07-31",
+          "close": 81.610001
+        },
+        {
+          "date": "2026-08-03",
+          "close": 80.400002
+        },
+        {
+          "date": "2026-08-04",
+          "close": 80.779999
+        },
+        {
+          "date": "2026-08-05",
+          "close": 76.910004
+        },
+        {
+          "date": "2026-08-06",
+          "close": 78.330002
+        },
+        {
+          "date": "2026-08-07",
+          "close": 81.169998
+        },
+        {
+          "date": "2026-08-10",
+          "close": 79.779999
+        },
+        {
+          "date": "2026-08-11",
+          "close": 81.110001
+        },
+        {
+          "date": "2026-08-12",
+          "close": 83.32
+        },
+        {
+          "date": "2026-08-13",
+          "close": 81.559998
+        },
+        {
+          "date": "2026-08-14",
+          "close": 82.660004
+        },
+        {
+          "date": "2026-08-17",
+          "close": 83.379997
+        },
+        {
+          "date": "2026-08-18",
+          "close": 79.419998
+        }
+      ],
+      "status": "ok"
     },
     "ABB": {
       "symbol": "ABBNY",
-      "close": 101.95,
-      "previousClose": 102.2,
+      "close": 99.010002,
+      "previousClose": 102.139999,
+      "change": -3.129997,
+      "changePct": -3.064419,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "OTC",
-      "change": -0.25,
-      "changePct": -0.2446,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 98.870003
+        },
+        {
+          "date": "2026-07-23",
+          "close": 97.790001
+        },
+        {
+          "date": "2026-07-24",
+          "close": 96.360001
+        },
+        {
+          "date": "2026-07-27",
+          "close": 96.970001
+        },
+        {
+          "date": "2026-07-28",
+          "close": 94.699997
+        },
+        {
+          "date": "2026-07-29",
+          "close": 92.139999
+        },
+        {
+          "date": "2026-07-30",
+          "close": 98.230003
+        },
+        {
+          "date": "2026-07-31",
+          "close": 98.620003
+        },
+        {
+          "date": "2026-08-03",
+          "close": 99.120003
+        },
+        {
+          "date": "2026-08-04",
+          "close": 101.57
+        },
+        {
+          "date": "2026-08-05",
+          "close": 101.800003
+        },
+        {
+          "date": "2026-08-06",
+          "close": 100.93
+        },
+        {
+          "date": "2026-08-07",
+          "close": 100.860001
+        },
+        {
+          "date": "2026-08-10",
+          "close": 100.650002
+        },
+        {
+          "date": "2026-08-11",
+          "close": 101.669998
+        },
+        {
+          "date": "2026-08-12",
+          "close": 102.559998
+        },
+        {
+          "date": "2026-08-13",
+          "close": 102.199997
+        },
+        {
+          "date": "2026-08-14",
+          "close": 101.949997
+        },
+        {
+          "date": "2026-08-17",
+          "close": 102.139999
+        },
+        {
+          "date": "2026-08-18",
+          "close": 99.010002
+        }
+      ],
+      "status": "ok"
     },
     "GEV": {
       "symbol": "GEV",
-      "close": 1063.25,
-      "previousClose": null,
+      "close": 1004.530029,
+      "previousClose": 1079.0,
+      "change": -74.469971,
+      "changePct": -6.901758,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NYSE",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 985.030029
+        },
+        {
+          "date": "2026-07-23",
+          "close": 1031.189941
+        },
+        {
+          "date": "2026-07-24",
+          "close": 1014.75
+        },
+        {
+          "date": "2026-07-27",
+          "close": 996.570007
+        },
+        {
+          "date": "2026-07-28",
+          "close": 943.380005
+        },
+        {
+          "date": "2026-07-29",
+          "close": 900.280029
+        },
+        {
+          "date": "2026-07-30",
+          "close": 981.97998
+        },
+        {
+          "date": "2026-07-31",
+          "close": 990.289978
+        },
+        {
+          "date": "2026-08-03",
+          "close": 1006.76001
+        },
+        {
+          "date": "2026-08-04",
+          "close": 1018.530029
+        },
+        {
+          "date": "2026-08-05",
+          "close": 1017.960022
+        },
+        {
+          "date": "2026-08-06",
+          "close": 1000.299988
+        },
+        {
+          "date": "2026-08-07",
+          "close": 990.320007
+        },
+        {
+          "date": "2026-08-10",
+          "close": 990.849976
+        },
+        {
+          "date": "2026-08-11",
+          "close": 1011.880005
+        },
+        {
+          "date": "2026-08-12",
+          "close": 1039.900024
+        },
+        {
+          "date": "2026-08-13",
+          "close": 1049.420044
+        },
+        {
+          "date": "2026-08-14",
+          "close": 1063.25
+        },
+        {
+          "date": "2026-08-17",
+          "close": 1079.0
+        },
+        {
+          "date": "2026-08-18",
+          "close": 1004.530029
+        }
+      ],
+      "status": "ok"
     },
     "AOSL": {
       "symbol": "AOSL",
-      "close": 30.77,
-      "previousClose": null,
+      "close": 28.379999,
+      "previousClose": 31.07,
+      "change": -2.690001,
+      "changePct": -8.657871,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 34.75
+        },
+        {
+          "date": "2026-07-23",
+          "close": 33.810001
+        },
+        {
+          "date": "2026-07-24",
+          "close": 30.85
+        },
+        {
+          "date": "2026-07-27",
+          "close": 30.82
+        },
+        {
+          "date": "2026-07-28",
+          "close": 28.85
+        },
+        {
+          "date": "2026-07-29",
+          "close": 27.700001
+        },
+        {
+          "date": "2026-07-30",
+          "close": 31.110001
+        },
+        {
+          "date": "2026-07-31",
+          "close": 31.74
+        },
+        {
+          "date": "2026-08-03",
+          "close": 31.469999
+        },
+        {
+          "date": "2026-08-04",
+          "close": 33.779999
+        },
+        {
+          "date": "2026-08-05",
+          "close": 32.540001
+        },
+        {
+          "date": "2026-08-06",
+          "close": 33.330002
+        },
+        {
+          "date": "2026-08-07",
+          "close": 36.080002
+        },
+        {
+          "date": "2026-08-10",
+          "close": 34.560001
+        },
+        {
+          "date": "2026-08-11",
+          "close": 34.84
+        },
+        {
+          "date": "2026-08-12",
+          "close": 36.279999
+        },
+        {
+          "date": "2026-08-13",
+          "close": 30.620001
+        },
+        {
+          "date": "2026-08-14",
+          "close": 30.77
+        },
+        {
+          "date": "2026-08-17",
+          "close": 31.07
+        },
+        {
+          "date": "2026-08-18",
+          "close": 28.379999
+        }
+      ],
+      "status": "ok"
     },
     "POWI": {
       "symbol": "POWI",
-      "close": 62.75,
-      "previousClose": null,
+      "close": 58.59,
+      "previousClose": 62.099998,
+      "change": -3.509998,
+      "changePct": -5.652171,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 72.489998
+        },
+        {
+          "date": "2026-07-23",
+          "close": 70.870003
+        },
+        {
+          "date": "2026-07-24",
+          "close": 63.459999
+        },
+        {
+          "date": "2026-07-27",
+          "close": 63.41
+        },
+        {
+          "date": "2026-07-28",
+          "close": 59.200001
+        },
+        {
+          "date": "2026-07-29",
+          "close": 56.57
+        },
+        {
+          "date": "2026-07-30",
+          "close": 60.869999
+        },
+        {
+          "date": "2026-07-31",
+          "close": 60.709999
+        },
+        {
+          "date": "2026-08-03",
+          "close": 60.400002
+        },
+        {
+          "date": "2026-08-04",
+          "close": 64.57
+        },
+        {
+          "date": "2026-08-05",
+          "close": 61.950001
+        },
+        {
+          "date": "2026-08-06",
+          "close": 58.98
+        },
+        {
+          "date": "2026-08-07",
+          "close": 64.589996
+        },
+        {
+          "date": "2026-08-10",
+          "close": 61.970001
+        },
+        {
+          "date": "2026-08-11",
+          "close": 63.27
+        },
+        {
+          "date": "2026-08-12",
+          "close": 63.84
+        },
+        {
+          "date": "2026-08-13",
+          "close": 62.310001
+        },
+        {
+          "date": "2026-08-14",
+          "close": 62.75
+        },
+        {
+          "date": "2026-08-17",
+          "close": 62.099998
+        },
+        {
+          "date": "2026-08-18",
+          "close": 58.59
+        }
+      ],
+      "status": "ok"
     },
     "NVTS": {
       "symbol": "NVTS",
-      "close": 14.45,
-      "previousClose": null,
+      "close": 13.17,
+      "previousClose": 14.58,
+      "change": -1.41,
+      "changePct": -9.670781,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 12.67
+        },
+        {
+          "date": "2026-07-23",
+          "close": 12.03
+        },
+        {
+          "date": "2026-07-24",
+          "close": 10.92
+        },
+        {
+          "date": "2026-07-27",
+          "close": 11.41
+        },
+        {
+          "date": "2026-07-28",
+          "close": 10.01
+        },
+        {
+          "date": "2026-07-29",
+          "close": 9.735
+        },
+        {
+          "date": "2026-07-30",
+          "close": 11.01
+        },
+        {
+          "date": "2026-07-31",
+          "close": 10.86
+        },
+        {
+          "date": "2026-08-03",
+          "close": 11.52
+        },
+        {
+          "date": "2026-08-04",
+          "close": 12.69
+        },
+        {
+          "date": "2026-08-05",
+          "close": 12.35
+        },
+        {
+          "date": "2026-08-06",
+          "close": 12.4
+        },
+        {
+          "date": "2026-08-07",
+          "close": 13.89
+        },
+        {
+          "date": "2026-08-10",
+          "close": 13.17
+        },
+        {
+          "date": "2026-08-11",
+          "close": 13.6
+        },
+        {
+          "date": "2026-08-12",
+          "close": 13.93
+        },
+        {
+          "date": "2026-08-13",
+          "close": 13.66
+        },
+        {
+          "date": "2026-08-14",
+          "close": 14.45
+        },
+        {
+          "date": "2026-08-17",
+          "close": 14.58
+        },
+        {
+          "date": "2026-08-18",
+          "close": 13.17
+        }
+      ],
+      "status": "ok"
     },
     "MPWR": {
       "symbol": "MPWR",
-      "close": 1402.01,
-      "previousClose": null,
+      "close": 1333.180054,
+      "previousClose": 1415.98999,
+      "change": -82.809937,
+      "changePct": -5.848201,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 1398.449951
+        },
+        {
+          "date": "2026-07-23",
+          "close": 1397.150024
+        },
+        {
+          "date": "2026-07-24",
+          "close": 1333.810059
+        },
+        {
+          "date": "2026-07-27",
+          "close": 1339.079956
+        },
+        {
+          "date": "2026-07-28",
+          "close": 1282.01001
+        },
+        {
+          "date": "2026-07-29",
+          "close": 1248.76001
+        },
+        {
+          "date": "2026-07-30",
+          "close": 1316.180054
+        },
+        {
+          "date": "2026-07-31",
+          "close": 1426.030029
+        },
+        {
+          "date": "2026-08-03",
+          "close": 1344.369995
+        },
+        {
+          "date": "2026-08-04",
+          "close": 1335.030029
+        },
+        {
+          "date": "2026-08-05",
+          "close": 1345.459961
+        },
+        {
+          "date": "2026-08-06",
+          "close": 1359.079956
+        },
+        {
+          "date": "2026-08-07",
+          "close": 1401.540039
+        },
+        {
+          "date": "2026-08-10",
+          "close": 1381.099976
+        },
+        {
+          "date": "2026-08-11",
+          "close": 1402.109985
+        },
+        {
+          "date": "2026-08-12",
+          "close": 1425.01001
+        },
+        {
+          "date": "2026-08-13",
+          "close": 1362.550049
+        },
+        {
+          "date": "2026-08-14",
+          "close": 1402.01001
+        },
+        {
+          "date": "2026-08-17",
+          "close": 1415.98999
+        },
+        {
+          "date": "2026-08-18",
+          "close": 1333.180054
+        }
+      ],
+      "status": "ok"
     },
     "ADI": {
       "symbol": "ADI",
-      "close": 389.39,
-      "previousClose": null,
+      "close": 376.630005,
+      "previousClose": 390.279999,
+      "change": -13.649994,
+      "changePct": -3.497487,
       "currency": "USD",
-      "priceDate": "2026-08-14",
+      "priceDate": "2026-08-18",
       "market": "NASDAQ",
-      "change": null,
-      "changePct": null,
-      "history": [],
-      "status": "stale",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
+      "history": [
+        {
+          "date": "2026-07-22",
+          "close": 386.730011
+        },
+        {
+          "date": "2026-07-23",
+          "close": 380.200012
+        },
+        {
+          "date": "2026-07-24",
+          "close": 371.859985
+        },
+        {
+          "date": "2026-07-27",
+          "close": 371.890015
+        },
+        {
+          "date": "2026-07-28",
+          "close": 365.829987
+        },
+        {
+          "date": "2026-07-29",
+          "close": 353.369995
+        },
+        {
+          "date": "2026-07-30",
+          "close": 366.670013
+        },
+        {
+          "date": "2026-07-31",
+          "close": 367.410004
+        },
+        {
+          "date": "2026-08-03",
+          "close": 361.880005
+        },
+        {
+          "date": "2026-08-04",
+          "close": 380.290009
+        },
+        {
+          "date": "2026-08-05",
+          "close": 377.690002
+        },
+        {
+          "date": "2026-08-06",
+          "close": 377.309998
+        },
+        {
+          "date": "2026-08-07",
+          "close": 389.929993
+        },
+        {
+          "date": "2026-08-10",
+          "close": 383.929993
+        },
+        {
+          "date": "2026-08-11",
+          "close": 385.299988
+        },
+        {
+          "date": "2026-08-12",
+          "close": 384.429993
+        },
+        {
+          "date": "2026-08-13",
+          "close": 381.170013
+        },
+        {
+          "date": "2026-08-14",
+          "close": 389.390015
+        },
+        {
+          "date": "2026-08-17",
+          "close": 390.279999
+        },
+        {
+          "date": "2026-08-18",
+          "close": 376.630005
+        }
+      ],
+      "status": "ok"
     }
   },
-  "errors": [
-    {
-      "ticker": "2308",
-      "symbol": "2308.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "2301",
-      "symbol": "2301.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "3665",
-      "symbol": "3665.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "2454",
-      "symbol": "2454.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "3017",
-      "symbol": "3017.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "3324",
-      "symbol": "3324.TWO",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "1519",
-      "symbol": "1519.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "1513",
-      "symbol": "1513.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "1503",
-      "symbol": "1503.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "6412",
-      "symbol": "6412.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "6282",
-      "symbol": "6282.TW",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "VRT",
-      "symbol": "VRT",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "ETN",
-      "symbol": "ETN",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "FLEX",
-      "symbol": "FLEX",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "TXN",
-      "symbol": "TXN",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "ON",
-      "symbol": "ON",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "ABB",
-      "symbol": "ABBNY",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "GEV",
-      "symbol": "GEV",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "AOSL",
-      "symbol": "AOSL",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "POWI",
-      "symbol": "POWI",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "NVTS",
-      "symbol": "NVTS",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "MPWR",
-      "symbol": "MPWR",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    },
-    {
-      "ticker": "ADI",
-      "symbol": "ADI",
-      "error": "ModuleNotFoundError: No module named 'scipy'"
-    }
-  ]
+  "errors": []
 };
