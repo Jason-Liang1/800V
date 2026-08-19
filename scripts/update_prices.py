@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import math
 import time
-from datetime import datetime, time as dt_time, timedelta, timezone
+from datetime import date, datetime, time as dt_time, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -19,6 +19,8 @@ import yfinance as yf
 ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = ROOT / "data" / "market_prices.json"
 JS_PATH = ROOT / "data" / "market_prices.js"
+MAX_FAILED_SYMBOLS = 2
+MAX_BUSINESS_DAY_LAG = 1
 
 SYMBOLS = {
     "2308": {"symbol": "2308.TW", "currency": "TWD", "market": "TWSE", "timezone": "Asia/Taipei", "close": "13:30"},
@@ -50,7 +52,9 @@ SYMBOLS = {
 def read_existing() -> dict:
     if JSON_PATH.exists():
         try:
-            return json.loads(JSON_PATH.read_text(encoding="utf-8"))
+            payload = json.loads(JSON_PATH.read_text(encoding="utf-8"))
+            if isinstance(payload, dict):
+                return payload
         except Exception:
             pass
     return {"schemaVersion": 1, "prices": {}, "errors": []}
@@ -61,6 +65,34 @@ def finite(value) -> bool:
         return value is not None and math.isfinite(float(value))
     except (TypeError, ValueError):
         return False
+
+
+def iso_date(value) -> date | None:
+    try:
+        return date.fromisoformat(str(value))
+    except (TypeError, ValueError):
+        return None
+
+
+def latest_expected_weekday(meta: dict) -> date:
+    tz = ZoneInfo(meta["timezone"])
+    now = datetime.now(tz)
+    hh, mm = [int(x) for x in meta["close"].split(":")]
+    cutoff = datetime.combine(now.date(), dt_time(hh, mm), tzinfo=tz) + timedelta(minutes=20)
+    expected = now.date() if now >= cutoff else now.date() - timedelta(days=1)
+    while expected.weekday() >= 5:
+        expected -= timedelta(days=1)
+    return expected
+
+
+def business_day_lag(observed: date, expected: date) -> int:
+    lag = 0
+    cursor = observed
+    while cursor < expected:
+        cursor += timedelta(days=1)
+        if cursor.weekday() < 5:
+            lag += 1
+    return lag
 
 
 def completed_rows(hist: pd.DataFrame, meta: dict) -> pd.DataFrame:
@@ -94,7 +126,7 @@ def fetch_one(key: str, meta: dict) -> dict:
     for attempt in range(3):
         try:
             ticker = yf.Ticker(meta["symbol"])
-            hist = ticker.history(period="1mo", interval="1d", auto_adjust=False, actions=False, repair=True)
+            hist = ticker.history(period="1mo", interval="1d", auto_adjust=False, actions=False, repair=False)
             hist = completed_rows(hist, meta)
             if len(hist) < 1:
                 raise RuntimeError("no completed daily close")
@@ -143,9 +175,117 @@ def fetch_one(key: str, meta: dict) -> dict:
     raise RuntimeError(last_error or "unknown price error")
 
 
-def main() -> None:
+def validate_snapshot(output_prices: dict, old_prices: dict, errors: list[dict]) -> None:
+    expected = set(SYMBOLS)
+    actual = set(output_prices)
+    issues = []
+    missing = sorted(expected - actual)
+    unexpected = sorted(actual - expected)
+    error_tickers = {error.get("ticker") for error in errors}
+
+    if missing:
+        issues.append(f"missing tickers={missing}")
+    if unexpected:
+        issues.append(f"unexpected tickers={unexpected}")
+    if len(errors) > MAX_FAILED_SYMBOLS:
+        issues.append(f"errors={len(errors)} exceeds maximum={MAX_FAILED_SYMBOLS}")
+
+    for key in sorted(expected & actual):
+        meta = SYMBOLS[key]
+        record = output_prices[key]
+        if not isinstance(record, dict):
+            issues.append(f"{key}: record is not an object")
+            continue
+
+        for field in ("symbol", "currency", "market"):
+            if record.get(field) != meta[field]:
+                issues.append(f"{key}: {field} mismatch")
+
+        status = record.get("status")
+        if status not in {"ok", "stale"}:
+            issues.append(f"{key}: invalid status={status!r}")
+        if not finite(record.get("close")) or float(record["close"]) <= 0:
+            issues.append(f"{key}: invalid close")
+
+        price_date = iso_date(record.get("priceDate"))
+        if price_date is None:
+            issues.append(f"{key}: invalid priceDate")
+        else:
+            market_today = datetime.now(ZoneInfo(meta["timezone"])).date()
+            if price_date > market_today:
+                issues.append(f"{key}: future priceDate={price_date}")
+            expected_date = latest_expected_weekday(meta)
+            lag = business_day_lag(price_date, expected_date)
+            if lag > MAX_BUSINESS_DAY_LAG:
+                issues.append(
+                    f"{key}: priceDate is stale by {lag} business days "
+                    f"(observed={price_date}, expected~={expected_date})"
+                )
+
+        history = record.get("history")
+        if not isinstance(history, list):
+            issues.append(f"{key}: history is not a list")
+            history = []
+
+        if status == "ok":
+            if key in error_tickers:
+                issues.append(f"{key}: marked ok but also has an error")
+            if len(history) < 2:
+                issues.append(f"{key}: successful history has fewer than 2 rows")
+            else:
+                history_dates = [iso_date(row.get("date")) for row in history if isinstance(row, dict)]
+                history_closes = [row.get("close") for row in history if isinstance(row, dict)]
+                if len(history_dates) != len(history) or any(value is None for value in history_dates):
+                    issues.append(f"{key}: invalid history date")
+                elif history_dates != sorted(history_dates):
+                    issues.append(f"{key}: history dates are not sorted")
+                if len(history_closes) != len(history) or any(not finite(value) or float(value) <= 0 for value in history_closes):
+                    issues.append(f"{key}: invalid history close")
+                if (
+                    price_date is not None
+                    and history_dates
+                    and history_dates[-1] != price_date
+                ):
+                    issues.append(f"{key}: history does not end on priceDate")
+                if (
+                    history_closes
+                    and finite(history_closes[-1])
+                    and finite(record.get("close"))
+                    and not math.isclose(float(history_closes[-1]), float(record["close"]), rel_tol=1e-9)
+                ):
+                    issues.append(f"{key}: history close does not match close")
+
+            old_record = old_prices.get(key)
+            old_date = iso_date(old_record.get("priceDate")) if isinstance(old_record, dict) else None
+            if price_date is not None and old_date is not None and price_date < old_date:
+                issues.append(f"{key}: priceDate regressed from {old_date} to {price_date}")
+        elif key not in error_tickers:
+            issues.append(f"{key}: stale without a current fetch error")
+
+    if issues:
+        raise RuntimeError("Market snapshot quality gate failed: " + "; ".join(issues))
+
+
+def write_snapshot(payload: dict) -> None:
+    json_text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    js_text = "window.MARKET_PRICES = " + json.dumps(payload, ensure_ascii=False, indent=2) + ";\n"
+    json_temp = JSON_PATH.with_name(f".{JSON_PATH.name}.tmp")
+    js_temp = JS_PATH.with_name(f".{JS_PATH.name}.tmp")
+    try:
+        json_temp.write_text(json_text, encoding="utf-8")
+        js_temp.write_text(js_text, encoding="utf-8")
+        json_temp.replace(JSON_PATH)
+        js_temp.replace(JS_PATH)
+    finally:
+        json_temp.unlink(missing_ok=True)
+        js_temp.unlink(missing_ok=True)
+
+
+def main() -> dict:
     existing = read_existing()
     old_prices = existing.get("prices", {})
+    if not isinstance(old_prices, dict):
+        old_prices = {}
     output_prices = {}
     errors = []
 
@@ -162,6 +302,7 @@ def main() -> None:
             errors.append({"ticker": key, "symbol": meta["symbol"], "error": str(exc)})
             print(f"ERR {key:>5} {exc}")
 
+    validate_snapshot(output_prices, old_prices, errors)
     payload = {
         "schemaVersion": 1,
         "generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -170,9 +311,9 @@ def main() -> None:
         "prices": output_prices,
         "errors": errors,
     }
-    JSON_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    JS_PATH.write_text("window.MARKET_PRICES = " + json.dumps(payload, ensure_ascii=False, indent=2) + ";\n", encoding="utf-8")
-    print(f"Wrote {len(output_prices)} prices; errors={len(errors)}")
+    write_snapshot(payload)
+    print(f"Wrote {len(output_prices)} prices; ok={len(SYMBOLS) - len(errors)}; errors={len(errors)}")
+    return payload
 
 
 if __name__ == "__main__":

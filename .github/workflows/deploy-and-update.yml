@@ -3,6 +3,12 @@ name: Update closing prices and deploy site
 on:
   push:
     branches: ["main"]
+  pull_request:
+    paths:
+      - ".github/workflows/deploy-and-update.yml"
+      - "requirements.txt"
+      - "scripts/update_prices.py"
+      - "tests/**"
   schedule:
     # 22:45 UTC = 06:45 Asia/Taipei on the following day.
     # Runs after the regular U.S. close and long after the Taiwan close.
@@ -19,7 +25,29 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  test-market-data-updater:
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install market-data updater
+        run: pip install -r requirements.txt
+
+      - name: Test market-data updater
+        run: python -m unittest discover -s tests -v
+
   build-and-deploy:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -38,6 +66,10 @@ jobs:
       - name: Install market-data updater
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: pip install -r requirements.txt
+
+      - name: Test market-data updater
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python -m unittest discover -s tests -v
 
       - name: Update latest completed closes
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
