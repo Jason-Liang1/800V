@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = ROOT / "data" / "market_prices.json"
 JS_PATH = ROOT / "data" / "market_prices.js"
 MAX_FAILED_SYMBOLS = 2
+MAX_BUSINESS_DAY_LAG = 1
 
 SYMBOLS = {
     "2308": {"symbol": "2308.TW", "currency": "TWD", "market": "TWSE", "timezone": "Asia/Taipei", "close": "13:30"},
@@ -71,6 +72,27 @@ def iso_date(value) -> date | None:
         return date.fromisoformat(str(value))
     except (TypeError, ValueError):
         return None
+
+
+def latest_expected_weekday(meta: dict) -> date:
+    tz = ZoneInfo(meta["timezone"])
+    now = datetime.now(tz)
+    hh, mm = [int(x) for x in meta["close"].split(":")]
+    cutoff = datetime.combine(now.date(), dt_time(hh, mm), tzinfo=tz) + timedelta(minutes=20)
+    expected = now.date() if now >= cutoff else now.date() - timedelta(days=1)
+    while expected.weekday() >= 5:
+        expected -= timedelta(days=1)
+    return expected
+
+
+def business_day_lag(observed: date, expected: date) -> int:
+    lag = 0
+    cursor = observed
+    while cursor < expected:
+        cursor += timedelta(days=1)
+        if cursor.weekday() < 5:
+            lag += 1
+    return lag
 
 
 def completed_rows(hist: pd.DataFrame, meta: dict) -> pd.DataFrame:
@@ -192,6 +214,13 @@ def validate_snapshot(output_prices: dict, old_prices: dict, errors: list[dict])
             market_today = datetime.now(ZoneInfo(meta["timezone"])).date()
             if price_date > market_today:
                 issues.append(f"{key}: future priceDate={price_date}")
+            expected_date = latest_expected_weekday(meta)
+            lag = business_day_lag(price_date, expected_date)
+            if lag > MAX_BUSINESS_DAY_LAG:
+                issues.append(
+                    f"{key}: priceDate is stale by {lag} business days "
+                    f"(observed={price_date}, expected~={expected_date})"
+                )
 
         history = record.get("history")
         if not isinstance(history, list):

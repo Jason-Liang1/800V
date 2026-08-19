@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from datetime import date, timedelta
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -11,8 +12,25 @@ import pandas as pd
 from scripts import update_prices as updater
 
 
-def ok_record(key: str, price_date: str = "2025-01-03") -> dict:
+def previous_weekday(value: date) -> date:
+    value -= timedelta(days=1)
+    while value.weekday() >= 5:
+        value -= timedelta(days=1)
+    return value
+
+
+def subtract_weekdays(value: date, count: int) -> date:
+    while count:
+        value -= timedelta(days=1)
+        if value.weekday() < 5:
+            count -= 1
+    return value
+
+
+def ok_record(key: str, price_date: date | None = None) -> dict:
     meta = updater.SYMBOLS[key]
+    price_date = price_date or updater.latest_expected_weekday(meta)
+    prior_date = previous_weekday(price_date)
     return {
         "symbol": meta["symbol"],
         "close": 101.0,
@@ -20,11 +38,11 @@ def ok_record(key: str, price_date: str = "2025-01-03") -> dict:
         "change": 1.0,
         "changePct": 1.0,
         "currency": meta["currency"],
-        "priceDate": price_date,
+        "priceDate": price_date.isoformat(),
         "market": meta["market"],
         "history": [
-            {"date": "2025-01-02", "close": 100.0},
-            {"date": price_date, "close": 101.0},
+            {"date": prior_date.isoformat(), "close": 100.0},
+            {"date": price_date.isoformat(), "close": 101.0},
         ],
         "status": "ok",
     }
@@ -82,10 +100,18 @@ class PriceUpdaterTests(unittest.TestCase):
     def test_quality_gate_rejects_invalid_history_and_date_regression(self) -> None:
         prices, old_prices, errors = snapshot_with_failures(0)
         prices["2308"]["history"] = []
-        old_prices["2301"]["priceDate"] = "2025-01-04"
+        current_date = updater.iso_date(prices["2301"]["priceDate"])
+        old_prices["2301"]["priceDate"] = (current_date + timedelta(days=1)).isoformat()
         with self.assertRaisesRegex(RuntimeError, "history has fewer than 2 rows"):
             updater.validate_snapshot(prices, old_prices, errors)
         with self.assertRaisesRegex(RuntimeError, "priceDate regressed"):
+            updater.validate_snapshot(prices, old_prices, errors)
+
+    def test_quality_gate_rejects_frozen_provider_data(self) -> None:
+        prices, old_prices, errors = snapshot_with_failures(0)
+        expected = updater.latest_expected_weekday(updater.SYMBOLS["2308"])
+        prices["2308"] = ok_record("2308", subtract_weekdays(expected, 2))
+        with self.assertRaisesRegex(RuntimeError, "stale by 2 business days"):
             updater.validate_snapshot(prices, old_prices, errors)
 
     def test_failed_gate_preserves_existing_files(self) -> None:
