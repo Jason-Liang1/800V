@@ -1,23 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T23:01:10+00:00",
+  "generatedAt": "2026-08-20T23:03:18+00:00",
   "source": "Yahoo Finance public market data via yfinance; latest completed daily close",
   "sourceType": "scheduled",
   "prices": {
     "2308": {
       "symbol": "2308.TW",
-      "close": 1765.0,
-      "previousClose": 1820.0,
-      "change": -55.0,
-      "changePct": -3.021978,
+      "close": 1745.0,
+      "previousClose": 1765.0,
+      "change": -20.0,
+      "changePct": -1.133144,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 1880.0
-        },
         {
           "date": "2026-07-24",
           "close": 1785.0
@@ -93,24 +89,24 @@
         {
           "date": "2026-08-19",
           "close": 1765.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 1745.0
         }
       ],
       "status": "ok"
     },
     "2301": {
       "symbol": "2301.TW",
-      "close": 273.5,
+      "close": 267.0,
       "previousClose": 273.5,
-      "change": 0.0,
-      "changePct": 0.0,
+      "change": -6.5,
+      "changePct": -2.3766,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 218.0
-        },
         {
           "date": "2026-07-24",
           "close": 214.5
@@ -186,24 +182,24 @@
         {
           "date": "2026-08-19",
           "close": 273.5
+        },
+        {
+          "date": "2026-08-20",
+          "close": 267.0
         }
       ],
       "status": "ok"
     },
     "3665": {
       "symbol": "3665.TW",
-      "close": 2200.0,
-      "previousClose": 2240.0,
-      "change": -40.0,
-      "changePct": -1.785714,
+      "close": 2250.0,
+      "previousClose": 2200.0,
+      "change": 50.0,
+      "changePct": 2.272727,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 2285.0
-        },
         {
           "date": "2026-07-24",
           "close": 2205.0
@@ -279,24 +275,24 @@
         {
           "date": "2026-08-19",
           "close": 2200.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 2250.0
         }
       ],
       "status": "ok"
     },
     "2454": {
       "symbol": "2454.TW",
-      "close": 3845.0,
-      "previousClose": 3885.0,
-      "change": -40.0,
-      "changePct": -1.029601,
+      "close": 3700.0,
+      "previousClose": 3845.0,
+      "change": -145.0,
+      "changePct": -3.771131,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 3875.0
-        },
         {
           "date": "2026-07-24",
           "close": 3750.0
@@ -372,24 +368,24 @@
         {
           "date": "2026-08-19",
           "close": 3845.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 3700.0
         }
       ],
       "status": "ok"
     },
     "3017": {
       "symbol": "3017.TW",
-      "close": 3095.0,
-      "previousClose": 3035.0,
-      "change": 60.0,
-      "changePct": 1.976936,
+      "close": 2985.0,
+      "previousClose": 3095.0,
+      "change": -110.0,
+      "changePct": -3.55412,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 2440.0
-        },
         {
           "date": "2026-07-24",
           "close": 2380.0
@@ -465,24 +461,24 @@
         {
           "date": "2026-08-19",
           "close": 3095.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 2985.0
         }
       ],
       "status": "ok"
     },
     "3324": {
       "symbol": "3324.TWO",
-      "close": 989.0,
-      "previousClose": 978.0,
-      "change": 11.0,
-      "changePct": 1.124744,
+      "close": 993.0,
+      "previousClose": 989.0,
+      "change": 4.0,
+      "changePct": 0.404449,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TPEX",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 923.0
-        },
         {
           "date": "2026-07-24",
           "close": 943.0
@@ -558,24 +554,24 @@
         {
           "date": "2026-08-19",
           "close": 989.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 993.0
         }
       ],
       "status": "ok"
     },
     "1519": {
       "symbol": "1519.TW",
-      "close": 718.0,
-      "previousClose": 714.0,
-      "change": 4.0,
-      "changePct": 0.560224,
+      "close": 727.0,
+      "previousClose": 718.0,
+      "change": 9.0,
+      "changePct": 1.253482,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 640.909119
-        },
         {
           "date": "2026-07-24",
           "close": 633.636353
@@ -651,24 +647,24 @@
         {
           "date": "2026-08-19",
           "close": 718.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 727.0
         }
       ],
       "status": "ok"
     },
     "1513": {
       "symbol": "1513.TW",
-      "close": 164.0,
-      "previousClose": 167.0,
-      "change": -3.0,
-      "changePct": -1.796407,
+      "close": 166.0,
+      "previousClose": 164.0,
+      "change": 2.0,
+      "changePct": 1.219512,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 160.0
-        },
         {
           "date": "2026-07-24",
           "close": 158.0
@@ -744,24 +740,24 @@
         {
           "date": "2026-08-19",
           "close": 164.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 166.0
         }
       ],
       "status": "ok"
     },
     "1503": {
       "symbol": "1503.TW",
-      "close": 197.0,
-      "previousClose": 199.5,
-      "change": -2.5,
-      "changePct": -1.253133,
+      "close": 201.5,
+      "previousClose": 197.0,
+      "change": 4.5,
+      "changePct": 2.284264,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 211.5
-        },
         {
           "date": "2026-07-24",
           "close": 204.5
@@ -837,24 +833,24 @@
         {
           "date": "2026-08-19",
           "close": 197.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 201.5
         }
       ],
       "status": "ok"
     },
     "6412": {
       "symbol": "6412.TW",
-      "close": 77.0,
-      "previousClose": 76.900002,
-      "change": 0.099998,
-      "changePct": 0.130037,
+      "close": 78.400002,
+      "previousClose": 77.0,
+      "change": 1.400002,
+      "changePct": 1.818184,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 82.400002
-        },
         {
           "date": "2026-07-24",
           "close": 81.300003
@@ -930,24 +926,24 @@
         {
           "date": "2026-08-19",
           "close": 77.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 78.400002
         }
       ],
       "status": "ok"
     },
     "6282": {
       "symbol": "6282.TW",
-      "close": 45.549999,
-      "previousClose": 46.400002,
-      "change": -0.850002,
-      "changePct": -1.831901,
+      "close": 45.0,
+      "previousClose": 45.549999,
+      "change": -0.549999,
+      "changePct": -1.207463,
       "currency": "TWD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 48.900002
-        },
         {
           "date": "2026-07-24",
           "close": 47.150002
@@ -1023,24 +1019,24 @@
         {
           "date": "2026-08-19",
           "close": 45.549999
+        },
+        {
+          "date": "2026-08-20",
+          "close": 45.0
         }
       ],
       "status": "ok"
     },
     "VRT": {
       "symbol": "VRT",
-      "close": 261.0,
-      "previousClose": 272.540009,
-      "change": -11.540009,
-      "changePct": -4.234244,
+      "close": 264.630005,
+      "previousClose": 261.0,
+      "change": 3.630005,
+      "changePct": 1.390806,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NYSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 304.040009
-        },
         {
           "date": "2026-07-24",
           "close": 290.359985
@@ -1116,24 +1112,24 @@
         {
           "date": "2026-08-19",
           "close": 261.0
+        },
+        {
+          "date": "2026-08-20",
+          "close": 264.630005
         }
       ],
       "status": "ok"
     },
     "ETN": {
       "symbol": "ETN",
-      "close": 424.670013,
-      "previousClose": 431.329987,
-      "change": -6.659973,
-      "changePct": -1.544055,
+      "close": 415.290009,
+      "previousClose": 424.670013,
+      "change": -9.380005,
+      "changePct": -2.208775,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NYSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 415.130005
-        },
         {
           "date": "2026-07-24",
           "close": 404.070007
@@ -1209,24 +1205,24 @@
         {
           "date": "2026-08-19",
           "close": 424.670013
+        },
+        {
+          "date": "2026-08-20",
+          "close": 415.290009
         }
       ],
       "status": "ok"
     },
     "FLEX": {
       "symbol": "FLEX",
-      "close": 113.029999,
-      "previousClose": 120.239998,
-      "change": -7.209999,
-      "changePct": -5.99634,
+      "close": 110.32,
+      "previousClose": 113.029999,
+      "change": -2.709999,
+      "changePct": -2.397593,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 127.940002
-        },
         {
           "date": "2026-07-24",
           "close": 118.510002
@@ -1302,24 +1298,24 @@
         {
           "date": "2026-08-19",
           "close": 113.029999
+        },
+        {
+          "date": "2026-08-20",
+          "close": 110.32
         }
       ],
       "status": "ok"
     },
     "TXN": {
       "symbol": "TXN",
-      "close": 267.450012,
-      "previousClose": 272.23999,
-      "change": -4.789978,
-      "changePct": -1.759469,
+      "close": 265.600006,
+      "previousClose": 267.450012,
+      "change": -1.850006,
+      "changePct": -0.69172,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 284.98999
-        },
         {
           "date": "2026-07-24",
           "close": 279.579987
@@ -1395,24 +1391,24 @@
         {
           "date": "2026-08-19",
           "close": 267.450012
+        },
+        {
+          "date": "2026-08-20",
+          "close": 265.600006
         }
       ],
       "status": "ok"
     },
     "ON": {
       "symbol": "ON",
-      "close": 76.580002,
-      "previousClose": 79.419998,
-      "change": -2.839996,
-      "changePct": -3.575921,
+      "close": 74.709999,
+      "previousClose": 76.580002,
+      "change": -1.870003,
+      "changePct": -2.441894,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 90.129997
-        },
         {
           "date": "2026-07-24",
           "close": 86.809998
@@ -1488,24 +1484,24 @@
         {
           "date": "2026-08-19",
           "close": 76.580002
+        },
+        {
+          "date": "2026-08-20",
+          "close": 74.709999
         }
       ],
       "status": "ok"
     },
     "ABB": {
       "symbol": "ABBNY",
-      "close": 101.029999,
-      "previousClose": 99.010002,
-      "change": 2.019997,
-      "changePct": 2.040195,
+      "close": 99.449997,
+      "previousClose": 101.010002,
+      "change": -1.560005,
+      "changePct": -1.544407,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "OTC",
       "history": [
-        {
-          "date": "2026-07-20",
-          "close": 97.290001
-        },
         {
           "date": "2026-07-23",
           "close": 97.790001
@@ -1580,25 +1576,25 @@
         },
         {
           "date": "2026-08-19",
-          "close": 101.029999
+          "close": 101.010002
+        },
+        {
+          "date": "2026-08-20",
+          "close": 99.449997
         }
       ],
       "status": "ok"
     },
     "GEV": {
       "symbol": "GEV",
-      "close": 987.460022,
-      "previousClose": 1004.530029,
-      "change": -17.070007,
-      "changePct": -1.699303,
+      "close": 966.01001,
+      "previousClose": 987.460022,
+      "change": -21.450012,
+      "changePct": -2.172241,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NYSE",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 1031.189941
-        },
         {
           "date": "2026-07-24",
           "close": 1014.75
@@ -1674,18 +1670,22 @@
         {
           "date": "2026-08-19",
           "close": 987.460022
+        },
+        {
+          "date": "2026-08-20",
+          "close": 966.01001
         }
       ],
       "status": "ok"
     },
     "AOSL": {
       "symbol": "AOSL",
-      "close": 27.139999,
-      "previousClose": 28.379999,
-      "change": -1.24,
-      "changePct": -4.369273,
+      "close": 26.219999,
+      "previousClose": 27.139999,
+      "change": -0.92,
+      "changePct": -3.389831,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
         {
@@ -1711,10 +1711,6 @@
         {
           "date": "2026-07-30",
           "close": 31.110001
-        },
-        {
-          "date": "2026-07-31",
-          "close": 31.74
         },
         {
           "date": "2026-08-03",
@@ -1767,18 +1763,22 @@
         {
           "date": "2026-08-19",
           "close": 27.139999
+        },
+        {
+          "date": "2026-08-20",
+          "close": 26.219999
         }
       ],
       "status": "ok"
     },
     "POWI": {
       "symbol": "POWI",
-      "close": 55.790001,
-      "previousClose": 58.59,
-      "change": -2.799999,
-      "changePct": -4.778971,
+      "close": 54.84,
+      "previousClose": 55.790001,
+      "change": -0.950001,
+      "changePct": -1.702815,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
         {
@@ -1804,10 +1804,6 @@
         {
           "date": "2026-07-30",
           "close": 60.869999
-        },
-        {
-          "date": "2026-07-31",
-          "close": 60.709999
         },
         {
           "date": "2026-08-03",
@@ -1860,24 +1856,24 @@
         {
           "date": "2026-08-19",
           "close": 55.790001
+        },
+        {
+          "date": "2026-08-20",
+          "close": 54.84
         }
       ],
       "status": "ok"
     },
     "NVTS": {
       "symbol": "NVTS",
-      "close": 12.83,
-      "previousClose": 13.17,
-      "change": -0.34,
-      "changePct": -2.581626,
+      "close": 12.97,
+      "previousClose": 12.83,
+      "change": 0.14,
+      "changePct": 1.091195,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 12.03
-        },
         {
           "date": "2026-07-24",
           "close": 10.92
@@ -1953,24 +1949,24 @@
         {
           "date": "2026-08-19",
           "close": 12.83
+        },
+        {
+          "date": "2026-08-20",
+          "close": 12.97
         }
       ],
       "status": "ok"
     },
     "MPWR": {
       "symbol": "MPWR",
-      "close": 1300.140015,
-      "previousClose": 1333.180054,
-      "change": -33.040039,
-      "changePct": -2.478288,
+      "close": 1310.599976,
+      "previousClose": 1300.140015,
+      "change": 10.459961,
+      "changePct": 0.804526,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
-        {
-          "date": "2026-07-20",
-          "close": 1328.800049
-        },
         {
           "date": "2026-07-23",
           "close": 1397.150024
@@ -2046,24 +2042,24 @@
         {
           "date": "2026-08-19",
           "close": 1300.140015
+        },
+        {
+          "date": "2026-08-20",
+          "close": 1310.599976
         }
       ],
       "status": "ok"
     },
     "ADI": {
       "symbol": "ADI",
-      "close": 373.26001,
-      "previousClose": 376.630005,
-      "change": -3.369995,
-      "changePct": -0.894776,
+      "close": 370.23999,
+      "previousClose": 373.26001,
+      "change": -3.02002,
+      "changePct": -0.809093,
       "currency": "USD",
-      "priceDate": "2026-08-19",
+      "priceDate": "2026-08-20",
       "market": "NASDAQ",
       "history": [
-        {
-          "date": "2026-07-23",
-          "close": 380.200012
-        },
         {
           "date": "2026-07-24",
           "close": 371.859985
@@ -2139,6 +2135,10 @@
         {
           "date": "2026-08-19",
           "close": 373.26001
+        },
+        {
+          "date": "2026-08-20",
+          "close": 370.23999
         }
       ],
       "status": "ok"
