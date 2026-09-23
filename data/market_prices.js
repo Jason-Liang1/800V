@@ -1,23 +1,19 @@
 window.MARKET_PRICES = {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T01:11:02+00:00",
+  "generatedAt": "2026-09-23T00:56:41+00:00",
   "source": "Yahoo Finance public market data via yfinance; latest completed daily close",
   "sourceType": "scheduled",
   "prices": {
     "2308": {
       "symbol": "2308.TW",
-      "close": 1875.0,
-      "previousClose": 1735.0,
-      "change": 140.0,
-      "changePct": 8.069164,
+      "close": 1900.0,
+      "previousClose": 1875.0,
+      "change": 25.0,
+      "changePct": 1.333333,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 1710.0
-        },
         {
           "date": "2026-08-26",
           "close": 1750.0
@@ -93,24 +89,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 1875.0
+        },
+        {
+          "date": "2026-09-22",
+          "close": 1900.0
         }
       ],
       "status": "ok"
     },
     "2301": {
       "symbol": "2301.TW",
-      "close": 288.5,
-      "previousClose": 282.0,
-      "change": 6.5,
-      "changePct": 2.304965,
+      "close": 284.5,
+      "previousClose": 288.5,
+      "change": -4.0,
+      "changePct": -1.386482,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 296.0
-        },
         {
           "date": "2026-08-26",
           "close": 307.0
@@ -186,24 +182,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 288.5
+        },
+        {
+          "date": "2026-09-22",
+          "close": 284.5
         }
       ],
       "status": "ok"
     },
     "3665": {
       "symbol": "3665.TW",
-      "close": 2300.0,
-      "previousClose": 2210.0,
-      "change": 90.0,
-      "changePct": 4.072398,
+      "close": 2245.0,
+      "previousClose": 2300.0,
+      "change": -55.0,
+      "changePct": -2.391304,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 2075.0
-        },
         {
           "date": "2026-08-26",
           "close": 2005.0
@@ -279,24 +275,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 2300.0
+        },
+        {
+          "date": "2026-09-22",
+          "close": 2245.0
         }
       ],
       "status": "ok"
     },
     "2454": {
       "symbol": "2454.TW",
-      "close": 5010.0,
-      "previousClose": 4710.0,
-      "change": 300.0,
-      "changePct": 6.369427,
+      "close": 5180.0,
+      "previousClose": 5010.0,
+      "change": 170.0,
+      "changePct": 3.393214,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 3735.0
-        },
         {
           "date": "2026-08-26",
           "close": 3945.0
@@ -372,24 +368,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 5010.0
+        },
+        {
+          "date": "2026-09-22",
+          "close": 5180.0
         }
       ],
       "status": "ok"
     },
     "3017": {
       "symbol": "3017.TW",
-      "close": 3415.0,
-      "previousClose": 3430.0,
-      "change": -15.0,
-      "changePct": -0.437318,
+      "close": 3390.0,
+      "previousClose": 3415.0,
+      "change": -25.0,
+      "changePct": -0.732064,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 2950.0
-        },
         {
           "date": "2026-08-26",
           "close": 3155.0
@@ -465,24 +461,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 3415.0
+        },
+        {
+          "date": "2026-09-22",
+          "close": 3390.0
         }
       ],
       "status": "ok"
     },
     "3324": {
       "symbol": "3324.TWO",
-      "close": 1520.0,
-      "previousClose": 1480.0,
-      "change": 40.0,
-      "changePct": 2.702703,
+      "close": 1600.0,
+      "previousClose": 1520.0,
+      "change": 80.0,
+      "changePct": 5.263158,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TPEX",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 1065.0
-        },
         {
           "date": "2026-08-26",
           "close": 1075.0
@@ -558,24 +554,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 1520.0
+        },
+        {
+          "date": "2026-09-22",
+          "close": 1600.0
         }
       ],
       "status": "ok"
     },
     "1519": {
       "symbol": "1519.TW",
-      "close": 718.0,
-      "previousClose": 721.0,
-      "change": -3.0,
-      "changePct": -0.416089,
+      "close": 712.0,
+      "previousClose": 718.0,
+      "change": -6.0,
+      "changePct": -0.835655,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 717.0
-        },
         {
           "date": "2026-08-26",
           "close": 717.0
@@ -651,24 +647,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 718.0
+        },
+        {
+          "date": "2026-09-22",
+          "close": 712.0
         }
       ],
       "status": "ok"
     },
     "1513": {
       "symbol": "1513.TW",
-      "close": 166.5,
-      "previousClose": 167.0,
+      "close": 166.0,
+      "previousClose": 166.5,
       "change": -0.5,
-      "changePct": -0.299401,
+      "changePct": -0.3003,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 165.5
-        },
         {
           "date": "2026-08-26",
           "close": 166.0
@@ -744,24 +740,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 166.5
+        },
+        {
+          "date": "2026-09-22",
+          "close": 166.0
         }
       ],
       "status": "ok"
     },
     "1503": {
       "symbol": "1503.TW",
-      "close": 198.5,
-      "previousClose": 199.5,
-      "change": -1.0,
-      "changePct": -0.501253,
+      "close": 197.0,
+      "previousClose": 198.5,
+      "change": -1.5,
+      "changePct": -0.755668,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 199.5
-        },
         {
           "date": "2026-08-26",
           "close": 202.0
@@ -837,24 +833,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 198.5
+        },
+        {
+          "date": "2026-09-22",
+          "close": 197.0
         }
       ],
       "status": "ok"
     },
     "6412": {
       "symbol": "6412.TW",
-      "close": 74.099998,
-      "previousClose": 74.0,
-      "change": 0.099998,
-      "changePct": 0.135133,
+      "close": 74.300003,
+      "previousClose": 74.099998,
+      "change": 0.200005,
+      "changePct": 0.269912,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 77.599998
-        },
         {
           "date": "2026-08-26",
           "close": 78.0
@@ -930,24 +926,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 74.099998
+        },
+        {
+          "date": "2026-09-22",
+          "close": 74.300003
         }
       ],
       "status": "ok"
     },
     "6282": {
       "symbol": "6282.TW",
-      "close": 43.349998,
-      "previousClose": 42.849998,
-      "change": 0.5,
-      "changePct": 1.166861,
+      "close": 43.0,
+      "previousClose": 43.349998,
+      "change": -0.349998,
+      "changePct": -0.807378,
       "currency": "TWD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "TWSE",
       "history": [
-        {
-          "date": "2026-08-25",
-          "close": 44.0
-        },
         {
           "date": "2026-08-26",
           "close": 45.299999
@@ -1023,18 +1019,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-21",
           "close": 43.349998
+        },
+        {
+          "date": "2026-09-22",
+          "close": 43.0
         }
       ],
       "status": "ok"
     },
     "VRT": {
       "symbol": "VRT",
-      "close": 249.389999,
-      "previousClose": 241.490005,
-      "change": 7.899994,
-      "changePct": 3.271354,
+      "close": 250.860001,
+      "previousClose": 249.389999,
+      "change": 1.470001,
+      "changePct": 0.589439,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NYSE",
       "history": [
         {
@@ -1112,18 +1112,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 249.389999
+        },
+        {
+          "date": "2026-09-21",
+          "close": 250.860001
         }
       ],
       "status": "ok"
     },
     "ETN": {
       "symbol": "ETN",
-      "close": 424.769989,
-      "previousClose": 409.459991,
-      "change": 15.309998,
-      "changePct": 3.73907,
+      "close": 435.429993,
+      "previousClose": 424.769989,
+      "change": 10.660004,
+      "changePct": 2.509594,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NYSE",
       "history": [
         {
@@ -1201,18 +1205,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 424.769989
+        },
+        {
+          "date": "2026-09-21",
+          "close": 435.429993
         }
       ],
       "status": "ok"
     },
     "FLEX": {
       "symbol": "FLEX",
-      "close": 108.510002,
-      "previousClose": 109.019997,
-      "change": -0.509995,
-      "changePct": -0.467799,
+      "close": 111.610001,
+      "previousClose": 108.510002,
+      "change": 3.099998,
+      "changePct": 2.856878,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -1290,18 +1298,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 108.510002
+        },
+        {
+          "date": "2026-09-21",
+          "close": 111.610001
         }
       ],
       "status": "ok"
     },
     "TXN": {
       "symbol": "TXN",
-      "close": 266.640015,
-      "previousClose": 258.140015,
-      "change": 8.5,
-      "changePct": 3.292787,
+      "close": 270.869995,
+      "previousClose": 266.640015,
+      "change": 4.22998,
+      "changePct": 1.586401,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -1379,18 +1391,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 266.640015
+        },
+        {
+          "date": "2026-09-21",
+          "close": 270.869995
         }
       ],
       "status": "ok"
     },
     "ON": {
       "symbol": "ON",
-      "close": 69.980003,
-      "previousClose": 68.300003,
-      "change": 1.68,
-      "changePct": 2.459737,
+      "close": 71.720001,
+      "previousClose": 69.980003,
+      "change": 1.739998,
+      "changePct": 2.486422,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -1468,24 +1484,24 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 69.980003
+        },
+        {
+          "date": "2026-09-21",
+          "close": 71.720001
         }
       ],
       "status": "ok"
     },
     "ABB": {
       "symbol": "ABBNY",
-      "close": 100.389999,
-      "previousClose": 97.690002,
-      "change": 2.699997,
-      "changePct": 2.763842,
+      "close": 101.68,
+      "previousClose": 100.330002,
+      "change": 1.349998,
+      "changePct": 1.345558,
       "currency": "USD",
-      "priceDate": "2026-09-21",
+      "priceDate": "2026-09-22",
       "market": "OTC",
       "history": [
-        {
-          "date": "2026-08-24",
-          "close": 97.019997
-        },
         {
           "date": "2026-08-25",
           "close": 99.190002
@@ -1560,19 +1576,23 @@ window.MARKET_PRICES = {
         },
         {
           "date": "2026-09-21",
-          "close": 100.389999
+          "close": 100.330002
+        },
+        {
+          "date": "2026-09-22",
+          "close": 101.68
         }
       ],
       "status": "ok"
     },
     "GEV": {
       "symbol": "GEV",
-      "close": 940.330017,
-      "previousClose": 924.929993,
-      "change": 15.400024,
-      "changePct": 1.664994,
+      "close": 946.219971,
+      "previousClose": 940.330017,
+      "change": 5.889954,
+      "changePct": 0.626371,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NYSE",
       "history": [
         {
@@ -1650,18 +1670,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 940.330017
+        },
+        {
+          "date": "2026-09-21",
+          "close": 946.219971
         }
       ],
       "status": "ok"
     },
     "AOSL": {
       "symbol": "AOSL",
-      "close": 25.4,
-      "previousClose": 25.209999,
-      "change": 0.190001,
-      "changePct": 0.753671,
+      "close": 26.27,
+      "previousClose": 25.4,
+      "change": 0.870001,
+      "changePct": 3.4252,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -1739,18 +1763,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 25.4
+        },
+        {
+          "date": "2026-09-21",
+          "close": 26.27
         }
       ],
       "status": "ok"
     },
     "POWI": {
       "symbol": "POWI",
-      "close": 50.389999,
-      "previousClose": 49.150002,
-      "change": 1.239998,
-      "changePct": 2.522885,
+      "close": 49.509998,
+      "previousClose": 50.389999,
+      "change": -0.880001,
+      "changePct": -1.74638,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -1828,18 +1856,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 50.389999
+        },
+        {
+          "date": "2026-09-21",
+          "close": 49.509998
         }
       ],
       "status": "ok"
     },
     "NVTS": {
       "symbol": "NVTS",
-      "close": 11.43,
-      "previousClose": 11.14,
-      "change": 0.29,
-      "changePct": 2.603231,
+      "close": 12.16,
+      "previousClose": 11.43,
+      "change": 0.73,
+      "changePct": 6.386697,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -1917,18 +1949,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 11.43
+        },
+        {
+          "date": "2026-09-21",
+          "close": 12.16
         }
       ],
       "status": "ok"
     },
     "MPWR": {
       "symbol": "MPWR",
-      "close": 1217.800049,
-      "previousClose": 1169.579956,
-      "change": 48.220093,
-      "changePct": 4.122856,
+      "close": 1277.680054,
+      "previousClose": 1217.800049,
+      "change": 59.880005,
+      "changePct": 4.917064,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -2006,18 +2042,22 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 1217.800049
+        },
+        {
+          "date": "2026-09-21",
+          "close": 1277.680054
         }
       ],
       "status": "ok"
     },
     "ADI": {
       "symbol": "ADI",
-      "close": 375.720001,
-      "previousClose": 362.649994,
-      "change": 13.070007,
-      "changePct": 3.604028,
+      "close": 383.0,
+      "previousClose": 375.720001,
+      "change": 7.279999,
+      "changePct": 1.937613,
       "currency": "USD",
-      "priceDate": "2026-09-18",
+      "priceDate": "2026-09-21",
       "market": "NASDAQ",
       "history": [
         {
@@ -2095,6 +2135,10 @@ window.MARKET_PRICES = {
         {
           "date": "2026-09-18",
           "close": 375.720001
+        },
+        {
+          "date": "2026-09-21",
+          "close": 383.0
         }
       ],
       "status": "ok"
